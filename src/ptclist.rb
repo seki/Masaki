@@ -87,7 +87,7 @@ if __FILE__ == $0
   end
 
   errata = {'基本【水】エネルギー' => '基本水エネルギー'}
-  result = uniq_card_list("energy", "XY", errata) + uniq_card_list("trainer", "XY", {})
+  result = uniq_card_list("energy", "all", errata) + uniq_card_list("trainer", "all", {})
   text = result.pretty_inspect
   puts text
 
