@@ -168,18 +168,10 @@ EOB
 end
 
 if __FILE__ == $0
-  # MasakiPG.instance.kvs_create_table("card_page")
   kvs = MasakiPG::KVS.new("card_page")
-  kvs.delete("1")
-  pp kvs.size
-  pp kvs.include?("1")
-  kvs["1"] = "y"
-  kvs["2"] = "a"
-  pp kvs.include?("1")
-  pp kvs["1"]
-  kvs.each do |a, b|
-    p [b, a]
+  kvs.each do |k, v|
+    p [k, v]
+    break
   end
-  pp kvs.keys
 end
 

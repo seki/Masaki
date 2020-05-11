@@ -1,0 +1,89 @@
+require_relative 'ptclist'
+require_relative 'masaki-pg'
+require 'open-uri'
+
+class CardDetail
+  def initialize
+    @kvs = MasakiPG::KVS.new('card_page')
+  end
+
+  def [](key)
+    it = @kvs[key]
+    unless it
+      it = fetch_card_page(key)
+      @kvs[key] = it
+    end
+    it
+  end
+
+  def fetch_card_page(key)
+    name = "https://www.pokemon-card.com/card-search/details.php/card/#{key}"
+    URI.open(name) do |x|
+      raise("not found") unless x.base_uri.to_s == name
+      return x.read
+    end
+  end
+end
+
+module ParseRawCard
+  module_function
+  def section(text)
+    if /\<section class=\"Section\"\>(.*?)\<\/section\>/m =~ text
+      it = $1
+      a = it.gsub(/\<h2 class=\"mt20\"\>進化.*\z/m, '')
+      a = reg(a)
+      return remove_tag(a)
+    end
+  end
+
+  def reg(text)
+    text.gsub(/\<img .* class=\"img-regulation\" alt=\"(.+?)\" \/\>/, '[\1]')
+  end
+
+  def icon(text)
+    text.gsub(/\<span class=\"icon\-(.+?) icon\"\>\<\/span\>/, '[\1]')
+  end
+
+  def remove_tag(text)
+    icon(text).gsub(/\&nbsp\;/, ' ').gsub(/\&amp\;/, '&').split(/\s*\<.+?\>\s*/).reject {|x| /\A\s*\z/ =~ x}
+  end
+
+  def drop_head_pokemon(ary)
+    start_with = ["たね", "1 進化", "2 進化", "復元", "M進化", "BREAK進化", "レベルアップ", "VMAX", "伝説"]
+    ary.each_with_index do |o, i|
+      return ary[i .. -1] if start_with.include?(o)
+    end
+    raise "invalid card"
+  end
+  # %w(スタジアム サポート グッズ トレーナー ポケモンのどうぐ 特殊エネルギー 基本エネルギー)
+end
+
+if __FILE__ == $0
+detail = CardDetail.new
+errata = {}
+kvs = MasakiPG::KVS.new('card_page')
+list = PTCList.new('pokemon', 'XY').map do |hash|
+  name = hash['cardNameAltText'].gsub(/\&amp\;/, '&')
+  name = errata[name] || name
+  pair =  [name, hash['cardID'].to_i]
+  # pp detail[hash['cardID'].to_i]
+  body = detail[pair[1]]
+  ary = ParseRawCard.section(body)
+  ary = ParseRawCard.drop_head_pokemon(ary)
+
+  [pair.first, ary, pair.last]
+end
+
+last = []
+result = list.sort.map { |name, desc, card_id|
+  if last[0..1] == [name, desc]
+    [card_id, nil, last[2]]
+  else
+    last = [name, desc, card_id]
+    [card_id, desc, name]
+  end
+}
+
+pp result.map {|a,b,c|[a,c]}
+
+end

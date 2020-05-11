@@ -23,7 +23,7 @@ class PTCList
   attr_reader :size
 
   def make_curl(page)
-cmd = <<EOS
+    <<EOS
 curl 'https://www.pokemon-card.com/card-search/resultAPI.php' -s -o - \
 -XPOST \
 -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
@@ -65,34 +65,3 @@ EOS
   end
 end
 
-if __FILE__ == $0
-  require 'pp'
-
-  def uniq_card_list(kind, regulation, errata={})
-    ary = PTCList.new(kind, regulation).map do |hash|
-      name = hash['cardNameAltText'].gsub(/\&amp\;/, '&')
-      name = errata[name] || name
-      [name, hash['cardID'].to_i]
-    end
-
-    last = []
-    result = ary.sort.map { |name, card_id|
-      if last[0] == name
-        [card_id, last[1]]
-      else
-        last = [name, card_id]
-        [card_id, name]
-      end
-    }
-  end
-
-  errata = {'基本【水】エネルギー' => '基本水エネルギー'}
-  result = uniq_card_list("energy", "all", errata) + uniq_card_list("trainer", "all", {})
-  text = result.pretty_inspect
-  puts text
-
-=begin
-  result = uniq_card_list("trainer", "XY", {})
-  pp result
-=end
-end
