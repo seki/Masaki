@@ -1,6 +1,5 @@
 require 'pp'
 
-p :phase_2
 trainer = eval(File.read("../data/uniq_energy_trainer_all.txt"))
 pokemon = eval(File.read("../data/uniq_pokemon_all.txt"))
 
@@ -18,7 +17,8 @@ end
 
 # カードを正規化するためのLUT。同じテキストの最小値を求める
 # norm[key] || key
-File.open("../data/norm.dump", "w") {|fp| Marshal.dump(norm, fp)}
+# File.open("../data/derived_norm.dump", "w") {|fp| Marshal.dump(norm, fp)}
+File.open("../data/derived_norm.txt", "w") {|fp| fp.write(norm.pretty_inspect)}
 
 latest = ary.sort_by {|k, v| [v, -k]}
 last = []
@@ -33,4 +33,5 @@ end
 
 # 同じテキストカードの最大値（≒最新のカード）を返すLUT
 # latest[key]
-File.open("latest.txt", "w") {|fp| fp.write(latest.pretty_inspect)}
+File.open("../data/derived_latest.txt", "w") {|fp| fp.write(latest.pretty_inspect)}
+
