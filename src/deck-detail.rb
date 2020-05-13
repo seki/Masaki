@@ -1,4 +1,6 @@
-module DeckParser
+require 'open-uri'
+
+module DeckDetail
   module_function
   def parse(text)
     it = do_parse(text)
@@ -28,22 +30,34 @@ module DeckParser
     end
     pokemon + goods + support + stadium + energy
   end
+
+  def fetch_deck_page(key)
+    name = "https://www.pokemon-card.com/deck/confirm.html/deckID/#{key}/"
+    URI.open(name) do |x|
+      raise("not found") unless x.base_uri.to_s == name
+      return x.read
+    end
+  end
 end
 
 if __FILE__ == $0
-  require_relative '../../DDeck/src/ddeck-mysql'
+  require 'pp'
   require_relative 'masaki-pg'
-  require 'json'
 
-  norm = eval(File.read('../data/derived_norm.txt'))
-
-  src = DDeckMysql::KVS.new('deck')
   dest = MasakiPG::KVS.new('deck')
 
-  src.each do |k, v|
-    v = DeckParser.parse(v)
-    v = v.map {|k, n| [norm[k] || k, n]}.sort
-    v = v.chunk {|e| e[0]}.map {|f, g|  [f, g.map{|h| h[1]}.sum]}
-    dest[k] = v.to_json
+  norm = eval(File.read('../data/derived_norm.txt'))
+  keys = eval(File.read('../data/deck_keys.tmp'))
+  keys.each do |name|
+    if dest.include?(name)
+      p [:exist, name]
+      next
+    end
+    p [name]
+    src = DeckDetail.fetch_deck_page(name)
+    v = DeckDetail.parse(src)
+    v = v.map {|card_id, n| [norm[card_id] || card_id, n]}.sort
+    v = v.chunk {|e| e[0]}.map {|card_id, g|  [card_id, g.map{|h| h[1]}.sum]}
+    dest[name] = v.to_json
   end
 end
