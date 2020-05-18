@@ -168,6 +168,10 @@ EOB
 end
 
 if __FILE__ == $0
+  MasakiPG::instance.kvs_create_table("card_page")
+  MasakiPG::instance.kvs_create_table("deck")
+  
+
   kvs = MasakiPG::KVS.new("card_page")
   kvs.each do |k, v|
     p [k, v]
