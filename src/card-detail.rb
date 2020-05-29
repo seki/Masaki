@@ -56,6 +56,14 @@ module ParseRawCard
     raise "invalid card"
   end
   # %w(スタジアム サポート グッズ トレーナー ポケモンのどうぐ 特殊エネルギー 基本エネルギー)
+
+  def kind_trainer_energy(ary)
+    start_with = %w(スタジアム サポート グッズ トレーナー ポケモンのどうぐ 特殊エネルギー 基本エネルギー)
+    ary.find do |x|
+      return x if start_with.include?(x)
+    end
+    retur nil
+  end
 end
 
 if __FILE__ == $0
