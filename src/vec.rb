@@ -119,9 +119,9 @@ if __FILE__ == $0
   top = score.sort.reverse
   pp top[0, 5]
   l, r, s = world.diff(a, top[0][1])
-  pp s.sort_by {|a, b| world.idf[a]}.map {|k, n| [world.name(k), n]}
-  pp l.sort_by {|a, b| world.idf[a]}.map {|k, n| [world.name(k), n]}
-  pp r.sort_by {|a, b| world.idf[a]}.map {|k, n| [world.name(k), n]}
+  pp s.sort_by {|a, b| -world.idf[a]}.map {|k, n| [world.name(k), n]}
+  pp l.sort_by {|a, b| -world.idf[a]}.map {|k, n| [world.name(k), n]}
+  pp r.sort_by {|a, b| -world.idf[a]}.map {|k, n| [world.name(k), n]}
 
   exit
 
