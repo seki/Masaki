@@ -40,7 +40,7 @@ class MasakiWorld
 
     sz = @deck.size
     @idf = df.inject({}) do |result, kv|
-      result[kv[0]] = Math::log(sz.quo(kv[1])).ceil
+      result[kv[0]] = Math::log(sz.quo(kv[1]))
       result
     end
   end
@@ -119,9 +119,9 @@ if __FILE__ == $0
   top = score.sort.reverse
   pp top[0, 5]
   l, r, s = world.diff(a, top[0][1])
-  pp s.map {|k, n| [world.name(k), n]}
-  pp l.map {|k, n| [world.name(k), n]}
-  pp r.map {|k, n| [world.name(k), n]}
+  pp s.sort_by {|a, b| world.idf[a]}.map {|k, n| [world.name(k), n]}
+  pp l.sort_by {|a, b| world.idf[a]}.map {|k, n| [world.name(k), n]}
+  pp r.sort_by {|a, b| world.idf[a]}.map {|k, n| [world.name(k), n]}
 
   exit
 
