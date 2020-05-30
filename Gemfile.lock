@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    json (2.3.0)
+    mail (2.7.1)
+      mini_mime (>= 0.1.1)
+    mini_mime (1.0.2)
+    pg (1.2.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  json
+  mail
+  pg
+
+BUNDLED WITH
+   2.1.2
