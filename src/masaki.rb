@@ -7,10 +7,12 @@ class Masaki
     @world = MasakiWorld.new
   end
 
-  def do_api(req, res, hash)
-    deck = hash['deck']
+  def do_api(req, res, deck)
     name = DeckDetail::guess_deck_name(deck)
-    search(name, 5)
+    pp [:guess, name]
+    it = search(name, 5)
+    pp it
+    it
   end
 
   def search(deck, n=5)

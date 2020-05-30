@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">　
+<title>Masaki | Hamana</title>
+<link rel="shortcut icon" href="/favicon.ico">
+<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+<style>
+@media screen and (min-width: 481px) { 
+
+}
+
+@media screen and (max-width: 480px) {
+
+}
+
+body {
+  font-family: Optima,Segoe,Segoe UI,Candara,Calibri,Helvetica Neue,Helvetica,Arial,sans-serif; 
+  margin: 1em;
+  background-color: rgb(252, 252, 255);
+}
+table#decktable td {
+  padding: 1rem;
+  border: solid 0px;
+  text-align: left;
+  vertical-align: baseline;
+}
+table#decktable thead td:first-child {
+  padding-left: 120px;
+  padding-right: 120px;
+  text-align: center;
+
+}
+table#decktable thead tr {
+  border-bottom: solid 1px lightgray;
+}
+table#decktable figure {
+	float: left;
+  margin: 0rem 1rem 0rem 0rem;
+}
+table#decktable img {
+  max-width: 32rem;
+}
+.record {
+  width: 300px;
+}
+.menu {
+  width: 1em;
+}
+
+</style>
+</head>
+<body>
+<div class="main">
+<h2>類似デッキ検索
+<i class="far fa-hand-point-right"></i>&nbsp;<input type="deck" placeholder="デッキコード" onchange="call_api()" id="update"/>
+</h2>
+<table id="decktable">
+  <thead>
+    <tr>
+      <td class="record"><i class="fab fa-amazon"></i></td>
+      <td class="menu"><i class="fas fa-bars"></i></td>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+</div>
+
+<template id="deckrow">
+  <tr data-title="" >
+    <td class="record">
+    <figure><a><img /></a></figure><span></span>
+    </td>
+    <td><i class="fas fa-trash" onclick="delete_record(this);"></i></td>
+  </tr>
+</template> 
+</body>
+<script>
+var update_text = document.querySelector('#update');
+
+update_text.focus();
+
+function insert_item(item) {
+  var template = document.querySelector('#deckrow');
+  var tbody = document.querySelector("tbody");
+  var clone = document.importNode(template.content, true);
+  var td = clone.querySelectorAll("td");
+  var img = td[0].querySelector("img")
+  var a = td[0].querySelector("a");
+  var span = td[0].querySelector("span")
+  img.src = item['image'];
+  a.href = item['link'];
+  span.textContent = item['score'];
+  // td[2].textContent = item['ean'];
+
+
+  tbody.appendChild(clone);
+  var newone = tbody.querySelector("tr");
+  for (let key in item) {
+    newone.dataset[key] = item[key];
+  }
+}
+
+function apply_state(state) {
+  for(item in state) {
+    insert_item(state[item]);
+  }
+}
+
+function postState(url, data) {
+  var x = new XMLHttpRequest();
+  var fd = new FormData();
+
+  for(name in data) {
+    fd.append(name, data[name]);
+  }
+
+  x.onreadystatechange = function() {
+    if (x.readyState == 4 && x.status == 200) {
+        var state = JSON.parse(x.responseText);
+        apply_state(state);
+    }
+  }
+    
+  x.open("POST", url);
+  x.withCredentials = true;
+  x.send(fd);
+}
+
+function call_api() {
+  url = '/api';
+
+  data = {
+    deck: JSON.stringify(update_text.value)
+  };
+
+  postState(url, data);
+  update_text.value = "";
+  update_text.focus();
+}
+
+function delete_record(me) {
+  var node;
+  node = me.parentNode.parentNode;
+  node.parentNode.removeChild(node);
+}
+
+</script>
+</html>
