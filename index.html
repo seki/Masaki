@@ -33,7 +33,7 @@ table#decktable figure {
   margin: 0rem 1rem 0rem 0rem;
 }
 table#decktable img {
-  max-width: 32rem;
+  max-width: 48rem;
 }
 .record {
   width: 300px;
@@ -84,7 +84,7 @@ function insert_item(item) {
   var span = td[0].querySelector("span")
   img.src = item['image'];
   a.href = item['link'];
-  span.textContent = item['score'];
+  span.textContent = item['score'].toFixed(3) + " " + item['desc'];
   // td[2].textContent = item['ean'];
 
 
@@ -105,34 +105,24 @@ function apply_state(state) {
   }
 }
 
-function postState(url, data) {
-  var x = new XMLHttpRequest();
-  var fd = new FormData();
-
-  for(name in data) {
-    fd.append(name, data[name]);
-  }
-
-  x.onreadystatechange = function() {
-    if (x.readyState == 4 && x.status == 200) {
-        var state = JSON.parse(x.responseText);
-        apply_state(state);
-    }
-  }
-    
-  x.open("POST", url);
-  x.withCredentials = true;
-  x.send(fd);
-}
-
 function call_api() {
   url = '/api';
 
   data = {
-    deck: JSON.stringify(update_text.value)
+    deck: update_text.value
   };
 
-  postState(url, data);
+  fetch(url, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(data), 
+  })
+  .then(res => res.json())
+  .then(response => apply_state(response)); 
+
   update_text.value = "";
   update_text.focus();
 }

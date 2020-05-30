@@ -76,9 +76,13 @@ server.mount_proc('/auth_config.json') {|req, res|
 
 server.mount_proc('/api') {|req, res|
   # value = $app.verify(req.header['authorization'])
-  deck =  JSON.parse(req.query['deck'])
+  post = JSON.parse(req.body)
+  pp post
+  deck = post['deck']
   res.content_type = "application/json; charset=UTF-8"
-  res.body = $masaki.do_api(req, res, deck).to_json
+  it = $masaki.do_api(req, res, deck).to_json
+  pp it
+  res.body = it
 }
 
 server.mount_proc('/') {|req, res|

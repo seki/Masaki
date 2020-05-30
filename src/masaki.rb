@@ -6,6 +6,7 @@ class Masaki
   def initialize
     @world = MasakiWorld.new
   end
+  attr_reader :world
 
   def do_api(req, res, deck)
     name = DeckDetail::guess_deck_name(deck)
@@ -13,12 +14,14 @@ class Masaki
   end
 
   def search(deck, n=5)
-    @world.search(deck, n).map {|s, k| 
+    @world.search_by_deck(deck, n).map {|s, k|
+      diff = @world.diff(deck, k)[0,2].map {|a| a.map {|b| b.first}.join(", ")}
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
         'image' => image,
-        'score' => s
+        'score' => s,
+        'desc' => "#{k} #{diff[1]}"
       }
     }
   end
@@ -49,7 +52,6 @@ class MasakiWorld
     trainer = JSON.parse(File.read("data/uniq_energy_trainer_all.txt"))
     pokemon = JSON.parse(File.read("data/uniq_pokemon_all.txt"))
     @name = Hash[trainer + pokemon]
-
     @id_norm = Hash[JSON.parse(File.read('data/derived_norm.txt'))]
 
     make_index
@@ -59,6 +61,7 @@ class MasakiWorld
   def make_index
     make_idf
     make_norm
+    make_name_i
   end
 
   def name(k)
@@ -72,6 +75,31 @@ class MasakiWorld
     dot(left, right) / (@norm[a] * @norm[b])
   end
 
+  def name_to_vector(names)
+    names.map {|n| name_i(n)}.flatten.sort.map {|x| [x, 1]}
+  end
+
+  def name_i(name)
+    left = @name_i.bsearch_index {|x| x[0] >= name}
+    result = []
+    return result unless left
+    while @name_i.dig(left, 0) == name
+      result << @name_i[left][1]
+      left += 1
+    end
+    result
+  end
+
+  def make_name_i
+    ary = []
+    @name.each do |k, n|
+      if String === n
+        ary << [n, k]
+      end
+    end
+    @name_i = ary.sort
+  end
+
   def make_idf
     df = Hash.new(0)
     @deck.each do |k, v|
@@ -81,18 +109,23 @@ class MasakiWorld
     end
 
     sz = @deck.size
-    @idf = df.inject({}) do |result, kv|
+    hash = Hash.new(Math::log(sz))
+    @idf = df.inject(hash) do |result, kv|
       result[kv[0]] = Math::log(sz.quo(kv[1]))
       result
     end
   end
 
-  def make_norm1(name, value)
+  def vec_to_norm(value)
     norm2 = value.inject(0) do |sum2, card_n|
       card, n = card_n
       sum2 += (@idf[card] * n) ** 2
     end
-    @norm[name] = Math::sqrt(norm2)
+    Math::sqrt(norm2)
+  end
+
+  def make_norm1(name, value)
+    @norm[name] = vec_to_norm(value)
   end
 
   def make_norm
@@ -146,16 +179,42 @@ class MasakiWorld
         ia += 1
       end
     end
-    return left, right, same
+    return [left, right, same].map {|hash|
+      hash.sort_by {|a, b| -@idf[a]}.map {|k, n| [name(k), k, n]}
+    }
   end
 
   def search(name, n=5)
+    search_by_deck(name, n)
+  end
+
+  def search_by_deck(name, n=5)
     v = add(name)
+
+    ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
 
     score = []
     @deck.keys.each do |b|
-      next if name == b
+      # next if name == b
+      next if dot(@deck[b], ignore) > 0
       c = dot(v, @deck[b]) / (@norm[name] * @norm[b]) # cos
+      next if c == 0
+      score << [c, b]
+    end
+    top = score.sort.reverse
+    top[0,n]
+  end
+
+  def search_by_name(name, n=5)
+    req = name_to_vector([name])
+    norm = vec_to_norm(req)
+    ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
+
+    score = []
+    @deck.keys.each do |b|
+      next if dot(@deck[b], ignore) > 0
+      c = dot(req, @deck[b]) / (norm * @norm[b]) # cos
+      next if c == 0
       score << [c, b]
     end
     top = score.sort.reverse
@@ -182,16 +241,18 @@ if __FILE__ == $0
   require 'drb'
 
   masaki = Masaki.new
+  pp masaki.world.name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
+  pp masaki.world.name_to_vector(["イーブイ"])
+  pp masaki.world.search_by_name("シキジカ")
+
+  exit
+
   DRb.start_service('druby://localhost:50151', masaki)
   puts DRb.uri
   DRb.thread.join
-
 
   l, r, s = world.diff(a, top[0][1])
   pp s.sort_by {|a, b| -world.idf[a]}.map {|k, n| [world.name(k), n]}
   pp l.sort_by {|a, b| -world.idf[a]}.map {|k, n| [world.name(k), n]}
   pp r.sort_by {|a, b| -world.idf[a]}.map {|k, n| [world.name(k), n]}
-
-  exit
-
 end
