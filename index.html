@@ -7,13 +7,6 @@
 <link rel="shortcut icon" href="/favicon.ico">
 <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 <style>
-@media screen and (min-width: 481px) { 
-
-}
-
-@media screen and (max-width: 480px) {
-
-}
 
 body {
   font-family: Optima,Segoe,Segoe UI,Candara,Calibri,Helvetica Neue,Helvetica,Arial,sans-serif; 
@@ -103,6 +96,10 @@ function insert_item(item) {
 }
 
 function apply_state(state) {
+  var tbody = document.querySelector("tbody");
+  while( tbody.firstChild ){
+    tbody.removeChild( tbody.firstChild );
+  }
   for(item in state) {
     insert_item(state[item]);
   }
