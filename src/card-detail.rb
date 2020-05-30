@@ -23,6 +23,19 @@ class CardDetail
       return x.read
     end
   end
+
+  KindErrata = {
+    38237 => "特殊エネルギー",
+    38238 => "特殊エネルギー",
+    38229 => "グッズ",
+    37998 => "ポケモンのどうぐ"
+  }
+
+  def card_kind(key)
+    body = self[key]
+    ary = ParseRawCard.section(body)
+    KindErrata[key] || ParseRawCard.card_kind(ary)
+  end
 end
 
 module ParseRawCard
@@ -57,12 +70,14 @@ module ParseRawCard
   end
   # %w(スタジアム サポート グッズ トレーナー ポケモンのどうぐ 特殊エネルギー 基本エネルギー)
 
-  def kind_trainer_energy(ary)
+  def card_kind(ary)
+    pokemon = ["たね", "1 進化", "2 進化", "復元", "M進化", "BREAK進化", "レベルアップ", "VMAX", "伝説"]
     start_with = %w(スタジアム サポート グッズ トレーナー ポケモンのどうぐ 特殊エネルギー 基本エネルギー)
     ary.find do |x|
       return x if start_with.include?(x)
+      return x if pokemon.include?(x)
     end
-    retur nil
+    raise "invalid card"
   end
 end
 
