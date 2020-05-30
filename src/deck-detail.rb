@@ -38,6 +38,17 @@ module DeckDetail
       return x.read
     end
   end
+
+  def guess_deck_name(str)
+    if /(\W|\A)(\w{6}\-\w{6}\-\w{6})(\W|\Z)/ =~ str
+      return $2
+    end
+  end
+
+  def make_url(key)
+    ["https://www.pokemon-card.com/deck/confirm.html/deckID/#{key}/",
+      "https://www.pokemon-card.com/deck/deckView.php/deckID/#{key}.png"]
+  end
 end
 
 if __FILE__ == $0

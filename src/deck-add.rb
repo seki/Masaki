@@ -8,7 +8,7 @@ require_relative 'deck-detail'
 $deck = MasakiPG::KVS.new('deck')
 
 if __FILE__ == $0
-  norm = eval(File.read('../data/derived_norm.txt'))
+  norm = Hash[JSON.parse(File.read('../data/derived_norm.txt'))]
   while name = ARGV.shift
     next if $deck.include?(name)
 

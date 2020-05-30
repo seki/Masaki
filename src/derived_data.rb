@@ -18,7 +18,7 @@ end
 # カードを正規化するためのLUT。同じテキストの最小値を求める
 # norm[key] || key
 # File.open("../data/derived_norm.dump", "w") {|fp| Marshal.dump(norm, fp)}
-File.open("../data/derived_norm.txt", "w") {|fp| fp.write(norm.pretty_inspect)}
+File.open("../data/derived_norm.txt", "w") {|fp| fp.write(norm.to_a.pretty_inspect)}
 
 latest = ary.sort_by {|k, v| [v, -k]}
 last = []

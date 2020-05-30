@@ -59,7 +59,7 @@ class Twitter
 end
 
 if __FILE__ == $0
-  norm = eval(File.read('../data/derived_norm.txt'))
+  norm = Hash[JSON.parse(File.read('../data/derived_norm.txt'))]
 
   Twitter.new.search_decks {|name|
     next if $deck.include?(name)
