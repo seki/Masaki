@@ -9,10 +9,7 @@ class Masaki
 
   def do_api(req, res, deck)
     name = DeckDetail::guess_deck_name(deck)
-    pp [:guess, name]
-    it = search(name, 5)
-    pp it
-    it
+    search(name, 5)
   end
 
   def search(deck, n=5)
@@ -153,27 +150,31 @@ class MasakiWorld
   end
 
   def search(name, n=5)
-    add(name)
+    v = add(name)
 
     score = []
     @deck.keys.each do |b|
       next if name == b
-      score << [cos(name, b), b]
+      c = dot(v, @deck[b]) / (@norm[name] * @norm[b]) # cos
+      score << [c, b]
     end
     top = score.sort.reverse
     top[0,n]
   end
 
-  def add(name)
-    return if @deck.include?(name)
+  def add(name, save=true)
+    return @deck[name] if @deck.include?(name)
 
     src = DeckDetail.fetch_deck_page(name)
     v = DeckDetail.parse(src)
     v = v.map {|card_id, n| [@id_norm[card_id] || card_id, n]}.sort
     v = v.chunk {|e| e[0]}.map {|card_id, g|  [card_id, g.map{|h| h[1]}.sum]}
-    @kvs[name] = v.to_json
-    @deck[name] = v
+    if save
+      @kvs[name] = v.to_json
+      @deck[name] = v
+    end
     make_norm1(name, v)
+    v
   end
 end
 
