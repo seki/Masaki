@@ -10,7 +10,7 @@ class Masaki
 
   def do_api(req, res, str)
     name = DeckDetail::guess_deck_name(str)
-    return search(name, 8) if name
+    return search(name, 5) if name
     card_id = guess_card_id(str)
     return search_by_card(card_id) if card_id
     search_by_name(str)
@@ -30,7 +30,7 @@ class Masaki
     }
   end
 
-  def search_by_name(name, n=30)
+  def search_by_name(name, n=10)
     @world.search_by_name(name, n).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
@@ -43,7 +43,7 @@ class Masaki
     }
   end
 
-  def search_by_card(card_no, n=30)
+  def search_by_card(card_no, n=10)
     @world.search_by_card(card_no, n).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
