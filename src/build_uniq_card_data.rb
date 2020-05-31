@@ -32,6 +32,8 @@ def build_pokemon(regulation)
     body = detail[pair[1]]
     ary = ParseRawCard.section(body)
     ary = ParseRawCard.drop_head_pokemon(ary)
+    # errata 「GXワザ」があったりなかったりするので、先に削除して正規化する。
+    ary = ary.reject {|x| x == "GXワザ"}
 
     [pair.first, ary, pair.last]
   end

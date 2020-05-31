@@ -23,7 +23,6 @@ table#decktable thead td:first-child {
   padding-left: 120px;
   padding-right: 120px;
   text-align: center;
-
 }
 table#decktable thead tr {
   border-bottom: solid 1px lightgray;
@@ -42,6 +41,12 @@ table#decktable img {
   width: 1em;
 }
 
+table#decktable td.row-op {
+  color: red;
+  vertical-align: top;
+  font-size:x-large;
+}
+
 </style>
 </head>
 <body>
@@ -52,7 +57,7 @@ table#decktable img {
 <table id="decktable">
   <thead>
     <tr>
-      <td class="record"><i class="fab fa-amazon"></i></td>
+      <td class="record"></td>
       <td class="menu"><i class="fas fa-bars"></i></td>
     </tr>
   </thead>
@@ -65,7 +70,7 @@ table#decktable img {
     <td class="record">
     <figure><a><img /></a></figure><span></span>
     </td>
-    <td><i class="fas fa-trash" onclick="delete_record(this);"></i></td>
+    <td class="row-op"><i class="fas fa-map-marker-alt" onclick="move_to(this);"></i></td>
   </tr>
 </template> 
 </body>
@@ -84,12 +89,12 @@ function insert_item(item) {
   var span = td[0].querySelector("span")
   img.src = item['image'];
   a.href = item['link'];
-  span.textContent = item['score'].toFixed(3) + " " + item['desc'];
+  span.textContent = item['score'].toFixed(3) + " " + item["name"] + " " + item['diff'];
   // td[2].textContent = item['ean'];
 
 
   tbody.appendChild(clone);
-  var newone = tbody.querySelector("tr");
+  var newone = tbody.querySelector("tr:last-child");
   for (let key in item) {
     newone.dataset[key] = item[key];
   }
@@ -105,11 +110,11 @@ function apply_state(state) {
   }
 }
 
-function call_api() {
+function call_set_deck_code(name) {
   url = '/api';
 
   data = {
-    deck: update_text.value
+    deck: name
   };
 
   fetch(url, {
@@ -127,10 +132,16 @@ function call_api() {
   update_text.focus();
 }
 
-function delete_record(me) {
+function call_api() {
+  call_set_deck_code(update_text.value);
+}
+
+function move_to(me) {
   var node;
   node = me.parentNode.parentNode;
-  node.parentNode.removeChild(node);
+  console.log(node.dataset['name']);
+  update_text.value = node.dataset['name'];
+  call_api(node.dataset['name']);
 }
 
 </script>
