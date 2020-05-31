@@ -11,8 +11,8 @@ class Masaki
   def do_api(req, res, str)
     name = DeckDetail::guess_deck_name(str)
     return search(name, 8) if name
-    card_no = guess_card_id(str)
-    return search_by_card(card_no) if card_no
+    card_id = guess_card_id(str)
+    return search_by_card(card_id) if card_id
     search_by_name(str)
   end
 
