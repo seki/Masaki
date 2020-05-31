@@ -11,7 +11,7 @@ class Masaki
   def do_api(req, res, str)
     name = DeckDetail::guess_deck_name(str)
     return search(name, 8) if name
-    card_no = guess_card_name(str)
+    card_no = guess_card_id(str)
     return search_by_card(card_no) if card_no
     search_by_name(str)
   end
@@ -71,32 +71,57 @@ class Masaki
      r.sort_by {|a, b| -@world.idf[a]}.map {|k, n| [@world.name(k), n, card_url(k)]}]
   end
 
-  def guess_card_name(str)
+  def guess_card_id(str)
     if /\/card\-search\/details\.php\/card\/(\d+)/ =~ str
       Integer($1, 10) rescue nil
     elsif /card_images\/.*\/(\d+)\w+\.jpg/ =~ str
       Integer($1, 10) rescue nil
     else
-      nil
+      Integer(str, 10) rescue nil
     end
   end
 end
 
 class MasakiWorld
   def initialize
-    @deck = {}
-    @kvs = MasakiPG::KVS.new('deck')
-    @kvs.each do |k, v|
-      @deck[k] = JSON.parse(v)
-    end
     trainer = JSON.parse(File.read("data/uniq_energy_trainer_all.txt"))
     pokemon = JSON.parse(File.read("data/uniq_pokemon_all.txt"))
     @name = Hash[trainer + pokemon]
-    @id_norm = Hash[JSON.parse(File.read('data/derived_norm.txt'))]
+    make_id_norm
+
+    @deck = {}
+    @kvs = MasakiPG::KVS.new('deck')
+    @kvs.each do |k, v|
+      @deck[k] = re_normalize(JSON.parse(v))
+    end
 
     make_index
   end
   attr_reader :deck, :idf, :norm
+
+  def re_normalize(v)
+    v = v.map {|card_id, n| [@id_norm[card_id], n]}.sort
+    v.chunk {|e| e[0]}.map {|card_id, g|  [card_id, g.map{|h| h[1]}.sum]}
+  end
+
+  def make_id_norm
+    @id_norm = Hash.new {|h, k| k}
+    @name.each do |k, v|
+      next if String === v
+      @id_norm[k] = v 
+    end
+
+    @id_latest = Hash.new {|h, k| k}
+    last = []
+    @name.sort_by {|k, v| [@id_norm[k], -k]}.each do |k, v|
+      v = @id_norm[k]
+      if last[1] != v
+        last = [k, v]
+      else
+        @id_latest[k] = last[0]
+      end
+    end
+  end
 
   def make_index
     make_idf
@@ -245,8 +270,8 @@ class MasakiWorld
     top[0,n]
   end
 
-  def search_by_name(card_name, n=5)
-    req = name_to_vector([card_name])
+  def search_by_name(card_id, n=5)
+    req = name_to_vector([card_id])
     norm = vec_to_norm(req)
     ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
 
@@ -262,7 +287,7 @@ class MasakiWorld
   end
 
   def search_by_card(card_id, n=5)
-    req = [[@id_norm[card_id] || card_id, 1]]
+    req = [[@id_norm[card_id], 1]]
     p [card_id, req]
     norm = vec_to_norm(req)
     ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
@@ -283,7 +308,7 @@ class MasakiWorld
 
     src = DeckDetail.fetch_deck_page(name)
     v = DeckDetail.parse(src)
-    v = v.map {|card_id, n| [@id_norm[card_id] || card_id, n]}.sort
+    v = v.map {|card_id, n| [@id_norm[card_id], n]}.sort
     v = v.chunk {|e| e[0]}.map {|card_id, g|  [card_id, g.map{|h| h[1]}.sum]}
     if save
       @kvs[name] = v.to_json
