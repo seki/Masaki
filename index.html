@@ -68,9 +68,9 @@ table#decktable td.row-op {
 <template id="deckrow">
   <tr data-title="" >
     <td class="record">
-    <figure><a><img /></a></figure><span></span>
+    <figure><img onclick="move_to(this);"/></figure><span></span>
     </td>
-    <td class="row-op"><i class="fas fa-map-marker-alt" onclick="move_to(this);"></i></td>
+    <td class="row-op"><a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a></td>
   </tr>
 </template> 
 </body>
@@ -85,7 +85,7 @@ function insert_item(item) {
   var clone = document.importNode(template.content, true);
   var td = clone.querySelectorAll("td");
   var img = td[0].querySelector("img")
-  var a = td[0].querySelector("a");
+  var a = td[1].querySelector("a");
   var span = td[0].querySelector("span")
   img.src = item['image'];
   a.href = item['link'];
@@ -138,7 +138,7 @@ function call_api() {
 
 function move_to(me) {
   var node;
-  node = me.parentNode.parentNode;
+  node = me.parentNode.parentNode.parentNode;
   console.log(node.dataset['name']);
   update_text.value = node.dataset['name'];
   call_api(node.dataset['name']);
