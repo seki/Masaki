@@ -168,7 +168,7 @@ EOB
 end
 
 if __FILE__ == $0
-  MasakiPG::instance.kvs_create_table("card_page")
+  MasakiPG::instance.kvs_create_table("world")
   MasakiPG::instance.kvs_create_table("deck")
   # MasakiPG::instance.kvs_create_table("cache")
 end
