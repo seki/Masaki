@@ -95,6 +95,8 @@ class MasakiWorld
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
+    @deck_tmp = {}
+
     make_index
   end
   attr_reader :deck, :idf, :norm
@@ -222,8 +224,8 @@ class MasakiWorld
   end
 
   def diff(a, b)
-    a = @deck[a]
-    b = @deck[b]  
+    a = @deck[a] || @deck_tmp[a]
+    b = @deck[b] || @deck_tmp[b]
     left = {}
     right = {}
     same = {}
@@ -303,8 +305,9 @@ class MasakiWorld
     top[0,n]
   end
 
-  def add(name, save=true)
-    return @deck[name] if @deck.include?(name)
+  def add(name, save=false)
+    v = @deck[name] || @deck_tmp[name]
+    return v if v
 
     src = DeckDetail.fetch_deck_page(name)
     v = DeckDetail.parse(src)
@@ -313,6 +316,8 @@ class MasakiWorld
     if save
       @kvs[name] = v.to_json
       @deck[name] = v
+    else
+      @deck_tmp[name] = v
     end
     make_norm1(name, v)
     v
