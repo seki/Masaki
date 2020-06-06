@@ -59,8 +59,9 @@ class Twitter
 end
 
 if __FILE__ == $0
+  frozen = MasakiPG::KVS.frozen('deck')
   Twitter.new.search_decks {|name|
-    next if $deck.include?(name)
+    next if frozen.include?(name) || $deck.include?(name)
     p name
     src = DeckDetail.fetch_deck_page(name)
     v = DeckDetail.parse(src)

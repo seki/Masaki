@@ -55,20 +55,17 @@ if __FILE__ == $0
   require 'pp'
   require_relative 'masaki-pg'
 
-  dest = MasakiPG::KVS.new('deck')
+  keys = JSON.parse(File.read(ARGV.shift))
 
-  norm = eval(File.read('../data/derived_norm.txt'))
-  keys = eval(File.read('../data/deck_keys.tmp'))
-  keys.each do |name|
-    if dest.include?(name)
-      p [:exist, name]
-      next
-    end
-    p [name]
+  $world = MasakiPG::KVS.new('world')
+  $deck = MasakiPG::KVS.new('deck')
+
+  base = JSON.parse($world['deck'])
+  keys.each {|name|
+    next if base.include?(name) || $deck.include?(name)
+    p name
     src = DeckDetail.fetch_deck_page(name)
     v = DeckDetail.parse(src)
-    v = v.map {|card_id, n| [norm[card_id] || card_id, n]}.sort
-    v = v.chunk {|e| e[0]}.map {|card_id, g|  [card_id, g.map{|h| h[1]}.sum]}
-    dest[name] = v.to_json
-  end
+    $deck[name] = v.to_json
+  }
 end

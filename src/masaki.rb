@@ -90,6 +90,12 @@ class MasakiWorld
     make_id_norm
 
     @deck = {}
+
+    frozen = MasakiPG::KVS.frozen('deck')
+    frozen.each do |k, v|
+      @deck[k] = re_normalize(JSON.parse(v))
+    end
+
     @kvs = MasakiPG::KVS.new('deck')
     @kvs.each do |k, v|
       @deck[k] = re_normalize(JSON.parse(v))

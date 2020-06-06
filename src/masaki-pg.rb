@@ -55,6 +55,12 @@ class MasakiPG
     end
   end
 
+  class KVS
+    def self.frozen(name)
+      JSON.parse(MasakiPG::KVS.new('world')[name]) rescue {}
+    end
+  end
+
   def self.instance
     @instance = self.new unless @instance
     @instance.synchronize do
@@ -165,11 +171,36 @@ EOB
       @conn.exec_params(sql, [key])
     end
   end
+
+  def kvs_frozen_world(table)
+    synchronize do
+      @conn.transaction do |conn|
+        it = conn.exec_params("select * from #{table}")
+        hash = Hash[it.map{|x| [x['id'], x['value']]}]
+        world = conn.exec_params("select * from world where id=$1", [table])
+        last = JSON.parse(world.to_a.dig(0, 'value')) rescue {}
+        last.update(hash)
+        store_sql = <<EOB
+insert into world (id, value) values ($1, $2)
+ON CONFLICT ON CONSTRAINT world_pkey do update set
+  value = $2
+EOB
+        conn.exec_params(store_sql, [table, last.to_json])
+        hash.each do |k, v|
+          delete_sql = "delete from #{table} where id=$1"
+          conn.exec_params(delete_sql, [k])
+        end
+      end
+    end
+  end
 end
 
 if __FILE__ == $0
-  MasakiPG::instance.kvs_create_table("world")
-  MasakiPG::instance.kvs_create_table("deck")
+  # MasakiPG::instance.kvs_create_table("world")
+  # MasakiPG::instance.kvs_create_table("deck")
   # MasakiPG::instance.kvs_create_table("cache")
+  pp MasakiPG::instance.kvs_frozen_world("deck")
+  deck = MasakiPG::KVS.frozen('deck')
+  pp deck.keys
 end
 
