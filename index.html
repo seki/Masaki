@@ -6,13 +6,9 @@
 <title>Masaki | Hamana</title>
 <link rel="shortcut icon" href="/favicon.ico">
 <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <style>
 
-body {
-  font-family: Optima,Segoe,Segoe UI,Candara,Calibri,Helvetica Neue,Helvetica,Arial,sans-serif; 
-  margin: 1em;
-  background-color: rgb(252, 252, 255);
-}
 table#decktable td {
   padding: 1rem;
   border: solid 0px;
@@ -47,9 +43,29 @@ table#decktable td.row-op {
   font-size:x-large;
 }
 
+.jumbotoron {
+  /* プロポーショナルメトリクスを有効にする指定 */
+  font-feature-settings: "palt" 1, "dlig" 1;
+}
+
 </style>
 </head>
 <body>
+<header class="py-4">
+  <div class="container text-center">
+    <h1><a href="/"<i class="fas fa-glasses text-danger"></i></a></h1>
+  </div>
+</header>
+<nav>
+</nav>
+<main>
+<div class="jumbotoron jumbotron-fluid bg-light ">
+  <div class="container">
+    <h1 class="display-4">Roseanne's Analysis</h1>
+    <p class="lead palt">マサキのリサーチ，ハマナの解析．</p>
+  </div>
+</div>
+
 <div class="main">
 <h2>類似デッキ検索α
 <i class="far fa-hand-point-right"></i>&nbsp;<input type="deck" placeholder="デッキコード カード名 カード番号" onchange="call_api()" id="update"/>
@@ -66,6 +82,7 @@ table#decktable td.row-op {
   <tbody></tbody>
 </table>
 </div>
+</main>
 
 <template id="deckrow">
   <tr data-title="" >
