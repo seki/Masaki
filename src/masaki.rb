@@ -38,7 +38,7 @@ class Masaki
         'image' => image,
         'score' => s,
         'name' => k,
-        'diff' => ""
+        'diff' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
       }
     }
   end
@@ -51,7 +51,7 @@ class Masaki
         'image' => image,
         'score' => s,
         'name' => k,
-        'diff' => ""
+        'diff' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
       }
     }
   end
@@ -96,10 +96,15 @@ class MasakiWorld
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
+    @recent = []
     @kvs = MasakiPG::KVS.new('deck')
     @kvs.each do |k, v|
+      @recent << k
       @deck[k] = re_normalize(JSON.parse(v))
     end
+
+    puts "number of decks: #{@deck.size}."
+    pp [:recent, @recent]
 
     @deck_tmp = {}
 
@@ -227,6 +232,11 @@ class MasakiWorld
       end
     end
     s
+  end
+
+  def top_idf(k)
+    v = @deck[k] || @deck_tmp[k]
+    v.map {|x| x[0]}.sort_by {|x| -@idf[x]}
   end
 
   def diff(a, b)

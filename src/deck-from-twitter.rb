@@ -59,6 +59,7 @@ class Twitter
 end
 
 if __FILE__ == $0
+  MasakiPG::instance.kvs_frozen_world("deck")
   frozen = MasakiPG::KVS.frozen('deck')
   Twitter.new.search_decks {|name|
     next if frozen.include?(name) || $deck.include?(name)

@@ -28,7 +28,7 @@ table#decktable figure {
   margin: 0rem 1rem 0rem 0rem;
 }
 table#decktable img {
-  max-width: 48rem;
+  /* max-width: 48rem; */
 }
 .record {
   width: 300px;
@@ -46,6 +46,7 @@ table#decktable td.row-op {
 .jumbotoron {
   /* プロポーショナルメトリクスを有効にする指定 */
   font-feature-settings: "palt" 1, "dlig" 1;
+  background-color: #71b896;
 }
 
 </style>
@@ -59,38 +60,35 @@ table#decktable td.row-op {
 <nav>
 </nav>
 <main>
-<div class="jumbotoron jumbotron-fluid bg-light ">
+<div class="jumbotoron jumbotron-fluid text-white p-2">
   <div class="container">
-    <h1 class="display-4">Roseanne's Analysis</h1>
-    <p class="lead palt">マサキのリサーチ，ハマナの解析．</p>
+    <h4>Roseanne's Analysis
+    <small class="text-white-50">ハマナの解析，マサキのリサーチ．</small>
+    </h4>
   </div>
 </div>
 
-<div class="main">
-<h2>類似デッキ検索α
-<i class="far fa-hand-point-right"></i>&nbsp;<input type="deck" placeholder="デッキコード カード名 カード番号" onchange="call_api()" id="update"/>
-</h2>
-主にTwitterに投稿されたデッキを集めています。デッキコードを入れると似てるデッキを提示するよ！
-
-<table id="decktable">
-  <thead>
-    <tr>
-      <td class="record"></td>
-      <td class="menu"><i class="fas fa-bars"></i></td>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+<div class="container">
+  <div class="row justify-content-center m-2">
+    <large><input type="deck" placeholder="デッキコード カード名 番号" onchange="call_api()" id="update"/></large>
+  </div>
+  <div class="row justify-content-center m-2">
+    <p>Twitterなどに投稿されたデッキを調べます。デッキコードから似ているデッキを探します。</p>
+  </div>
+  <div id="deckresult" class="container">
+  </div>
 </div>
 </main>
 
 <template id="deckrow">
-  <tr data-title="" >
-    <td class="record">
-    <figure><img onclick="move_to(this);"/></figure><span></span>
-    </td>
-    <td class="row-op"><a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a></td>
-  </tr>
+  <div class="row py-4" data-title="NEW" >
+    <div class="col-10 record">
+      <figure><img class="img-fluid img-thumbnail" onclick="move_to(this);"/></figure><span></span>
+    </div>
+    <div class="col-2 row-op">
+      <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+    </div>
+  </div>
 </template> 
 </body>
 <script>
@@ -99,30 +97,29 @@ var update_text = document.querySelector('#update');
 update_text.focus();
 
 function insert_item(item) {
+  var pivot = document.querySelector('#deckresult');
   var template = document.querySelector('#deckrow');
-  var tbody = document.querySelector("tbody");
   var clone = document.importNode(template.content, true);
-  var td = clone.querySelectorAll("td");
-  var img = td[0].querySelector("img")
-  var a = td[1].querySelector("a");
-  var span = td[0].querySelector("span")
+  var img = clone.querySelector("img")
+  var a = clone.querySelector("a");
+  var span = clone.querySelector("span")
   img.src = item['image'];
   a.href = item['link'];
   span.textContent = item['score'].toFixed(3) + " " + item["name"] + " " + item['diff'];
   // td[2].textContent = item['ean'];
 
-
-  tbody.appendChild(clone);
-  var newone = tbody.querySelector("tr:last-child");
+  pivot.appendChild(clone);
+  var newone = pivot.querySelector('div[data-title="NEW"]:last-child');
+  console.log(newone);
   for (let key in item) {
     newone.dataset[key] = item[key];
   }
 }
 
 function apply_state(state) {
-  var tbody = document.querySelector("tbody");
-  while( tbody.firstChild ){
-    tbody.removeChild( tbody.firstChild );
+  var pivot = document.querySelector('#deckresult');
+  while( pivot.firstChild ){
+    pivot.removeChild( pivot.firstChild );
   }
   for(item in state) {
     insert_item(state[item]);
