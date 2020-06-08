@@ -18,14 +18,15 @@ class Masaki
 
   def search(deck, n=5)
     @world.search_by_deck(deck, n).map {|s, k|
-      diff = @world.diff(deck, k)[0,2].map {|a| a.map {|b| b.first}.join(", ")}
+      diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
         'image' => image,
         'score' => s,
         'name' => k,
-        'diff' => diff[1]
+        'diff' => diff,
+        'desc' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
       }
     }
   end
@@ -38,7 +39,7 @@ class Masaki
         'image' => image,
         'score' => s,
         'name' => k,
-        'diff' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
+        'desc' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
       }
     }
   end
@@ -51,7 +52,7 @@ class Masaki
         'image' => image,
         'score' => s,
         'name' => k,
-        'diff' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
+        'desc' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
       }
     }
   end
@@ -62,13 +63,6 @@ class Masaki
 
   def card_url(key)
     "https://www.pokemon-card.com/card-search/details.php/card/#{key}"
-  end
-
-  def diff(left, right)
-    l, r, s = @world.diff(left, right)
-    [s.sort_by {|a, b| -@world.idf[a]}.map {|k, n| [@world.name(k), n, card_url(k)]},
-     l.sort_by {|a, b| -@world.idf[a]}.map {|k, n| [@world.name(k), n, card_url(k)]},
-     r.sort_by {|a, b| -@world.idf[a]}.map {|k, n| [@world.name(k), n, card_url(k)]}]
   end
 
   def guess_card_id(str)
@@ -255,16 +249,16 @@ class MasakiWorld
         ia += 1
         ib += 1
       elsif a[ia][0] > b[ib][0]
-        right[b[ib][0]] = b[ib][1]
+        right[b[ib][0]] = [0, b[ib][1]]
         ib += 1
       else
-        left[a[ia][0]] = a[ia][1]
+        left[a[ia][0]] = [a[ia][1], 0]
         ia += 1
       end
     end
-    return [left, right, same].map {|hash|
-      hash.sort_by {|a, b| -@idf[a]}.map {|k, n| [name(k), k, n]}
-    }
+    return [left, same, right].map {|hash|
+      hash.sort_by {|a, b| [b[1] <=> b[0], -@idf[a]]}.map {|k, n| [name(k), k, n]}
+    }.inject([]) {|a, b| a + b}
   end
 
   def search(name, n=5)
@@ -349,13 +343,4 @@ if __FILE__ == $0
   pp masaki.world.search_by_name("シキジカ")
 
   exit
-
-  DRb.start_service('druby://localhost:50151', masaki)
-  puts DRb.uri
-  DRb.thread.join
-
-  l, r, s = world.diff(a, top[0][1])
-  pp s.sort_by {|a, b| -world.idf[a]}.map {|k, n| [world.name(k), n]}
-  pp l.sort_by {|a, b| -world.idf[a]}.map {|k, n| [world.name(k), n]}
-  pp r.sort_by {|a, b| -world.idf[a]}.map {|k, n| [world.name(k), n]}
 end
