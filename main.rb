@@ -78,15 +78,14 @@ server.mount_proc('/api') {|req, res|
   # value = $app.verify(req.header['authorization'])
   post = JSON.parse(req.body)
   pp post
-  deck = post['deck']
+  str = post['search']
   res.content_type = "application/json; charset=UTF-8"
-  it = $masaki.do_api(req, res, deck).to_json
+  it = $masaki.do_api(req, res, post).to_json
   pp it
   res.body = it
 }
 
 server.mount_proc('/') {|req, res|
-  p req.header.keys
   res.body = File.read('index.html')
 }
 

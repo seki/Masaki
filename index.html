@@ -36,13 +36,6 @@
 </style>
 </head>
 <body>
-  <!--
-<header>
-  <div class="container container-fluid text-center bg-hamana">
-    <a href="/" class="font-hamana"><i class="fas fa-glasses text-danger"></i></a>
-  </div>
-</header>
--->
 <nav class="navbar navbar-expand-md navbar-light bg-white sticky-top">
   <div class="container">
     <a class="navbar-brand" href="/"><i class="fas fa-glasses text-danger"></i></a>
@@ -61,7 +54,7 @@
           <a class="disabled nav-link" href="#">About</a>
         </li>
         <li class="nav-item">
-          <a class="disabled nav-link" href="#">Recent</a>
+          <a class="nav-link" href="#recent-pane">Recent</a>
         </li>
       </ul>
 
@@ -91,18 +84,33 @@
   <div id="deckresult" class="container">
   </div>
 </div>
+
+<div class="container" id="recent-pane">
+  <div class="row justify-content-center m-2">
+    <h4>新着デッキ</h4>
+  </div>
+  <div class="container m-2">
+    <div class="list-group" id="recent-list">
+    </div>
+  </div>
+</div>
 </main>
 
 <template id="deckrow">
   <div class="row py-4" >
     <div class="col-10 record">
-      <figure><img class="img-fluid img-thumbnail" onclick="move_to(this);"/></figure><span></span>
+      <figure><img loading="lazy" class="img-fluid img-thumbnail" onclick="move_to(this);"/></figure><span></span>
     </div>
     <div class="col-2 row-op">
       <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
     </div>
   </div>
 </template>
+
+<template id="recent-item">
+  <button type="button" class="list-group-item list-group-item-action" onclick="move_to(this);"></button>
+</template>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
@@ -122,7 +130,7 @@ function insert_item(item) {
   span.textContent = item['score'].toFixed(3) + " " + item["name"] + " " + item['desc'];
   console.log(item['diff']);
 
-  newone = clone.querySelector("div");
+  newone = clone.querySelector("figure img");
   newone.dataset['name'] = item['name'];
 
   pivot.appendChild(clone);
@@ -138,11 +146,48 @@ function apply_state(state) {
   }
 }
 
+function insert_recent(name) {
+  var list = document.querySelector('#recent-list');
+  var template = document.querySelector('#recent-item');
+  var clone = document.importNode(template.content, true);
+
+  var newone = clone.querySelector("button");
+  newone.textContent = name;
+  newone.dataset['name'] = name;
+
+  list.appendChild(clone);
+}
+
+function apply_recent(state) {
+  console.log(state);
+  state.recent.forEach(function(name) {insert_recent(name)});
+}
+
+function call_set_recent() {
+  url = '/api';
+
+  data = {
+    method: "recent"
+  };
+
+  fetch(url, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(data), 
+  })
+  .then(res => res.json())
+  .then(response => apply_recent(response)); 
+}
+
 function call_set_deck_code(name) {
   url = '/api';
 
   data = {
-    deck: name
+    method: "search",
+    search: name
   };
 
   fetch(url, {
@@ -155,21 +200,18 @@ function call_set_deck_code(name) {
   })
   .then(res => res.json())
   .then(response => apply_state(response)); 
-
-  update_text.value = "";
 }
 
 function call_api() {
   call_set_deck_code(update_text.value);
+  update_text.value = "";
 }
 
 function move_to(me) {
-  var node;
-  node = me.parentNode.parentNode.parentNode;
-  console.log(node.dataset['name']);
-  update_text.value = node.dataset['name'];
-  call_api(node.dataset['name']);
+  console.log(me.dataset['name']);
+  call_set_deck_code(me.dataset['name']);
 }
 
+call_set_recent();
 </script>
 </html>

@@ -8,7 +8,23 @@ class Masaki
   end
   attr_reader :world
 
-  def do_api(req, res, str)
+  def do_api(req, res, post)
+    case post['method']
+    when "search"
+      do_search_api(req, res, post)
+    when "recent"
+      do_recent_api(req, res, post)
+    end
+  end
+
+  def do_recent_api(req, res, post)
+    {
+      'recent' => @world.recent
+    }
+  end
+
+  def do_search_api(req, res, post)
+    str = post["search"]
     name = DeckDetail::guess_deck_name(str)
     return search(name, 5) if name
     card_id = guess_card_id(str)
@@ -104,7 +120,7 @@ class MasakiWorld
 
     make_index
   end
-  attr_reader :deck, :idf, :norm
+  attr_reader :deck, :idf, :norm, :recent
 
   def re_normalize(v)
     v = v.map {|card_id, n| [@id_norm[card_id], n]}.sort
