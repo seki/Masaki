@@ -106,19 +106,21 @@ class MasakiWorld
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
-    @recent = []
+    recent_name = []
     @kvs = MasakiPG::KVS.new('deck')
     @kvs.each do |k, v|
-      @recent << k
+      recent_name << k
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
     puts "number of decks: #{@deck.size}."
-    pp [:recent, @recent]
+    pp [:recent, recent_name]
 
     @deck_tmp = {}
 
     make_index
+    
+    @recent = recent_name.map {|k| [k, top_idf(k)[0,5].map {|n| self.name(n)}]}
   end
   attr_reader :deck, :idf, :norm, :recent
 

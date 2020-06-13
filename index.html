@@ -48,7 +48,7 @@
     <div class="collapse navbar-collapse" id="navbar-content">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Top <span class="sr-only>">(current)</span></a>
+          <a class="nav-link" href="#">Top</a>
         </li>
         <li class="nav-item">
           <a class="disabled nav-link" href="#">About</a>
@@ -127,7 +127,7 @@ function insert_item(item) {
   var span = clone.querySelector("span")
   img.src = item['image'];
   a.href = item['link'];
-  span.textContent = item['score'].toFixed(3) + " " + item["name"] + " " + item['desc'];
+  span.textContent = item['score'].toFixed(3) + " " + item["name"] + " - " + item['desc'].join(" ");
   console.log(item['diff']);
 
   newone = clone.querySelector("figure img");
@@ -146,14 +146,14 @@ function apply_state(state) {
   }
 }
 
-function insert_recent(name) {
+function insert_recent(item) {
   var list = document.querySelector('#recent-list');
   var template = document.querySelector('#recent-item');
   var clone = document.importNode(template.content, true);
 
   var newone = clone.querySelector("button");
-  newone.textContent = name;
-  newone.dataset['name'] = name;
+  newone.textContent = [item[0], item[1].join(" ")].join(" - ");
+  newone.dataset['name'] = item[0];
 
   list.appendChild(clone);
 }
