@@ -113,11 +113,7 @@ class MasakiWorld
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
-    puts "number of decks: #{@deck.size}."
-    pp [:recent, recent_name]
-
     @deck_tmp = {}
-
     make_index
     
     @recent = recent_name.map {|k| [k, top_idf(k)[0,5].map {|n| self.name(n)}]}
@@ -126,7 +122,7 @@ class MasakiWorld
 
   def re_normalize(v)
     v = v.map {|card_id, n| [@id_norm[card_id], n]}.sort
-    v.chunk {|e| e[0]}.map {|card_id, g|  [card_id, g.map{|h| h[1]}.sum]}
+    v.chunk {|e| e[0]}.map {|card_id, g|  [card_id, g.map{|h| h[1]}.sum.clamp(1,5)]}
   end
 
   def make_id_norm
