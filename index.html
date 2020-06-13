@@ -81,12 +81,12 @@
   <div class="row justify-content-center m-2">
     <p>Twitterなどに投稿されたデッキを解析してリサーチ。第一弾は似ているデッキを探します。</p>
   </div>
-  <div id="deckresult" class="container">
+  <div id="deckresult" class="accordion" role="tablist" aria-multiselectable="true">
   </div>
 </div>
 
 <div class="container" id="recent-pane">
-  <div class="row justify-content-center m-2">
+  <div class="row justify-content-center m-4">
     <h4>新着デッキ</h4>
   </div>
   <div class="container m-2">
@@ -97,12 +97,21 @@
 </main>
 
 <template id="deckrow">
-  <div class="row py-4" >
-    <div class="col-10 record">
-      <figure><img loading="lazy" class="img-fluid img-thumbnail" onclick="move_to(this);"/></figure><span></span>
+  <div class="card" role="tab">
+    <div class="card-header" role="tab">
+      <a class="text-body d-block p-3 m-n3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseOne">
+        <span></span>
+      </a>
     </div>
-    <div class="col-2 row-op">
-      <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+    <div class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#deckresult">
+      <div class="row">
+        <div class="col-10 record">
+          <figure><img loading="lazy" class="img-fluid img-thumbnail" onclick="move_to(this);"/></figure>
+        </div>
+        <div class="col-2 row-op">
+          <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -118,15 +127,27 @@
 <script>
 var update_text = document.querySelector('#update');
 
-function insert_item(item) {
+function insert_item(n, item) {
   var pivot = document.querySelector('#deckresult');
   var template = document.querySelector('#deckrow');
   var clone = document.importNode(template.content, true);
-  var img = clone.querySelector("img")
+  var card = clone.querySelector("div.collapse");
+  var img = clone.querySelector("img");
   var a = clone.querySelector("a");
+  var a2 = clone.querySelector("div.collapse a");
   var span = clone.querySelector("span")
+  clone.querySelector("div.card-header").id = 'head-' + item['name'];
+  card.id = 'collapse-' + item['name'];
+  card.setAttribute('aria-labelledby', 'head-' + item['name']);
+  a.setAttribute('aria-controls', 'collapse-' + item['name']);
+  a.href = '#collapse-' + item['name'];
+
+  if (n == 0) {
+    card.classList.add('show');
+  }
+  
   img.src = item['image'];
-  a.href = item['link'];
+  a2.href = item['link'];
   span.textContent = item['score'].toFixed(3) + " " + item["name"] + " - " + item['desc'].join(" ");
   console.log(item['diff']);
 
@@ -142,7 +163,7 @@ function apply_state(state) {
     pivot.removeChild( pivot.firstChild );
   }
   for(item in state) {
-    insert_item(state[item]);
+    insert_item(item, state[item]);
   }
 }
 
