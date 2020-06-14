@@ -5,6 +5,7 @@ require 'json'
 class Masaki
   def initialize
     @world = MasakiWorld.new
+    @recent = @world.recent.map {|k| [k, deck_desc(k)]}
   end
   attr_reader :world
 
@@ -19,7 +20,7 @@ class Masaki
 
   def do_recent_api(req, res, post)
     {
-      'recent' => @world.recent
+      'recent' => @recent
     }
   end
 
@@ -33,7 +34,7 @@ class Masaki
   end
 
   def search(deck, n=5)
-    @world.search_by_deck(deck, n).map {|s, k|
+    ary = @world.search_by_deck(deck, n).map {|s, k|
       diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
       link, image =  DeckDetail::make_url(k)
       {
@@ -42,34 +43,46 @@ class Masaki
         'score' => s,
         'name' => k,
         'diff' => diff,
-        'desc' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
+        'desc' => deck_desc(k)
       }
+    }
+    {
+      'query' => ['search_by_deck', deck],
+      'result' => ary
     }
   end
 
   def search_by_name(name, n=10)
-    @world.search_by_name(name, n).map {|s, k|
+    ary = @world.search_by_name(name, n).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
         'image' => image,
         'score' => s,
         'name' => k,
-        'desc' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
+        'desc' => deck_desc(k)
       }
+    }
+    {
+      'query' => ['search_by_name', name],
+      'result' => ary
     }
   end
 
   def search_by_card(card_no, n=10)
-    @world.search_by_card(card_no, n).map {|s, k|
+    ary = @world.search_by_card(card_no, n).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
         'image' => image,
         'score' => s,
         'name' => k,
-        'desc' => @world.top_idf(k)[0,5].map {|n| world.name(n)}
+        'desc' => deck_desc(k)
       }
+    }
+    {
+      'query' => ['search_by_card', card_no],
+      'result' => ary
     }
   end
 
@@ -90,6 +103,10 @@ class Masaki
       Integer(str, 10) rescue nil
     end
   end
+
+  def deck_desc(code)
+    @world.top_idf(code)[0,5].map {|n| world.name(n)}
+  end
 end
 
 class MasakiWorld
@@ -106,17 +123,15 @@ class MasakiWorld
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
-    recent_name = []
+    @recent = []
     @kvs = MasakiPG::KVS.new('deck')
     @kvs.each do |k, v|
-      recent_name << k
+      @recent << k
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
     @deck_tmp = {}
     make_index
-    
-    @recent = recent_name.map {|k| [k, top_idf(k)[0,5].map {|n| self.name(n)}]}
   end
   attr_reader :deck, :idf, :norm, :recent
 
@@ -299,6 +314,7 @@ class MasakiWorld
   def search_by_name(card_id, n=5)
     req = name_to_vector([card_id])
     norm = vec_to_norm(req)
+    return [] if norm == 0
     ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
 
     score = []

@@ -81,6 +81,9 @@
   <div class="row justify-content-center m-2">
     <p>Twitterなどに投稿されたデッキを解析してリサーチ。第一弾は似ているデッキを探します。</p>
   </div>
+  <div class="row justify-content-center m-2">
+    <span class="lead" id="deckquery"></span>
+  </div>
   <div id="deckresult" class="accordion" role="tablist" aria-multiselectable="true">
   </div>
 </div>
@@ -126,6 +129,7 @@
 </body>
 <script>
 var update_text = document.querySelector('#update');
+var deck_query_text = document.querySelector('#deckquery');
 
 function insert_item(n, item) {
   var pivot = document.querySelector('#deckresult');
@@ -162,8 +166,16 @@ function apply_state(state) {
   while( pivot.firstChild ){
     pivot.removeChild( pivot.firstChild );
   }
-  for(item in state) {
-    insert_item(item, state[item]);
+  if (state.query[0] == 'search_by_deck') {
+    deck_query_text.textContent = state.query[1] + " に似ているデッキ";
+  } else if (state.query[0] == 'search_by_name') {
+    deck_query_text.textContent = state.query[1] + " を使用するデッキ";
+  } else {
+    deck_query_text.textContent = "カード番号 " + state.query[1] + " を使用するデッキ";
+  }
+  result = state.result;
+  for(item in result) {
+    insert_item(item, result[item]);
   }
 }
 
@@ -226,6 +238,7 @@ function call_set_deck_code(name) {
 function call_api() {
   call_set_deck_code(update_text.value);
   update_text.value = "";
+  deck_query_text.textContent = "";
 }
 
 function move_to(me) {
