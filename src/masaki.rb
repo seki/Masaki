@@ -130,6 +130,9 @@ class MasakiWorld
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
+    pp @recent
+    pp ['deck.size', deck.size]
+
     @deck_tmp = {}
     make_index
   end
