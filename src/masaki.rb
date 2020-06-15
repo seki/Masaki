@@ -123,15 +123,14 @@ class MasakiWorld
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
-    @recent = []
     @kvs = MasakiPG::KVS.new('deck')
     @kvs.each do |k, v|
-      @recent << k
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
+    pp ['deck.size', @deck.size]
+    @recent = @deck.keys.last(10)
     pp @recent
-    pp ['deck.size', deck.size]
 
     @deck_tmp = {}
     make_index
