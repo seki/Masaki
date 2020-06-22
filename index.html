@@ -108,19 +108,24 @@
     </div>
     <div class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#deckresult">
       <div class="row">
-        <div class="col-10 record">
+        <div class="col-sm-10 record">
           <figure><img loading="lazy" class="img-fluid img-thumbnail" onclick="move_to(this);"/></figure>
         </div>
-        <div class="col-2 row-op">
+        <div class="col-sm-2 row-op">
           <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
         </div>
       </div>
+      <div class="row my-diff"></div>
     </div>
   </div>
 </template>
 
 <template id="recent-item">
   <button type="button" class="list-group-item list-group-item-action" onclick="move_to(this);"></button>
+</template>
+
+<template id="card-item">
+  <div class="col-sm-4"><a target="_blank" rel="noopener noreferrer"><span class="text-secondary"></span></a></div>
 </template>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -140,6 +145,7 @@ function insert_item(n, item) {
   var a = clone.querySelector("a");
   var a2 = clone.querySelector("div.collapse a");
   var span = clone.querySelector("span")
+  let my_row = clone.querySelector(".my-diff");
   clone.querySelector("div.card-header").id = 'head-' + item['name'];
   card.id = 'collapse-' + item['name'];
   card.setAttribute('aria-labelledby', 'head-' + item['name']);
@@ -158,8 +164,56 @@ function insert_item(n, item) {
   newone = clone.querySelector("figure img");
   newone.dataset['name'] = item['name'];
 
+  if (n == 0) {
+    for(i in item['diff']) {
+      insert_card(my_row, item['diff'][i]);
+    }
+  } else {
+    for(i in item['diff']) {
+      insert_card_diff(my_row, item['diff'][i]);
+    }
+  }
+
   pivot.appendChild(clone);
 }
+
+function insert_card(my_row, card) {
+  const template = document.querySelector('#card-item');
+  let clone = document.importNode(template.content, true);
+  let a = clone.querySelector("a");
+  let span = clone.querySelector("span");
+  console.log(card);
+  a.href = card[1];
+  span.textContent = card[0] + " " + card[2];
+  my_row.appendChild(clone);
+}
+
+function insert_card_diff(my_row, card) {
+  if (card[2] == card[3]) {
+    return;
+  }
+
+  const template = document.querySelector('#card-item');
+  let clone = document.importNode(template.content, true);
+  let a = clone.querySelector("a");
+  let span = clone.querySelector("span");
+  let div = clone.querySelector("div");
+  console.log(card);
+  a.href = card[1];
+  span.textContent = card[0] + " " + card[2] + " → " + card[3];
+  if (card[3] == 0) {
+    div.classList.add("table-danger");
+  } else if (card[2] == 0) {
+    div.classList.add("table-primary");
+  } else if (card[2] < card[3]) {
+    div.classList.add("table-success");
+
+  } else {
+    div.classList.add("table-warning");
+  }
+  my_row.appendChild(clone);
+}
+
 
 function apply_state(state) {
   var pivot = document.querySelector('#deckresult');

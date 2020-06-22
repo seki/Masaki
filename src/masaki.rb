@@ -310,6 +310,9 @@ class MasakiWorld
       score << [c, b]
     end
     top = score.sort.reverse
+    if top[0][1] != name
+      top.unshift([1.0, name])
+    end
     top[0,n]
   end
 
