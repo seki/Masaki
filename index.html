@@ -189,10 +189,6 @@ function insert_card(my_row, card) {
 }
 
 function insert_card_diff(my_row, card) {
-  /* if (card[2] == card[3]) {
-    return;
-  }*/
-
   const template = document.querySelector('#card-item');
   let clone = document.importNode(template.content, true);
   let a = clone.querySelector("a");
@@ -200,7 +196,14 @@ function insert_card_diff(my_row, card) {
   let div = clone.querySelector("div");
   console.log(card);
   a.href = card[1];
-  span.textContent = card[0] + " " + card[2] + " → " + card[3];
+
+  if (card[2] == card[3]) {
+    span.textContent = card[0] + " " + card[2];
+
+  } else {
+    span.textContent = card[0] + " " + card[2] + " → " + card[3];
+  }
+
   if (card[3] == 0) {
     div.classList.add("table-danger");
   } else if (card[2] == 0) {
