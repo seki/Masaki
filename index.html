@@ -107,12 +107,15 @@
       </a>
     </div>
     <div class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#deckresult">
-      <div class="row">
+      <div class="row justify-content-center my-3">
         <div class="col-sm-10 record">
           <figure><img loading="lazy" class="img-fluid img-thumbnail" onclick="move_to(this);"/></figure>
         </div>
-        <div class="col-sm-2 row-op">
-          <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+        <div class="col-sm-3">
+          <a class="my-glasses" onclick="move_to(this);" href="#"><i class="fas fa-glasses text-danger"></i></a>このデッキを中心に
+        </div>
+        <div class="col-sm-3 row-op">
+          <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>公式サイトで見る
         </div>
       </div>
       <div class="row my-diff"></div>
@@ -143,7 +146,7 @@ function insert_item(n, item) {
   var card = clone.querySelector("div.collapse");
   var img = clone.querySelector("img");
   var a = clone.querySelector("a");
-  var a2 = clone.querySelector("div.collapse a");
+  var a2 = clone.querySelector("div.row-op a");
   var span = clone.querySelector("span")
   let my_row = clone.querySelector(".my-diff");
   clone.querySelector("div.card-header").id = 'head-' + item['name'];
@@ -163,6 +166,9 @@ function insert_item(n, item) {
 
   newone = clone.querySelector("figure img");
   newone.dataset['name'] = item['name'];
+
+  more = clone.querySelector(".my-glasses");
+  more.dataset['name'] = item['name'];
 
   if (n == 0) {
     for(i in item['diff']) {
