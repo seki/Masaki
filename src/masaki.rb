@@ -287,6 +287,14 @@ class MasakiWorld
         ia += 1
       end
     end
+    while a[ia]
+      left[a[ia][0]] = [a[ia][1], 0]
+      ia += 1
+    end
+    while b[ib]
+      right[b[ib][0]] = [0, b[ib][1]]
+      ib += 1
+    end
     return [left, same, right].map {|hash|
       hash.sort_by {|a, b| [b[1] <=> b[0], -@idf[a]]}.map {|k, n| [name(k), k, n]}
     }.inject([]) {|a, b| a + b}

@@ -189,9 +189,9 @@ function insert_card(my_row, card) {
 }
 
 function insert_card_diff(my_row, card) {
-  if (card[2] == card[3]) {
+  /* if (card[2] == card[3]) {
     return;
-  }
+  }*/
 
   const template = document.querySelector('#card-item');
   let clone = document.importNode(template.content, true);
@@ -207,8 +207,7 @@ function insert_card_diff(my_row, card) {
     div.classList.add("table-primary");
   } else if (card[2] < card[3]) {
     div.classList.add("table-success");
-
-  } else {
+  } else if (card[2] > card[3]) {
     div.classList.add("table-warning");
   }
   my_row.appendChild(clone);
