@@ -296,7 +296,7 @@ class MasakiWorld
       ib += 1
     end
     return [left, same, right].map {|hash|
-      hash.sort_by {|a, b| [b[1] <=> b[0], -@idf[a]]}.map {|k, n| [name(k), k, n]}
+      hash.sort_by {|a, b| [b[1] <=> b[0], -@idf[a]]}.map {|k, n| k = @id_latest[k]; [name(k), k, n]}
     }.inject([]) {|a, b| a + b}
   end
 
