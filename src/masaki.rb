@@ -128,14 +128,12 @@ class MasakiWorld
       @deck[k] = re_normalize(JSON.parse(v))
     end
 
-    pp ['deck.size', @deck.size]
     @recent = @deck.keys.last(10)
-    pp @recent
 
     @deck_tmp = {}
     make_index
   end
-  attr_reader :deck, :idf, :norm, :recent
+  attr_reader :deck, :idf, :norm, :recent, :id_latest
 
   def re_normalize(v)
     v = v.map {|card_id, n| [@id_norm[card_id], n]}.sort

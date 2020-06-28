@@ -1,9 +1,11 @@
 require_relative '../src/card-detail'
+require_relative '../src/masaki'
 
 if __FILE__ == $0
   detail = CardDetail.new
-  xy = JSON.parse(File.read('../data/uniq_energy_trainer_xy.txt'))
-  latest = Hash[JSON.parse(File.read('../data/derived_latest.txt'))]
+  world = MasakiWorld.new
+  xy = JSON.parse(File.read('data/uniq_energy_trainer_xy.txt'))
+  latest = world.id_latest
   ary = []
   xy.each do |k, v|
     next if Integer === v
