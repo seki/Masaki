@@ -85,7 +85,8 @@ server.mount_proc('/api') {|req, res|
 }
 
 server.mount_proc('/') {|req, res|
-  res.body = File.read('index.html')
+  # res.body = File.read('index.html')
+  res.body = $masaki.do_get(req, res)
 }
 
 trap(:INT){exit!}

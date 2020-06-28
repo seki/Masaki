@@ -1,13 +1,20 @@
 require_relative 'masaki-pg'
 require_relative 'deck-detail'
+require_relative 'erbm'
 require 'json'
 
 class Masaki
+  View = ERBMethod.new(self, "to_html(req, res)", 'index.html')
   def initialize
     @world = MasakiWorld.new
     @recent = @world.recent.map {|k| [k, deck_desc(k)]}
   end
   attr_reader :world
+
+  def do_get(req, res)
+    View.reload
+    to_html(req, res)
+  end
 
   def do_api(req, res, post)
     case post['method']

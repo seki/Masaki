@@ -308,6 +308,9 @@ function move_to(me) {
   call_set_deck_code(me.dataset['name']);
 }
 
+/* 
 call_set_recent();
+*/
+apply_recent(<%= do_recent_api(req, res, nil).to_json %>);
 </script>
 </html>
