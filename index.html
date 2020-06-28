@@ -107,7 +107,7 @@
       </a>
     </div>
     <div class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#deckresult">
-      <div class="row justify-content-center my-3">
+      <div class="row justify-content-center my-3 px-3">
         <div class="col-sm-10 record">
           <figure><img loading="lazy" class="img-fluid img-thumbnail" onclick="move_to(this);"/></figure>
         </div>
@@ -118,7 +118,7 @@
           <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>公式サイトで見る
         </div>
       </div>
-      <div class="row my-diff"></div>
+      <div class="row my-diff p-3"></div>
     </div>
   </div>
 </template>
@@ -136,18 +136,18 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 <script>
-var update_text = document.querySelector('#update');
-var deck_query_text = document.querySelector('#deckquery');
+const update_text = document.querySelector('#update');
+const deck_query_text = document.querySelector('#deckquery');
 
 function insert_item(n, item) {
-  var pivot = document.querySelector('#deckresult');
-  var template = document.querySelector('#deckrow');
-  var clone = document.importNode(template.content, true);
-  var card = clone.querySelector("div.collapse");
-  var img = clone.querySelector("img");
-  var a = clone.querySelector("a");
-  var a2 = clone.querySelector("div.row-op a");
-  var span = clone.querySelector("span")
+  let pivot = document.querySelector('#deckresult');
+  let template = document.querySelector('#deckrow');
+  let clone = document.importNode(template.content, true);
+  let card = clone.querySelector("div.collapse");
+  let img = clone.querySelector("img");
+  let a = clone.querySelector("a");
+  let a2 = clone.querySelector("div.row-op a");
+  let span = clone.querySelector("span")
   let my_row = clone.querySelector(".my-diff");
   clone.querySelector("div.card-header").id = 'head-' + item['name'];
   card.id = 'collapse-' + item['name'];
@@ -224,7 +224,7 @@ function insert_card_diff(my_row, card) {
 
 
 function apply_state(state) {
-  var pivot = document.querySelector('#deckresult');
+  let pivot = document.querySelector('#deckresult');
   while( pivot.firstChild ){
     pivot.removeChild( pivot.firstChild );
   }
@@ -242,11 +242,11 @@ function apply_state(state) {
 }
 
 function insert_recent(item) {
-  var list = document.querySelector('#recent-list');
-  var template = document.querySelector('#recent-item');
-  var clone = document.importNode(template.content, true);
+  let list = document.querySelector('#recent-list');
+  let template = document.querySelector('#recent-item');
+  let clone = document.importNode(template.content, true);
 
-  var newone = clone.querySelector("button");
+  let newone = clone.querySelector("button");
   newone.textContent = [item[0], item[1].join(" ")].join(" - ");
   newone.dataset['name'] = item[0];
 
@@ -312,5 +312,11 @@ function move_to(me) {
 call_set_recent();
 */
 apply_recent(<%= do_recent_api(req, res, nil).to_json %>);
+<%
+  deck = DeckDetail::guess_deck_name(req.path_info)
+  if deck
+%>apply_state(<%= do_search_api(req, res, {'search' => deck}).to_json %>);<%
+  end 
+%>
 </script>
 </html>
