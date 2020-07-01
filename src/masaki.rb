@@ -33,15 +33,16 @@ class Masaki
 
   def do_search_api(req, res, post)
     str = post["search"]
+    filter = post["filter"] ? true : false
     name = DeckDetail::guess_deck_name(str)
-    return search(name, 5) if name
+    return search(name, filter, 5) if name
     card_id = guess_card_id(str)
-    return search_by_card(card_id) if card_id
-    search_by_name(str)
+    return search_by_card(card_id, filter) if card_id
+    search_by_name(str, filter)
   end
 
-  def search(deck, n=5)
-    ary = @world.search_by_deck(deck, n).map {|s, k|
+  def search(deck, filter, n=5)
+    ary = @world.search_by_deck(deck, filter, n).map {|s, k|
       diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
       link, image =  DeckDetail::make_url(k)
       {
@@ -59,8 +60,8 @@ class Masaki
     }
   end
 
-  def search_by_name(name, n=10)
-    ary = @world.search_by_name(name, n).map {|s, k|
+  def search_by_name(name, filter, n=10)
+    ary = @world.search_by_name(name, filter, n).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
@@ -76,8 +77,8 @@ class Masaki
     }
   end
 
-  def search_by_card(card_no, n=10)
-    ary = @world.search_by_card(card_no, n).map {|s, k|
+  def search_by_card(card_no, filter, n=10)
+    ary = @world.search_by_card(card_no, filter, n).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
@@ -139,8 +140,13 @@ class MasakiWorld
 
     @deck_tmp = {}
     make_index
+    make_filter
   end
   attr_reader :deck, :idf, :norm, :recent, :id_latest
+
+  def make_filter
+    @ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
+  end
 
   def re_normalize(v)
     v = v.map {|card_id, n| [@id_norm[card_id], n]}.sort
@@ -305,19 +311,17 @@ class MasakiWorld
     }.inject([]) {|a, b| a + b}
   end
 
-  def search(name, n=5)
-    search_by_deck(name, n)
+  def search(name, filter, n=5)
+    search_by_deck(name, filter, n)
   end
 
-  def search_by_deck(name, n=5)
+  def search_by_deck(name, filter, n=5)
     v = add(name)
-
-    ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
 
     score = []
     @deck.keys.each do |b|
       # next if name == b
-      next if dot(@deck[b], ignore) > 0
+      next if filter && dot(@deck[b], @ignore) > 0
       c = dot(v, @deck[b]) / (@norm[name] * @norm[b]) # cos
       next if c == 0
       score << [c, b]
@@ -329,15 +333,14 @@ class MasakiWorld
     top[0,n]
   end
 
-  def search_by_name(card_id, n=5)
+  def search_by_name(card_id, filter, n=5)
     req = name_to_vector([card_id])
     norm = vec_to_norm(req)
     return [] if norm == 0
-    ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
 
     score = []
     @deck.keys.each do |b|
-      next if dot(@deck[b], ignore) > 0
+      next if filter && dot(@deck[b], @ignore) > 0
       c = dot(req, @deck[b]) / (norm * @norm[b]) # cos
       next if c == 0
       score << [c, b]
@@ -346,15 +349,14 @@ class MasakiWorld
     top[0,n]
   end
 
-  def search_by_card(card_id, n=5)
+  def search_by_card(card_id, filter, n=5)
     req = [[@id_norm[card_id], 1]]
     p [card_id, req]
     norm = vec_to_norm(req)
-    ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
 
     score = []
     @deck.keys.each do |b|
-      next if dot(@deck[b], ignore) > 0
+      next if filter && dot(@deck[b], @ignore) > 0
       c = dot(req, @deck[b]) / (norm * @norm[b]) # cos
       next if c == 0
       score << [c, b]

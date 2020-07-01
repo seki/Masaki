@@ -75,7 +75,7 @@
 </div>
 
 <div class="container">
-  <div class="row justify-content-center m-2 input-group">
+  <div class="row justify-content-center m-2">
     <large>
       <div class="input-group">
         <input type="deck" class="form-control" placeholder="デッキコード カード名 番号" onchange="call_api()"
@@ -83,6 +83,10 @@
         <div class="input-group-append">
           <button class="btn btn-secondary" type="button">検索</button>
         </div>
+      </div>
+      <div class="text-muted custom-control custom-checkbox">
+        <input class="custom-control-input" type="checkbox" checked value="filter-standard" id="filter-standard">
+        <label class="custom-control-label" for="filter-standard">スタンダードのみ（ハイボ グズマ テテフ等を使うデッキを隠す）</label>
       </div>
     </large>
   </div>
@@ -146,6 +150,7 @@
 <script>
 const update_text = document.querySelector('#update');
 const deck_query_text = document.querySelector('#deckquery');
+const filter_checkbox = document.querySelector('#filter-standard');
 
 function insert_item(n, item) {
   let pivot = document.querySelector('#deckresult');
@@ -170,7 +175,6 @@ function insert_item(n, item) {
   img.src = item['image'];
   a2.href = item['link'];
   span.textContent = item['score'].toFixed(3) + " " + item["name"] + " - " + item['desc'].join(" ");
-  console.log(item['diff']);
 
   newone = clone.querySelector("figure img");
   newone.dataset['name'] = item['name'];
@@ -196,7 +200,6 @@ function insert_card(my_row, card) {
   let clone = document.importNode(template.content, true);
   let a = clone.querySelector("a");
   let span = clone.querySelector("span");
-  console.log(card);
   a.href = card[1];
   span.textContent = card[0] + " " + card[2];
   my_row.appendChild(clone);
@@ -208,7 +211,6 @@ function insert_card_diff(my_row, card) {
   let a = clone.querySelector("a");
   let span = clone.querySelector("span");
   let div = clone.querySelector("div");
-  console.log(card);
   a.href = card[1];
 
   if (card[2] == card[3]) {
@@ -287,9 +289,11 @@ function call_set_recent() {
 
 function call_set_deck_code(name) {
   url = '/api';
+  console.log(filter_checkbox.checked);
 
   data = {
     method: "search",
+    filter: filter_checkbox.checked,
     search: name
   };
 
