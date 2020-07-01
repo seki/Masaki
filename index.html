@@ -75,8 +75,16 @@
 </div>
 
 <div class="container">
-  <div class="row justify-content-center m-2">
-    <large><input type="deck" placeholder="デッキコード カード名 番号" onchange="call_api()" id="update"/></large>
+  <div class="row justify-content-center m-2 input-group">
+    <large>
+      <div class="input-group">
+        <input type="deck" class="form-control" placeholder="デッキコード カード名 番号" onchange="call_api()"
+        aria-label="検索デッキコード" aria-describedby="basic-addon1" id="update">
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="button">検索</button>
+        </div>
+      </div>
+    </large>
   </div>
   <div class="row justify-content-center m-2">
     <p>Twitterなどに投稿されたデッキを解析してリサーチ。第一弾は似ているデッキを探します。</p>
