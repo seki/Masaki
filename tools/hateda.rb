@@ -1,6 +1,18 @@
 require_relative '../src/card-detail'
 require_relative '../src/masaki'
 
+def last_month(fname='tools/hateda.txt')
+  known = {}
+  File.open(fname) do |fp|
+    while line = fp.gets
+      if /\[(.*)\]\((.*)\)/ =~ line
+        known[$1] = $2
+      end
+    end
+  end
+  known
+end
+
 if __FILE__ == $0
   detail = CardDetail.new
   world = MasakiWorld.new
@@ -13,6 +25,8 @@ if __FILE__ == $0
   end
 
   with_url = true
+  diff = ARGV.shift == '-d'
+  known = diff ? last_month : Hash.new
   head = nil
   ary.sort.each do |group, name, link|
     next if group == "基本エネルギー"
@@ -22,7 +36,7 @@ if __FILE__ == $0
       head = group
     end
     if with_url
-      puts "  * [#{name}](#{url})"
+      puts "  * [#{name}](#{url})" unless known[name]
     else
       puts "  * #{name}"
     end
