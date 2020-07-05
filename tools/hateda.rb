@@ -1,5 +1,5 @@
 require_relative '../src/card-detail'
-require_relative '../src/masaki'
+require_relative '../src/world'
 
 def last_month(fname='tools/hateda.txt')
   known = {}
