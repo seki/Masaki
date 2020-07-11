@@ -7,7 +7,7 @@ require 'json'
 class Masaki
   include ERB::Util
   View = ERBMethod.new(self, "to_html(req, res)", 'index.html')
-  EmbedView = ERBMethod.new(self, "to_embed(req, res, diff)", 'embed.html')
+  EmbedView = ERBMethod.new(self, "to_embed(req, res, left, right, diff)", 'embed.html')
   def initialize
     @world = MasakiWorld.new
     @recent = @world.recent.map {|k| [k, deck_desc(k)]}
@@ -24,8 +24,10 @@ class Masaki
       raise 'c' 
     end
     diff = @world.diff(left, right).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
-    it = to_embed(req, res, diff)
+    it = to_embed(req, res, left, right, diff)
     "document.write(#{it.to_json});"
+  rescue
+    "/* error */"
   end
 
   def do_get(req, res)

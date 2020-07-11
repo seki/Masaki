@@ -1,10 +1,14 @@
-<table><%
+<a target="_blank" rel="noopener noreferrer" href="<%= DeckDetail::make_url(left) %>"><%=h left%></a><%
+if left != right 
+%> → <a target="_blank" rel="noopener noreferrer" href="<%= DeckDetail::make_url(right) %>"><%=h right%></a><%
+end
+%><table><%
 diff.each do |name, url, a, b| 
   if a == b
-    text = "#{name} #{a}"
+    text = "#{a}"
   else
-    text = "#{name} #{a} → #{b}"
+    text = "#{a} → #{b}"
   end
-  %><tr><td><a target="_blank" rel="noopener noreferrer" href="<%= url %>"><%=h text%></a></td></tr><%
+  %><tr><th><a target="_blank" rel="noopener noreferrer" href="<%= url %>"><%=h name%></a></th><td><%=h text %></td></tr><%
 end 
 %></table>
