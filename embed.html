@@ -1,0 +1,10 @@
+<table><%
+diff.each do |name, url, a, b| 
+  if a == b
+    text = "#{name} #{a}"
+  else
+    text = "#{name} #{a} → #{b}"
+  end
+  %><tr><td><a target="_blank" rel="noopener noreferrer" href="<%= url %>"><%=h text%></a></td></tr><%
+end 
+%></table>

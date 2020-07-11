@@ -84,8 +84,17 @@ server.mount_proc('/api') {|req, res|
   res.body = it
 }
 
+server.mount_proc('/e/') {|req, res|
+  begin
+    it = $masaki.do_embed(req, res)
+    res.content_type = "application/json; charset=UTF-8"
+    res.body = it
+  rescue
+    res.body = $masaki.do_get(req, res)
+  end
+}
+
 server.mount_proc('/') {|req, res|
-  # res.body = File.read('index.html')
   res.body = $masaki.do_get(req, res)
 }
 

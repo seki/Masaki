@@ -5,12 +5,28 @@ require_relative 'world'
 require 'json'
 
 class Masaki
+  include ERB::Util
   View = ERBMethod.new(self, "to_html(req, res)", 'index.html')
+  EmbedView = ERBMethod.new(self, "to_embed(req, res, diff)", 'embed.html')
   def initialize
     @world = MasakiWorld.new
     @recent = @world.recent.map {|k| [k, deck_desc(k)]}
   end
   attr_reader :world
+
+  def do_embed(req, res)
+    if /\/(\w{6}\-\w{6}\-\w{6})\.js\Z/ =~ req.path_info
+      left = right = $1
+    elsif /\/(\w{6}\-\w{6}\-\w{6})_(\w{6}\-\w{6}\-\w{6})\.js\Z/ =~ req.path_info
+      left = $1
+      right = $2
+    else
+      raise 'c' 
+    end
+    diff = @world.diff(left, right).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
+    it = to_embed(req, res, diff)
+    "document.write(#{it.to_json});"
+  end
 
   def do_get(req, res)
     View.reload
