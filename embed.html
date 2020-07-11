@@ -1,6 +1,6 @@
-<a target="_blank" rel="noopener noreferrer" href="<%= DeckDetail::make_url(left) %>"><%=h left%></a><%
+<a target="_blank" rel="noopener noreferrer" href="<%= DeckDetail::make_url(left)[0] %>"><%=h left%></a><%
 if left != right 
-%> → <a target="_blank" rel="noopener noreferrer" href="<%= DeckDetail::make_url(right) %>"><%=h right%></a><%
+%> → <a target="_blank" rel="noopener noreferrer" href="<%= DeckDetail::make_url(right)[0] %>"><%=h right%></a><%
 end
 %><table><%
 diff.each do |name, url, a, b| 
