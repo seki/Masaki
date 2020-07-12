@@ -161,8 +161,8 @@ class MasakiWorld
   end
 
   def diff(a, b)
-    a = @deck[a] || @deck_tmp[a]
-    b = @deck[b] || @deck_tmp[b]
+    a = add(a)
+    b = add(b)
     left = {}
     right = {}
     same = {}
