@@ -131,6 +131,22 @@
         </div>
       </div>
       <div class="row my-diff p-3"></div>
+      <div class="row my-3 px-3 justify-content-center my-emb">
+
+        <div class="col-6">
+          <div class="file-navigation-option v-align-middle">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">embed</span>
+              </div>
+              <input type="text" data-autoselect="" class="form-control input-monospace input-sm" value="<script src=&quot;https://gist.github.com/seki/9a7cda3e189e888ce4bfb07eeb36211e.js&quot;></script>" aria-label="Clone this repository at <script src=&quot;https://gist.github.com/seki/9a7cda3e189e888ce4bfb07eeb36211e.js&quot;></script>" readonly>
+              <div class="input-group-append">
+                <button class="input-group-btn" onclick="copyEmbedUrl(this);"><i class="far fa-clipboard"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -152,7 +168,22 @@ const update_text = document.querySelector('#update');
 const deck_query_text = document.querySelector('#deckquery');
 const filter_checkbox = document.querySelector('#filter-standard');
 
-function insert_item(n, item) {
+function emb_url_js(left, right) {
+  let url = emb_url(left, right);
+  return '<scrip' + 't src="' + url + '"></' + 'script>';
+}
+
+function emb_url(left, right) {
+  if (left == right) {
+    var path = '/e/' + left + '.js'
+  } else {
+    var path = '/e/' + left + '_' + right + '.js'
+  }
+  return new URL(path, location.protocol + '//' + location.host + location.pathname).href;
+}
+
+function insert_item(state, n) {
+  let item = state.result[n];
   let pivot = document.querySelector('#deckresult');
   let template = document.querySelector('#deckrow');
   let clone = document.importNode(template.content, true);
@@ -162,6 +193,8 @@ function insert_item(n, item) {
   let a2 = clone.querySelector("div.row-op a");
   let span = clone.querySelector("span")
   let my_row = clone.querySelector(".my-diff");
+  let my_emb = clone.querySelector(".my-emb");
+  let my_emb_input = clone.querySelector(".my-emb input");
   clone.querySelector("div.card-header").id = 'head-' + item['name'];
   card.id = 'collapse-' + item['name'];
   card.setAttribute('aria-labelledby', 'head-' + item['name']);
@@ -182,14 +215,20 @@ function insert_item(n, item) {
   more = clone.querySelector(".my-glasses");
   more.dataset['name'] = item['name'];
 
-  if (n == 0) {
-    for(i in item['diff']) {
-      insert_card(my_row, item['diff'][i]);
+  if (state.query[0] == 'search_by_deck') {
+    if (n == 0) {
+      my_emb_input.value = emb_url_js(state.query[1], state.query[1]);
+      for(i in item['diff']) {
+        insert_card(my_row, item['diff'][i]);
+      }
+    } else {
+      my_emb_input.value = emb_url_js(state.query[1], item['name']);
+      for(i in item['diff']) {
+        insert_card_diff(my_row, item['diff'][i]);
+      }
     }
   } else {
-    for(i in item['diff']) {
-      insert_card_diff(my_row, item['diff'][i]);
-    }
+    my_emb.classList.add('d-none');
   }
 
   pivot.appendChild(clone);
@@ -247,7 +286,7 @@ function apply_state(state) {
   }
   result = state.result;
   for(item in result) {
-    insert_item(item, result[item]);
+    insert_item(state, item);
   }
 }
 
@@ -316,8 +355,13 @@ function call_api() {
 }
 
 function move_to(me) {
-  console.log(me.dataset['name']);
   call_set_deck_code(me.dataset['name']);
+}
+
+function copyEmbedUrl(me) {
+  let text = me.parentNode.parentNode.querySelector('input')
+  text.select();
+  document.execCommand("Copy");
 }
 
 /* 
