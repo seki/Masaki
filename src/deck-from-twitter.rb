@@ -25,7 +25,7 @@ class Twitter
       result_type: 'mixed',
       count:       200,
     }.merge(opt)
-    tweets = @twitter.search("ポケモンカードゲーム公式ホームページ デッキ", params)['statuses']
+    tweets = @twitter.search("pokemon-card.com deck", params)['statuses']
     max_id = tweets[-1]['id']
     decks = extract_decks(tweets)
     decks.each {|u|
