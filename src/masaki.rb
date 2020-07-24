@@ -15,17 +15,31 @@ class Masaki
   attr_reader :world
 
   def do_embed(req, res)
-    if /\/(\w{6}\-\w{6}\-\w{6})\.js\Z/ =~ req.path_info
+    if /\/(\w{6}\-\w{6}\-\w{6})\.(js|html)\Z/ =~ req.path_info
       left = right = $1
-    elsif /\/(\w{6}\-\w{6}\-\w{6})_(\w{6}\-\w{6}\-\w{6})\.js\Z/ =~ req.path_info
+      ext = $2
+    elsif /\/(\w{6}\-\w{6}\-\w{6})_(\w{6}\-\w{6}\-\w{6})\.(js|html)\Z/ =~ req.path_info
       left = $1
       right = $2
+      ext = $3
     else
       raise 'c' 
     end
     diff = @world.diff(left, right).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
     it = to_embed(req, res, left, right, diff)
-    "document.write(#{it.to_json});"
+    if ext == "html"
+      %Q(<!DOCTYPE html>
+      <html lang="ja">
+        <head>
+          <meta charset="utf-8">
+        </head>
+        <body>
+          #{it}
+        </body>
+      </html>)
+    else
+      return "document.write(#{it.to_json});", "application/javascript; charset=UTF-8"
+    end
   rescue
     "/* error */"
   end

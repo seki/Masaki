@@ -86,8 +86,8 @@ server.mount_proc('/api') {|req, res|
 
 server.mount_proc('/e/') {|req, res|
   begin
-    it = $masaki.do_embed(req, res)
-    res.content_type = "application/json; charset=UTF-8"
+    it, type = $masaki.do_embed(req, res)
+    res.content_type = type if type
     res.body = it
   rescue
     res.body = $masaki.do_get(req, res)
