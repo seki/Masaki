@@ -53,15 +53,16 @@ class Masaki
   def do_search_api(req, res, post)
     str = post["search"]
     filter = post["filter"] ? true : false
+    add_deck = post["add"] ? true : false
     name = DeckDetail::guess_deck_name(str)
-    return search(name, filter, 5) if name
+    return search(name, filter, 5, add_deck) if name
     card_id = guess_card_id(str)
     return search_by_card(card_id, filter) if card_id
     search_by_name(str, filter)
   end
 
-  def search(deck, filter, n=5)
-    ary = @world.search_by_deck(deck, filter, n).map {|s, k|
+  def search(deck, filter, n, add_deck)
+    ary = @world.search_by_deck(deck, filter, n, add_deck).map {|s, k|
       diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
       link, image =  DeckDetail::make_url(k)
       {

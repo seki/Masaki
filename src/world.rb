@@ -200,8 +200,8 @@ class MasakiWorld
     search_by_deck(name, filter, n)
   end
 
-  def search_by_deck(name, filter, n=5)
-    v = add(name)
+  def search_by_deck(name, filter, n, add_deck=false)
+    v = add(name, add_deck)
 
     score = []
     @deck.keys.each do |b|
@@ -251,7 +251,12 @@ class MasakiWorld
   end
 
   def add(name, save=false)
-    v = @deck[name] || @deck_tmp[name]
+    if save
+      v = @deck[name]
+    else
+      v = @deck[name] || @deck_tmp[name]
+    end
+    p [:save, save, v.nil?]
     return v if v
 
     src = DeckDetail.fetch_deck_page(name)

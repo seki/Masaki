@@ -88,6 +88,10 @@
         <input class="custom-control-input" type="checkbox" checked value="filter-standard" id="filter-standard">
         <label class="custom-control-label" for="filter-standard">スタンダードのみ（ハイボ グズマ テテフ等を使うデッキを隠す）</label>
       </div>
+      <div class="text-muted custom-control custom-checkbox">
+        <input class="custom-control-input" type="checkbox" value="add-deck" id="add-deck">
+        <label class="custom-control-label" for="add-deck"">デッキコードを検索対象に追加する</label>
+      </div>
     </large>
   </div>
   <div class="row justify-content-center m-2">
@@ -167,6 +171,8 @@
 const update_text = document.querySelector('#update');
 const deck_query_text = document.querySelector('#deckquery');
 const filter_checkbox = document.querySelector('#filter-standard');
+const add_deck_checkbox = document.querySelector('#add-deck');
+
 
 function emb_url_js(left, right) {
   let url = emb_url(left, right);
@@ -333,6 +339,7 @@ function call_set_deck_code(name) {
   data = {
     method: "search",
     filter: filter_checkbox.checked,
+    add: add_deck_checkbox.checked,
     search: name
   };
 
