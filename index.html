@@ -362,7 +362,7 @@ function call_api() {
 }
 
 function move_to(me) {
-  call_set_deck_code(me.dataset['name']);
+  window.location.href = '/' + me.dataset['name'];
 }
 
 function copyEmbedUrl(me) {
