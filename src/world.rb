@@ -256,7 +256,6 @@ class MasakiWorld
     else
       v = @deck[name] || @deck_tmp[name]
     end
-    p [:save, save, v.nil?]
     return v if v
 
     src = DeckDetail.fetch_deck_page(name)
