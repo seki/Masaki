@@ -1,6 +1,7 @@
 require "pg"
 require "monitor"
 require "pp"
+require_relative "masaki-s3"
 
 class MasakiPG
   include MonitorMixin
@@ -57,7 +58,7 @@ class MasakiPG
 
   class KVS
     def self.frozen(name)
-      JSON.parse(MasakiPG::KVS.new('world')[name]) rescue {}
+      JSON.parse(MasakiS3::KVS.new[name]) rescue {}
     end
   end
 
@@ -177,15 +178,12 @@ EOB
       @conn.transaction do |conn|
         it = conn.exec_params("select * from #{table}")
         hash = Hash[it.map{|x| [x['id'], x['value']]}]
-        world = conn.exec_params("select * from world where id=$1", [table])
-        last = JSON.parse(world.to_a.dig(0, 'value')) rescue {}
+
+        world = MasakiS3::KVS.new
+        last = JSON.parse(world[table]) rescue {}
         last.update(hash)
-        store_sql = <<EOB
-insert into world (id, value) values ($1, $2)
-ON CONFLICT ON CONSTRAINT world_pkey do update set
-  value = $2
-EOB
-        conn.exec_params(store_sql, [table, last.to_json])
+        world[table] = last.to_json
+
         hash.each do |k, v|
           delete_sql = "delete from #{table} where id=$1"
           conn.exec_params(delete_sql, [k])
