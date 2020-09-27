@@ -1,6 +1,20 @@
 require 'aws-sdk-s3'
 
-class MasakiS3  
+class MasakiS3
+  class KVS
+    def initialize
+      @s3 = MasakiS3.new
+    end
+
+    def [](key)
+      @s3.get_object(key).body.read
+    end
+
+    def []=(key, value)
+      @s3.put_object(key, value)
+    end
+  end
+
   def initialize
     credentials = Aws::Credentials.new(ENV['S3_ACCESS_KEY_ID'], ENV['S3_SECRET_ACCESS_KEY'])
     region = ENV['S3_REGION'] || 'us-west-2'
@@ -37,5 +51,7 @@ if __FILE__ == $0
   require_relative 'masaki-pg'
 
   deck = MasakiPG::KVS.new('world')['deck']
-  MasakiS3.new.put_object('deck', deck)
+  world = MasakiS3::KVS.new
+  puts world['deck']
+  # pp JSON.parse(world['deck']).size
 end
