@@ -3,50 +3,52 @@ require 'json'
 require 'open-uri'
 require 'jwt'
 require_relative 'src/masaki'
+require 'net/http'
 
-class Auth0App
-  def initialize(conf)
-    @conf = conf
+class Cognito
+  def initialize
+    @domain = ENV['MASAKI_COGNITO_DOMAIN'] || ENV['COGNITO_DOMAIN']
+    @client_id = ENV['MASAKI_COGNITO_CLIENT_ID'] || ENV['COGNITO_CLIENT_ID']
   end
 
-  def load_jwt_keys
-    body = URI.open("https://#{@conf["domain"]}/.well-known/jwks.json").read
-    @pub_key = {}
-    JSON.parse(body)['keys'].each do |key|
-      @pub_key[key['kid']] = OpenSSL::X509::Certificate.new(
-        Base64.decode64(key['x5c'].first)
-      ).public_key
-    end
+  def login_url(req)
+    redirect = req.request_uri + '/'
+    "#{@domain}/login?response_type=code&client_id=#{@clinet_it}&redirect_uri=#{redirect}"
   end
 
-  def pub_key(kid)
-    unless @pub_key
-      load_jwt_keys
-    end
-    @pub_key[kid]
+  def fetch_user_id(code)
+    token = get_token(code)
+    userinfo(token)
   end
 
-  def do_verify(token)
-    JWT.decode(token, nil, true, 
-      algorithm: 'RS256',
-      iss: "https://#{@conf["domain"]}/",
-      verify_iss: true,
-      aud: @conf['audience'],
-      verify_aud: true
-    ) { |header|
-      pub_key(header['kid'])
+  def userinfo(token)
+    access_token = token['access_token']
+    return nil unless access_token
+  
+    uri = URI.parse(@domain + "/oauth2/userInfo")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = uri.scheme === "https"
+  
+    header = { "Authorization" => "Bearer #{access_token}" }  
+    response = http.get(uri.path, header)
+  
+    JSON.parse(response.body)
+  end
+  
+  def get_token(code)  
+    uri = URI.parse(@domain + "/oauth2/token")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = uri.scheme === "https"
+    
+    params = {
+       "grant_type" => "authorization_code",
+       "client_id" => @client_id,
+       "code" => code,
+       "redirect_uri" => "http://localhost:8000/"
     }
-  end
-
-  def verify(str)
-    str = str.dig(0)
-    if /\ABearer\s+(.*)\z/ =~ str
-      jwt = do_verify($1).first
-      raise "expired" unless (jwt['iat'] .. jwt['exp']) === Time.now.to_i
-      jwt
-    else
-      raise "invalid"
-    end
+    response = http.post(uri.path, params.map {|k,v| [k,v].join("=")}.join('&'))
+    
+    JSON.parse(response.body)
   end
 end
 
@@ -56,13 +58,7 @@ server = WEBrick::HTTPServer.new({
   :FancyIndexing => false
 })
 
-$auth_config = {
-  "domain" => ENV['AUTH0_DOMAIN'],
-  "clientId" => ENV['AUTH0_CLIENT_ID'],
-  "audience" => ENV['AUTH0_AUDIENCE']
-}
-$auth_config_json = $auth_config.to_json
-# $app = MyApp.new($auth_config)
+$cognito = Cognito.new
 $masaki = Masaki.new
 
 Dir.glob('public/*') do |path|
@@ -95,6 +91,14 @@ server.mount_proc('/e/') {|req, res|
 }
 
 server.mount_proc('/') {|req, res|
+  # pp req
+  code ,= req.query["code"]
+  if code
+    pp $cognito.fetch_user_id(code)
+  end
+
+  puts $cognito.login_url(req)
+
   res.body = $masaki.do_get(req, res)
 }
 

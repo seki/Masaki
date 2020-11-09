@@ -23,6 +23,7 @@ def build_trainer_and_energy(regulation)
   errata = {
     '基本【水】エネルギー' => '基本水エネルギー',
     'ボスの指令（サカキ）' => 'ボスの指令',
+    'ボスの指令（フラダリ）' => 'ボスの指令',
     '博士の研究（マグノリア博士）' => '博士の研究'
   }
   uniq_card_list("energy", regulation, errata) + uniq_card_list("trainer", regulation, errata)  
