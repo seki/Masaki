@@ -20,12 +20,22 @@ def uniq_card_list(kind, regulation, errata={})
 end
 
 def build_trainer_and_energy(regulation)
-  errata = {
-    '基本【水】エネルギー' => '基本水エネルギー',
-    'ボスの指令（サカキ）' => 'ボスの指令',
-    'ボスの指令（フラダリ）' => 'ボスの指令',
-    '博士の研究（マグノリア博士）' => '博士の研究'
-  }
+  errata = Hash.new do |h, k|
+    case(k)
+    when /\Aボスの指令（.*）\Z/
+      "ボスの指令"
+    when /\A博士の研究（.*）\Z/
+      "博士の研究"
+    else
+      k
+    end
+  end
+  errata.update(
+    {
+      '基本【水】エネルギー' => '基本水エネルギー'
+    }
+  )
+
   uniq_card_list("energy", regulation, errata) + uniq_card_list("trainer", regulation, errata)  
 end
 
