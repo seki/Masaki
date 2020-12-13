@@ -49,6 +49,11 @@ def build_pokemon(regulation)
     ary = ParseRawCard.drop_head_pokemon(ary)
     # errata 「GXワザ」があったりなかったりするので、先に削除して正規化する。
     ary = ary.reject {|x| x == "GXワザ"}
+    
+    # errata ヤミラミV SR
+    if pair[1] == 37879 
+      ary.insert(9, '10＋')
+    end
 
     [pair.first, ary, pair.last]
   end
