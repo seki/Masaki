@@ -1,5 +1,6 @@
 require_relative 'ptclist'
 require_relative 'card-detail'
+require 'nkf'
 
 def uniq_card_list(kind, regulation, errata={})
   ary = PTCList.new(kind, regulation).map do |hash|
@@ -54,6 +55,8 @@ def build_pokemon(regulation)
     if pair[1] == 37879 
       ary.insert(9, '10＋')
     end
+
+    ary = ary.map {|x| NKF.nkf('-m0Z1 -W -w', x)}
 
     [pair.first, ary, pair.last]
   end
