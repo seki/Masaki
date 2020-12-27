@@ -24,24 +24,28 @@ class Twitter
       locale:      'ja',
       result_type: 'recent',
       count:       200,
-      tweet_mode:  'extended'
+      tweet_mode: 'extended'
     }.merge(opt)
     tweets = @twitter.search("pokemon-card.com deck", params)['statuses']
     max_id = tweets[-1]['id']
     decks = extract_decks(tweets)
-    decks.each {|u|
-      name = url_to_name(u)
+    decks.each {|name|
       yield(name) if name
     }
 
+    sleep 2
     self.search_decks(num - 1, max_id: max_id, &blk)
   end
 
   def extract_decks(tweets)
     decks = tweets.map do |t|
       if urls = t['entities']['urls']
-        ary = urls.map {|u| u['expanded_url']}.find_all {|x| x.include? "/deckID/"}
-        ary.collect {|x| x.chomp('/')}
+        ary = urls.map {|u| u['expanded_url']}.find_all {|x| x.include?("/deckID/")}
+        ary = ary.collect {|x| url_to_name(x.chomp('/'))}
+        ary.each do |x|
+          MasakiPG::instance.referer_tw_store(t, x)
+        end
+        ary
       else
         []
       end
@@ -51,7 +55,7 @@ class Twitter
 
   def url_to_name(url)
     name = File.basename(url)
-    if /\w{6}-\w{6}-\w{6}\z/ =~ name
+    if /\A\w{6}-\w{6}-\w{6}\z/ =~ name
       name
     else
       nil

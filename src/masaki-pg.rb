@@ -191,6 +191,28 @@ EOB
       end
     end
   end
+
+  def referer_tw_create_table
+    sql =<<EOB
+    create table referer_tw (
+    deck varchar(32)
+    , id_str varchar(32)
+    , visited timestamp
+    , created timestamp
+    , tweet jsonb
+    , primary key(id_str, deck));
+EOB
+  end
+
+  def referer_tw_store(tweet, deck)
+    sql =<<EOB
+    insert into referer_tw (deck, id_str, visited, created, tweet) values ($1, $2, $3, $4, $5)
+    on conflict do nothing
+EOB
+    synchronize do
+      @conn.exec_params(sql, [deck, tweet['id_str'], Time.now, DateTime.parse(tweet['created_at']), tweet.to_json])
+    end  
+  end
 end
 
 if __FILE__ == $0
