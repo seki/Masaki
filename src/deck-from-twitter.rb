@@ -39,7 +39,7 @@ class Twitter
   def extract_decks(tweets)
     decks = tweets.map do |t|
       if urls = t['entities']['urls']
-        ary = urls.map {|u| u['expanded_url']}.find_all {|x| x.include? "pokemon-card.com/deck/confirm.html/deckID"}
+        ary = urls.map {|u| u['expanded_url']}.find_all {|x| x.include? "/deckID/"}
         ary.collect {|x| x.chomp('/')}
       else
         []
