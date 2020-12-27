@@ -24,7 +24,7 @@ class Twitter
       locale:      'ja',
       result_type: 'recent',
       count:       200,
-      tweet_mode: 'extended'
+      tweet_mode:  'extended'
     }.merge(opt)
     tweets = @twitter.search("pokemon-card.com deck", params)['statuses']
     max_id = tweets[-1]['id']
@@ -51,7 +51,7 @@ class Twitter
 
   def url_to_name(url)
     name = File.basename(url)
-    if /\A\w{6}-\w{6}-\w{6}\z/ =~ name
+    if /\w{6}-\w{6}-\w{6}\z/ =~ name
       name
     else
       nil
