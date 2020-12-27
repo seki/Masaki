@@ -16,7 +16,7 @@ class Twitter
     puts "Twitter APIの認証完了"
   end
 
-  def search_decks(num = 10, opt = {}, &blk)
+  def search_decks(num = 5, opt = {}, &blk)
     return if num <= 0
     @twitter or self.auth
     params = {
