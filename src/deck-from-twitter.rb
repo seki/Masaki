@@ -22,8 +22,9 @@ class Twitter
     params = {
       lang:        'ja',
       locale:      'ja',
-      result_type: 'mixed',
+      result_type: 'recent',
       count:       200,
+      tweet_mode: 'extended'
     }.merge(opt)
     tweets = @twitter.search("pokemon-card.com deck", params)['statuses']
     max_id = tweets[-1]['id']
