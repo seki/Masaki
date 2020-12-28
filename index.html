@@ -133,6 +133,9 @@
         <div class="col-sm-3 row-op">
           <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt text-dark"></i> 公式サイトで見る</a>
         </div>
+        <div class="col-sm-3 row-tw">
+          <a target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter text-dark"></i> Tweetを探す</a>
+        </div>
       </div>
       <div class="row my-diff p-3"></div>
       <div class="row my-3 px-3 justify-content-center my-emb">
@@ -197,6 +200,7 @@ function insert_item(state, n) {
   let img = clone.querySelector("img");
   let a = clone.querySelector("a");
   let a2 = clone.querySelector("div.row-op a");
+  let a3 = clone.querySelector("div.row-tw a");
   let span = clone.querySelector("span")
   let my_row = clone.querySelector(".my-diff");
   let my_emb = clone.querySelector(".my-emb");
@@ -213,6 +217,7 @@ function insert_item(state, n) {
   
   img.src = item['image'];
   a2.href = item['link'];
+  a3.href = item['tweet'];
   span.textContent = item['score'].toFixed(3) + " " + item["name"] + " - " + item['desc'].join(" ");
 
   newone = clone.querySelector("figure img");

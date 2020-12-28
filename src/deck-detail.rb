@@ -1,4 +1,5 @@
 require 'open-uri'
+require_relative 'masaki-pg'
 
 module DeckDetail
   module_function
@@ -46,8 +47,11 @@ module DeckDetail
   end
 
   def make_url(key)
-    ["https://www.pokemon-card.com/deck/confirm.html/deckID/#{key}/",
-      "https://www.pokemon-card.com/deck/deckView.php/deckID/#{key}.png"]
+    [
+      "https://www.pokemon-card.com/deck/confirm.html/deckID/#{key}/",
+      "https://www.pokemon-card.com/deck/deckView.php/deckID/#{key}.png",
+      MasakiPG::instance.referer_tw_link(key)
+    ]
   end
 end
 

@@ -213,6 +213,20 @@ EOB
       @conn.exec_params(sql, [deck, tweet['id_str'], Time.now, DateTime.parse(tweet['created_at']), tweet.to_json])
     end  
   end
+
+  def referer_tw_link(deck)
+    sql =<<EOB
+select id_str from referer_tw where deck=$1 order by created limit 1;
+EOB
+    synchronize do
+      id_str = @conn.exec_params(sql, [deck]).to_a.dig(0, 'id_str')
+      if id_str
+        "https://twitter.com/i/web/status/#{id_str}"
+      else
+        "https://twitter.com/search?q=#{deck}"
+      end
+    end  
+  end
 end
 
 if __FILE__ == $0

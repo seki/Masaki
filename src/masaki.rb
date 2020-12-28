@@ -78,9 +78,10 @@ class Masaki
   def search(deck, filter, n, add_deck)
     ary = @world.search_by_deck(deck, filter, n, add_deck).map {|s, k|
       diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
-      link, image =  DeckDetail::make_url(k)
+      link, image, tw =  DeckDetail::make_url(k)
       {
         'link' => link,
+        'tweet' => tw,
         'image' => image,
         'score' => s,
         'name' => k,
@@ -96,9 +97,10 @@ class Masaki
 
   def search_by_name(name, filter, n=10)
     ary = @world.search_by_name(name, filter, n).map {|s, k|
-      link, image =  DeckDetail::make_url(k)
+      link, image, tw =  DeckDetail::make_url(k)
       {
         'link' => link,
+        'tweet' => tw,
         'image' => image,
         'score' => s,
         'name' => k,
@@ -113,9 +115,10 @@ class Masaki
 
   def search_by_card(card_no, filter, n=10)
     ary = @world.search_by_card(card_no, filter, n).map {|s, k|
-      link, image =  DeckDetail::make_url(k)
+      link, image, tw =  DeckDetail::make_url(k)
       {
         'link' => link,
+        'tweet' => tw,
         'image' => image,
         'score' => s,
         'name' => k,
