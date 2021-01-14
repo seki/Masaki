@@ -75,13 +75,22 @@ class Masaki
     search_by_name(str, filter)
   end
 
+  def refer_tw(key)
+    tw = MasakiPG::instance.referer_tw_detail(key)
+    return nil unless tw
+    tw['url'] = "https://twitter.com/#{tw['screen_name']}/status/#{tw['id_str']}"
+    tw['date'] = tw['created'].strftime("%Y年%m月%d日")
+    tw['where'] = "@#{tw['screen_name']}のツイート"
+    tw
+  end
+
   def search(deck, filter, n, add_deck)
     ary = @world.search_by_deck(deck, filter, n, add_deck).map {|s, k|
       diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
-      link, image, tw =  DeckDetail::make_url(k)
+      link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
-        'tweet' => tw,
+        'tweet' => refer_tw(k),
         'image' => image,
         'score' => s,
         'name' => k,
@@ -97,10 +106,10 @@ class Masaki
 
   def search_by_name(name, filter, n=10)
     ary = @world.search_by_name(name, filter, n).map {|s, k|
-      link, image, tw =  DeckDetail::make_url(k)
+      link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
-        'tweet' => tw,
+        'tweet' => refer_tw(k),
         'image' => image,
         'score' => s,
         'name' => k,
@@ -115,10 +124,10 @@ class Masaki
 
   def search_by_card(card_no, filter, n=10)
     ary = @world.search_by_card(card_no, filter, n).map {|s, k|
-      link, image, tw =  DeckDetail::make_url(k)
+      link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
-        'tweet' => tw,
+        'tweet' => refer_tw(k),
         'image' => image,
         'score' => s,
         'name' => k,
