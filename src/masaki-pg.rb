@@ -236,6 +236,15 @@ EOB
       @conn.exec_params(sql, [deck]).to_a.dig(0)
     end  
   end
+
+  def referer_tw_screen_name(screen_name, n=20)
+    sql =<<EOB
+select deck, id_str, created, tweet->'user'->'screen_name' as screen_name from referer_tw where tweet #>> '{user,screen_name}' = $1 order by created desc limit $2;
+EOB
+    synchronize do
+      @conn.exec_params(sql, [screen_name, n]).to_a
+    end  
+  end
 end
 
 if __FILE__ == $0

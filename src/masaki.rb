@@ -70,18 +70,25 @@ class Masaki
     add_deck = post["add"] ? true : false
     name = DeckDetail::guess_deck_name(str)
     return search(name, filter, 5, add_deck) if name
+    screen_name = guess_screen_name(str)
+    pp screen_name
+    return search_by_screen_name(screen_name) if screen_name
     card_id = guess_card_id(str)
     return search_by_card(card_id, filter) if card_id
     search_by_name(str, filter)
   end
 
-  def refer_tw(key)
-    tw = MasakiPG::instance.referer_tw_detail(key)
-    return nil unless tw
+  def prepare_tw(tw)
     tw['url'] = "https://twitter.com/#{tw['screen_name']}/status/#{tw['id_str']}"
     tw['date'] = tw['created'].strftime("%Y年%m月%d日")
     tw['where'] = "@#{tw['screen_name']}のツイート"
     tw
+  end
+
+  def refer_tw(key)
+    tw = MasakiPG::instance.referer_tw_detail(key)
+    return nil unless tw
+    prepare_tw(tw)
   end
 
   def search(deck, filter, n, add_deck)
@@ -140,6 +147,25 @@ class Masaki
     }
   end
 
+  def search_by_screen_name(screen_name, n=10)
+    ary = @world.search_by_screen_name(screen_name, n).map {|tw|
+      k = tw['deck']
+      link, image =  DeckDetail::make_url(k)
+      {
+        'link' => link,
+        'tweet' => prepare_tw(tw),
+        'image' => image,
+        'score' => 1,
+        'name' => k,
+        'desc' => deck_desc(k)
+      }
+    }
+    {
+      'query' => ['search_by_screen_name', screen_name],
+      'result' => ary
+    }
+  end
+
   def add(deck)
     @world.add(deck)
   end
@@ -156,6 +182,14 @@ class Masaki
     else
       Integer(str, 10) rescue nil
     end
+  end
+
+  def guess_screen_name(str)
+    return nil if str.size > 16
+    if /\A@(\w+)\Z/ =~ str
+      return $1
+    end
+    nil
   end
 
   def deck_desc(code)

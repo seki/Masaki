@@ -250,6 +250,10 @@ class MasakiWorld
     top[0,n]
   end
 
+  def search_by_screen_name(screen_name, n=10)
+    MasakiPG::instance.referer_tw_screen_name(screen_name, n)
+  end
+
   def add(name, save=false)
     if save
       v = @deck[name]
