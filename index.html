@@ -302,6 +302,8 @@ function apply_state(state) {
     deck_query_text.textContent = state.query[1] + " に似ているデッキ";
   } else if (state.query[0] == 'search_by_name') {
     deck_query_text.textContent = state.query[1] + " を使用するデッキ";
+  } else if (state.query[0] == 'search_by_screen_name') {
+    deck_query_text.textContent = "@" + state.query[1] + " のツイートしたデッキ";
   } else {
     deck_query_text.textContent = "カード番号 " + state.query[1] + " を使用するデッキ";
   }

@@ -239,7 +239,13 @@ EOB
 
   def referer_tw_screen_name(screen_name, n=20)
     sql =<<EOB
-select deck, id_str, created, tweet->'user'->'screen_name' as screen_name from referer_tw where tweet #>> '{user,screen_name}' = $1 order by created desc limit $2;
+select deck, id_str, created, tweet->'user'->'screen_name' as screen_name from referer_tw as r1
+where
+  tweet #>> '{user,screen_name}' = $1
+and not exists (
+  select 1 from referer_tw as r2 where r1.deck = r2.deck and r1.created > r2.created
+)
+order by created desc limit $2;
 EOB
     synchronize do
       @conn.exec_params(sql, [screen_name, n]).to_a
