@@ -71,7 +71,6 @@ class Masaki
     name = DeckDetail::guess_deck_name(str)
     return search(name, filter, 5, add_deck) if name
     screen_name = guess_screen_name(str)
-    pp screen_name
     return search_by_screen_name(screen_name) if screen_name
     card_id = guess_card_id(str)
     return search_by_card(card_id, filter) if card_id
@@ -186,7 +185,7 @@ class Masaki
 
   def guess_screen_name(str)
     return nil if str.size > 16
-    if /\A@(\w+)\Z/ =~ str
+    if /\A\s*@(\w+)\s*\Z/ =~ str
       return $1
     end
     nil
