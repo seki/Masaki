@@ -178,6 +178,8 @@ class Masaki
       Integer($1, 10) rescue nil
     elsif /card_images\/.*\/(\d+)\w+\.jpg/ =~ str
       Integer($1, 10) rescue nil
+    elsif /\A\/(\d+)\Z/ =~ str
+      Integer($1, 10) rescue nil
     else
       Integer(str, 10) rescue nil
     end
@@ -185,7 +187,7 @@ class Masaki
 
   def guess_screen_name(str)
     return nil if str.size > 16
-    if /\A\s*@(\w+)\s*\Z/ =~ str
+    if /\A\/?\s*@(\w+)\s*\Z/ =~ str
       return $1
     end
     nil

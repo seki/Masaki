@@ -393,9 +393,10 @@ call_set_recent();
 */
 apply_recent(<%= do_recent_api(req, res, nil).to_json %>);
 <%
-  deck = DeckDetail::guess_deck_name(req.path_info)
-  if deck
-%>apply_state(<%= do_search_api(req, res, {'search' => deck}).to_json %>);<%
+  path = req.path_info
+  valid = DeckDetail::guess_deck_name(path) || guess_card_id(path) || guess_screen_name(path)
+  if valid
+%>apply_state(<%= do_search_api(req, res, {'search' => path}).to_json %>);<%
   end 
 %>
 </script>

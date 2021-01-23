@@ -97,7 +97,9 @@ server.mount_proc('/') {|req, res|
     pp $cognito.fetch_user_id(code)
   end
 
-  puts $cognito.login_url(req)
+  # puts $cognito.login_url(req)
+
+  pp req.path_info
 
   res.body = $masaki.do_get(req, res)
 }
