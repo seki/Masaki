@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
-<%
+<head prefix="og: http://ogp.me/ns#">
+<meta charset="UTF-8"><%
   path = req.path_info
   valid = DeckDetail::guess_deck_name(path) || guess_card_id(path) || guess_screen_name(path)
   page_info = valid ? do_search_api(req, res, {'search' => path}) : nil
@@ -15,7 +15,6 @@
 <meta property="og:title" content="ハマナの解析，マサキのリサーチ．"  />
 <meta property="og:description" content="<%=h desc %>" />
 <meta property="og:image" content="http://druby.work/hamana/favicon.png" />
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 <title>ハマナの解析，マサキのリサーチ．| Roseanne's Analysis</title>
 <link rel="shortcut icon" href="/images/favicon.png">
