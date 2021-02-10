@@ -104,8 +104,10 @@ class Masaki
         'desc' => deck_desc(k)
       }
     }
+    desc = ary.dig(0, 'desc').to_a.join(", ")
     {
       'query' => ['search_by_deck', deck],
+      'desc' => "#{deck}（#{desc}）に似ているデッキ",
       'result' => ary
     }
   end
@@ -124,6 +126,7 @@ class Masaki
     }
     {
       'query' => ['search_by_name', name],
+      'desc' => "#{name}を使ったデッキ",
       'result' => ary
     }
   end
@@ -142,6 +145,7 @@ class Masaki
     }
     {
       'query' => ['search_by_card', card_no],
+      'desc' => "カード番号#{card_no}を使ったデッキ",
       'result' => ary
     }
   end
@@ -161,6 +165,7 @@ class Masaki
     }
     {
       'query' => ['search_by_screen_name', screen_name],
+      'desc' => "@#{screen_name}のツイートしたデッキ",
       'result' => ary
     }
   end
