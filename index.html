@@ -314,6 +314,7 @@ function apply_state(state) {
   }
   if (state.query[0] == 'search_by_deck') {
     deck_query_text.textContent = state.query[1] + " に似ているデッキ";
+    history.replaceState(null, '', state.query[1]);
   } else if (state.query[0] == 'search_by_name') {
     deck_query_text.textContent = state.query[1] + " を使用するデッキ";
   } else if (state.query[0] == 'search_by_screen_name') {
