@@ -100,7 +100,7 @@ server.mount_proc('/') {|req, res|
   # puts $cognito.login_url(req)
 
   pp req.path_info
-
+  res.content_type = "text/html; charset=UTF-8"
   res.body = $masaki.do_get(req, res)
 }
 
