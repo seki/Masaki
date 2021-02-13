@@ -43,6 +43,7 @@ class Twitter
         ary = urls.map {|u| u['expanded_url']}.find_all {|x| x.include?("/deckID/")}
         ary = ary.collect {|x| url_to_name(x.chomp('/'))}
         ary.each do |x|
+          next if x.nil?
           MasakiPG::instance.referer_tw_store(t, x)
         end
         ary
