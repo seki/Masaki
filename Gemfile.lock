@@ -30,6 +30,7 @@ GEM
       json (>= 1.8.0)
       mime-types (>= 1.16)
       oauth (>= 0.4.7)
+    webrick (1.7.0)
 
 PLATFORMS
   ruby
@@ -41,9 +42,10 @@ DEPENDENCIES
   pg
   tofu
   twitter_oauth
+  webrick
 
 RUBY VERSION
-   ruby 2.7.1p83
+   ruby 2.7.2p137
 
 BUNDLED WITH
-   2.1.4
+   2.2.3
