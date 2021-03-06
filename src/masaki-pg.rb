@@ -210,7 +210,7 @@ EOB
     on conflict do nothing
 EOB
     synchronize do
-      @conn.exec_params(sql, [deck, tweet['id_str'], Time.now, DateTime.parse(tweet['created_at']), tweet.to_json])
+      @conn.exec_params(sql, [deck, tweet[:id_str], Time.now, DateTime.parse(tweet[:created_at]), tweet.to_json])
     end  
   end
 

@@ -1,4 +1,4 @@
-require 'twitter_oauth'
+require 'twitter'
 require 'net/http'
 require 'uri'
 require 'date'
@@ -7,9 +7,9 @@ require_relative 'deck-detail'
 
 $deck = MasakiPG::KVS.new('deck')
 
-class Twitter
+class MyTwitter
   def auth
-    @twitter = TwitterOAuth::Client.new(
+    @twitter = Twitter::REST::Client.new(
       :consumer_key    => ENV['TWITTER_API_KEY'],
       :consumer_secret => ENV['TWITTER_API_SECRET'],
     )
@@ -26,8 +26,9 @@ class Twitter
       count:       200,
       tweet_mode: 'extended'
     }.merge(opt)
-    tweets = @twitter.search("pokemon-card.com deck", params)['statuses']
-    max_id = tweets[-1]['id']
+    tweets = @twitter.search("pokemon-card.com deck", params).to_a
+
+    max_id = tweets[-1].id
     decks = extract_decks(tweets)
     decks.each {|name|
       yield(name) if name
@@ -39,12 +40,12 @@ class Twitter
 
   def extract_decks(tweets)
     decks = tweets.map do |t|
-      if urls = t['entities']['urls']
-        ary = urls.map {|u| u['expanded_url']}.find_all {|x| x.include?("/deckID/")}
+      if urls = t.uris
+        ary = urls.map {|u| u.expanded_url.to_s}.find_all {|x| x.include?("/deckID/")}
         ary = ary.collect {|x| url_to_name(x.chomp('/'))}
         ary.each do |x|
           next if x.nil?
-          MasakiPG::instance.referer_tw_store(t, x)
+          MasakiPG::instance.referer_tw_store(t.to_h, x)
         end
         ary
       else
@@ -67,7 +68,7 @@ end
 if __FILE__ == $0
   MasakiPG::instance.kvs_frozen_world("deck")
   frozen = MasakiPG::KVS.frozen('deck')
-  Twitter.new.search_decks {|name|
+  MyTwitter.new.search_decks {|name|
     next if frozen.include?(name) || $deck.include?(name)
     p name
     src = DeckDetail.fetch_deck_page(name)
