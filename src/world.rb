@@ -250,8 +250,10 @@ class MasakiWorld
     top[0,n]
   end
 
-  def search_by_screen_name(screen_name, n=10)
-    MasakiPG::instance.referer_tw_screen_name(screen_name, n)
+  def search_by_screen_name(screen_name, n=30)
+    ary = MasakiPG::instance.referer_tw_screen_name(screen_name, n)
+    ary.each {|tw| add(tw['deck'], true)}
+    ary
   end
 
   def add(name, save=false)

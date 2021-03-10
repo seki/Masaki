@@ -10,7 +10,7 @@ class Masaki
   EmbedView = ERBMethod.new(self, "to_embed(req, res, left, right, diff)", 'embed.html')
   def initialize
     @world = MasakiWorld.new
-    @recent = @world.recent.map {|k| [k, deck_desc(k)]}
+    @recent = @world.recent.map {|k| [k, deck_desc(k)]}.reverse
   end
   attr_reader :world
 
@@ -93,7 +93,7 @@ class Masaki
   def search(deck, filter, n, add_deck)
     ary = @world.search_by_deck(deck, filter, n, add_deck).map {|s, k|
       diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
-      link, image =  DeckDetail::make_url(k)
+      link, image = DeckDetail::make_url(k)
       {
         'link' => link,
         'tweet' => refer_tw(k),
