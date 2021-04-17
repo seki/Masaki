@@ -2,6 +2,7 @@ require 'twitter'
 require 'net/http'
 require 'uri'
 require 'date'
+require 'open-uri'
 require_relative 'masaki-pg'
 require_relative 'deck-detail'
 
@@ -75,4 +76,5 @@ if __FILE__ == $0
     v = DeckDetail.parse(src)
     $deck[name] = v.to_json
   }
+  puts(URI.open('https://hamana.herokuapp.com/ping/').read)
 end
