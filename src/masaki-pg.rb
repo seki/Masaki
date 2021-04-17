@@ -251,6 +251,15 @@ EOB
       @conn.exec_params(sql, [screen_name, n]).to_a
     end  
   end
+
+  def referer_tw_recent(n=10)
+    sql =<<EOB
+    select deck from referer_tw group by deck order by min(created) desc limit $1;
+EOB
+    synchronize do
+      @conn.exec_params(sql, [n]).to_a.map {|x| x['deck']}
+    end
+  end
 end
 
 if __FILE__ == $0

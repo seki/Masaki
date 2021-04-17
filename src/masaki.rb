@@ -64,6 +64,14 @@ class Masaki
     }
   end
 
+  def do_reload_recent(req, res)
+    @world.reload_recent(15)
+    @recent = @world.recent.map {|k| [k, deck_desc(k)]}.reverse
+    {
+      'recent' => @recent        
+    }
+  end
+
   def do_search_api(req, res, post)
     str = post["search"]
     filter = post["filter"] ? true : false

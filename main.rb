@@ -35,6 +35,17 @@ server.mount_proc('/e/') {|req, res|
   end
 }
 
+server.mount_proc('/ping/') {|req, res|
+  begin
+    res.content_type = "application/json; charset=UTF-8"
+    it = $masaki.do_reload_recent(req, res)
+    res.body = it.to_json
+  rescue
+    res.body = $masaki.do_get(req, res)
+  end
+}
+
+
 server.mount_proc('/') {|req, res|
   pp req.path_info
   res.content_type = "text/html; charset=UTF-8"

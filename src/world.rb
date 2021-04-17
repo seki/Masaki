@@ -29,6 +29,10 @@ class MasakiWorld
   end
   attr_reader :deck, :idf, :norm, :recent, :id_latest
 
+  def reload_recent(n=10)
+    @recent = MasakiPG::instance.referer_tw_recent(n)
+  end
+
   def make_filter
     @ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
   end
