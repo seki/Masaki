@@ -66,7 +66,7 @@ class Masaki
 
   def do_reload_recent(req, res)
     @world.reload_recent(15)
-    @recent = @world.recent.map {|k| [k, deck_desc(k)]}.reverse
+    @recent = @world.recent.map {|k| [k, deck_desc(k)]}
     {
       'recent' => @recent        
     }
