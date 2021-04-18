@@ -160,7 +160,7 @@ class MasakiWorld
   end
 
   def top_idf(k)
-    v = @deck[k] || @deck_tmp[k]
+    v = add(k)
     v.map {|x| x[0]}.sort_by {|x| -@idf[x]}
   end
 
