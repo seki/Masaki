@@ -158,7 +158,7 @@ class Masaki
     }
   end
 
-  def search_by_screen_name(screen_name, n=10)
+  def search_by_screen_name(screen_name, n=30)
     ary = @world.search_by_screen_name(screen_name, n).map {|tw|
       k = tw['deck']
       link, image =  DeckDetail::make_url(k)
