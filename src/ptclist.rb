@@ -44,6 +44,10 @@ EOS
       str = io.read
       return JSON.parse(str)
     }
+  rescue
+    pp [:retry, pg]
+    sleep 5
+    retry
   end
 
   def run

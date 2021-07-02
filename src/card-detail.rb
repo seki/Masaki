@@ -22,6 +22,10 @@ class CardDetail
       raise("not found") unless x.base_uri.to_s == name
       return x.read
     end
+  rescue OpenURI::HTTPError
+    pp [:retry_open_uri, key]
+    sleep 5
+    retry
   end
 
   KindErrata = {
