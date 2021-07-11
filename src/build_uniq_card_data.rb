@@ -25,7 +25,11 @@ def build_trainer_and_energy(regulation)
     case(k)
     when /\Aボスの指令（.*）\Z/
       "ボスの指令"
+    when /\Aボスの指令(.*)\Z/
+      "ボスの指令"
     when /\A博士の研究（.*）\Z/
+      "博士の研究"
+    when /\A博士の研究(.*)\Z/
       "博士の研究"
     else
       k
