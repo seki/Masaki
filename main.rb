@@ -35,6 +35,16 @@ server.mount_proc('/e/') {|req, res|
   end
 }
 
+server.mount_proc('/free/') {|req, res|
+  begin
+    data = [`free -m`, `top -b -n 1`].join("\n")
+    res.content_type = "text/plain"
+    res.body = data
+  rescue
+    res.body = $masaki.do_get(req, res)
+  end
+}
+
 server.mount_proc('/ping/') {|req, res|
   begin
     res.content_type = "application/json; charset=UTF-8"
