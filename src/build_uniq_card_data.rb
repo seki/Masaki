@@ -83,12 +83,12 @@ all_trainer = build_trainer_and_energy("all")
 File.open("uniq_energy_trainer_all.txt", "w") {|fp| fp.write(all_trainer.pretty_inspect)}
 
 p :step_2
-xy_trainer = build_trainer_and_energy("XY")
-File.open("uniq_energy_trainer_xy.txt", "w") {|fp| fp.write(xy_trainer.pretty_inspect)}
-
-p :step_3
 all_pokemon = build_pokemon("all")
 File.open("uniq_pokemon_all.txt", "w") {|fp| fp.write(all_pokemon.pretty_inspect)}
+
+p :step_3
+xy_trainer = build_trainer_and_energy("XY")
+File.open("uniq_energy_trainer_xy.txt", "w") {|fp| fp.write(xy_trainer.pretty_inspect)}
 
 p :step_4
 xy_pokemon = build_pokemon("XY")
