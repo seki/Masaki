@@ -13,12 +13,20 @@ class MasakiWorld
 
     frozen = MasakiPG::KVS.frozen('deck')
     frozen.each do |k, v|
-      @deck[k] = re_normalize(JSON.parse(v))
+      begin
+        @deck[k] = re_normalize(JSON.parse(v))
+      rescue => e
+        pp [k, e]
+      end
     end
 
     @kvs = MasakiPG::KVS.new('deck')
     @kvs.each do |k, v|
-      @deck[k] = re_normalize(JSON.parse(v))
+      begin
+        @deck[k] = re_normalize(JSON.parse(v))
+      rescue => e
+        pp [k, e]
+      end
     end
 
     @recent = @deck.keys.last(10)
