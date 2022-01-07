@@ -66,7 +66,7 @@ module ParseRawCard
   end
 
   def drop_head_pokemon(ary)
-    start_with = ["たね", "1 進化", "2 進化", "復元", "M進化", "BREAK進化", "レベルアップ", "VMAX", "伝説", "V-UNION"]
+    start_with = ["たね", "1 進化", "2 進化", "復元", "M進化", "BREAK進化", "レベルアップ", "VMAX", "伝説", "V-UNION", "V進化"]
     ary.each_with_index do |o, i|
       return ary[i .. -1] if start_with.include?(o)
     end
