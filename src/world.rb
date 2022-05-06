@@ -14,7 +14,9 @@ class MasakiWorld
     frozen = MasakiPG::KVS.frozen('deck')
     frozen.each do |k, v|
       begin
-        @deck[k] = re_normalize(JSON.parse(v))
+        v_ary = JSON.parse(v)
+        next unless v_ary
+        @deck[k] = re_normalize(v_ary)
       rescue => e
         pp [k, e]
       end
@@ -23,7 +25,9 @@ class MasakiWorld
     @kvs = MasakiPG::KVS.new('deck')
     @kvs.each do |k, v|
       begin
-        @deck[k] = re_normalize(JSON.parse(v))
+        v_ary = JSON.parse(v)
+        next unless v_ary
+        @deck[k] = re_normalize(v_ary)
       rescue => e
         pp [k, e]
       end
