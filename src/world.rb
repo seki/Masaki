@@ -11,27 +11,10 @@ class MasakiWorld
 
     @deck = {}
 
-    frozen = MasakiPG::KVS.frozen('deck')
-    frozen.each do |k, v|
-      begin
-        v_ary = JSON.parse(v)
-        next unless v_ary
-        @deck[k] = re_normalize(v_ary)
-      rescue => e
-        pp [k, e]
-      end
-    end
-
     @kvs = MasakiPG::KVS.new('deck')
-    @kvs.each do |k, v|
-      begin
-        v_ary = JSON.parse(v)
-        next unless v_ary
-        @deck[k] = re_normalize(v_ary)
-      rescue => e
-        pp [k, e]
-      end
-    end
+
+    import_known_deck
+    import_new_deck
 
     @recent = @deck.keys.last(10)
 
@@ -40,6 +23,28 @@ class MasakiWorld
     make_filter
   end
   attr_reader :deck, :idf, :norm, :recent, :id_latest
+
+  def import_known_deck
+    frozen = MasakiPG::KVS.frozen('deck')
+    import_deck(frozen)
+  end
+
+  def import_new_deck
+    import_deck(@kvs)
+  end
+
+  def import_deck(data)
+    data.each do |k, v|
+      next if @deck_filter && ! @deck_filter.include?(k)
+      begin
+        v_ary = JSON.parse(v)
+        next unless v_ary
+        @deck[k] = re_normalize(v_ary)
+      rescue => e
+        pp [k, e]
+      end
+    end
+  end
 
   def reload_recent(n=10)
     @recent = MasakiPG::instance.referer_tw_recent(n)
