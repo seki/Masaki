@@ -131,7 +131,7 @@ class MasakiWorld
     sz = @deck.size
     hash = Hash.new(Math::log(sz))
     @idf = df.inject(hash) do |result, kv|
-      result[kv[0]] = Math::log(sz.quo(kv[1]))
+      result[kv[0]] = Math::log(sz.quo(kv[1])).ceil
       result
     end
   end
