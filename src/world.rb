@@ -139,7 +139,7 @@ class MasakiWorld
   def vec_to_norm(value)
     norm2 = value.inject(0) do |sum2, card_n|
       card, n = card_n
-      sum2 += (@idf[card] * n.clamp(1,5)) ** 2
+      sum2 += (@idf[card] * n.clamp(..5)) ** 2
     end
     Math::sqrt(norm2)
   end
@@ -164,7 +164,7 @@ class MasakiWorld
       break unless b[ib]
       if a[ia][0] == b[ib][0]
         idf = @idf[a[ia][0]]
-        s += (a[ia][1].clamp(1,5) * b[ib][1].clamp(1,5) * idf * idf)
+        s += (a[ia][1].clamp(..5) * b[ib][1].clamp(..5) * idf * idf)
         ia += 1
         ib += 1
       elsif a[ia][0] > b[ib][0]
