@@ -223,16 +223,13 @@ class MasakiWorld
 
   def search_by_deck(name, filter, n, add_deck=false)
     v = add(name, add_deck)
+    norm = @norm[name]
 
-    score = []
-    @deck.keys.each do |b|
-      # next if name == b
-      next if filter && dot(@deck[b], @ignore) > 0
-      c = dot(v, @deck[b]) / (@norm[name] * @norm[b]) # cos
-      next if c == 0
-      score << [c, b]
-    end
-    top = score.sort.reverse
+    top = @deck.map do |b, deck_b|
+      c = dot(v, deck_b) / (norm * @norm[b]) # cos
+      [c, b]
+    end.max(n)
+
     if top[0][1] != name
       top.unshift([1.0, name])
     end
@@ -244,31 +241,21 @@ class MasakiWorld
     norm = vec_to_norm(req)
     return [] if norm == 0
 
-    score = []
-    @deck.keys.each do |b|
-      next if filter && dot(@deck[b], @ignore) > 0
-      c = dot(req, @deck[b]) / (norm * @norm[b]) # cos
-      next if c == 0
-      score << [c, b]
-    end
-    top = score.sort.reverse
-    top[0,n]
+    @deck.map do |b, deck_b|
+      c = dot(req, deck_b) / (norm * @norm[b]) # cos
+      [c, b]
+    end.max(n)
   end
 
   def search_by_card(card_id, filter, n=5)
     req = [[@id_norm[card_id], 1]]
-    p [card_id, req]
     norm = vec_to_norm(req)
+    return [] if norm == 0
 
-    score = []
-    @deck.keys.each do |b|
-      next if filter && dot(@deck[b], @ignore) > 0
-      c = dot(req, @deck[b]) / (norm * @norm[b]) # cos
-      next if c == 0
-      score << [c, b]
-    end
-    top = score.sort.reverse
-    top[0,n]
+    @deck.map do |b, deck_b|
+      c = dot(req, deck_b) / (norm * @norm[b]) # cos
+      [c, b]
+    end.max(n)
   end
 
   def search_by_screen_name(screen_name, n=30)
