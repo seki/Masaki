@@ -20,7 +20,6 @@ class MasakiWorld
 
     @deck_tmp = {}
     make_index
-    make_filter
   end
   attr_reader :deck, :idf, :norm, :recent, :id_latest
 
@@ -35,7 +34,6 @@ class MasakiWorld
 
   def import_deck(data)
     data.each do |k, v|
-      next if @deck_filter && ! @deck_filter.include?(k)
       begin
         v_ary = JSON.parse(v)
         next unless v_ary
@@ -48,10 +46,6 @@ class MasakiWorld
 
   def reload_recent(n=10)
     @recent = MasakiPG::instance.referer_tw_recent(n)
-  end
-
-  def make_filter
-    @ignore = name_to_vector(["ハイパーボール", "グズマ", "カプ・テテフGX", "ダブル無色エネルギー"])
   end
 
   def re_normalize(v)
@@ -217,11 +211,11 @@ class MasakiWorld
     }.inject([]) {|a, b| a + b}
   end
 
-  def search(name, filter, n=5)
-    search_by_deck(name, filter, n)
+  def search(name, n=5)
+    search_by_deck(name, n)
   end
 
-  def search_by_deck(name, filter, n, add_deck=false)
+  def search_by_deck(name, n, add_deck=false)
     v = add(name, add_deck)
     norm = @norm[name]
 
@@ -236,7 +230,7 @@ class MasakiWorld
     top[0,n]
   end
 
-  def search_by_name(card_id, filter, n=5)
+  def search_by_name(card_id, n=5)
     req = name_to_vector([card_id])
     norm = vec_to_norm(req)
     return [] if norm == 0
@@ -247,7 +241,7 @@ class MasakiWorld
     end.max(n).find_all {|x| x[0] > 0}
   end
 
-  def search_by_card(card_id, filter, n=5)
+  def search_by_card(card_id, n=5)
     req = [[@id_norm[card_id], 1]]
     norm = vec_to_norm(req)
     return [] if norm == 0

@@ -74,15 +74,14 @@ class Masaki
 
   def do_search_api(req, res, post)
     str = post["search"]
-    filter = post["filter"] ? true : false
     add_deck = post["add"] ? true : false
     name = DeckDetail::guess_deck_name(str)
-    return search(name, filter, 5, add_deck) if name
+    return search(name, 5, add_deck) if name
     screen_name = guess_screen_name(str)
     return search_by_screen_name(screen_name) if screen_name
     card_id = guess_card_id(str)
-    return search_by_card(card_id, filter) if card_id
-    search_by_name(str, filter)
+    return search_by_card(card_id) if card_id
+    search_by_name(str)
   end
 
   def prepare_tw(tw)
@@ -98,8 +97,8 @@ class Masaki
     prepare_tw(tw)
   end
 
-  def search(deck, filter, n, add_deck)
-    ary = @world.search_by_deck(deck, filter, n, add_deck).map {|s, k|
+  def search(deck, n, add_deck)
+    ary = @world.search_by_deck(deck, n, add_deck).map {|s, k|
       diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
       link, image = DeckDetail::make_url(k)
       {
@@ -120,8 +119,8 @@ class Masaki
     }
   end
 
-  def search_by_name(name, filter, n=10)
-    ary = @world.search_by_name(name, filter, n).map {|s, k|
+  def search_by_name(name, n=10)
+    ary = @world.search_by_name(name, n).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
@@ -139,8 +138,8 @@ class Masaki
     }
   end
 
-  def search_by_card(card_no, filter, n=10)
-    ary = @world.search_by_card(card_no, filter, n).map {|s, k|
+  def search_by_card(card_no, n=10)
+    ary = @world.search_by_card(card_no, n).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
