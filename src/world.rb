@@ -228,7 +228,7 @@ class MasakiWorld
     top = @deck.map do |b, deck_b|
       c = dot(v, deck_b) / (norm * @norm[b]) # cos
       [c, b]
-    end.max(n)
+    end.max(n).find_all {|x| x[0] > 0}
 
     if top[0][1] != name
       top.unshift([1.0, name])
@@ -244,7 +244,7 @@ class MasakiWorld
     @deck.map do |b, deck_b|
       c = dot(req, deck_b) / (norm * @norm[b]) # cos
       [c, b]
-    end.max(n)
+    end.max(n).find_all {|x| x[0] > 0}
   end
 
   def search_by_card(card_id, filter, n=5)
@@ -255,7 +255,7 @@ class MasakiWorld
     @deck.map do |b, deck_b|
       c = dot(req, deck_b) / (norm * @norm[b]) # cos
       [c, b]
-    end.max(n)
+    end.max(n).find_all {|x| x[0] > 0}
   end
 
   def search_by_screen_name(screen_name, n=30)
