@@ -206,6 +206,6 @@ class Masaki
   end
 
   def deck_desc(code)
-    @world.top_idf(code)[0,5].map {|n| world.name(n)}
+    @world.deck_desc(code, 5)
   end
 end

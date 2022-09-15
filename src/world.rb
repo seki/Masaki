@@ -54,13 +54,13 @@ class MasakiWorld
   end
 
   def make_id_norm
-    @id_norm = Hash.new {|h, k| k}
+    @id_norm = (0..(@name.keys.max)).to_a
     @name.each do |k, v|
       next if String === v
       @id_norm[k] = v 
     end
 
-    @id_latest = Hash.new {|h, k| k}
+    @id_latest = (0..(@name.keys.max)).to_a
     last = []
     @name.sort_by {|k, v| [@id_norm[k], -k]}.each do |k, v|
       v = @id_norm[k]
@@ -170,9 +170,9 @@ class MasakiWorld
     s
   end
 
-  def top_idf(k)
-    v = add(k)
-    v.map {|x| x[0]}.sort_by {|x| -@idf[x]}
+  def deck_desc(code, n=5)
+    v = add(code)
+    v.max_by(n) {|x| @idf[x[0]]}.map {|x| @name[x[0]]}
   end
 
   def diff(a, b)
@@ -230,26 +230,24 @@ class MasakiWorld
     top[0,n]
   end
 
-  def search_by_name(card_id, n=5)
-    req = name_to_vector([card_id])
-    norm = vec_to_norm(req)
+  def search_by_(v, n)
+    norm = vec_to_norm(v)
     return [] if norm == 0
 
     @deck.map do |b, deck_b|
-      c = dot(req, deck_b) / (norm * @norm[b]) # cos
+      c = dot(v, deck_b) / (norm * @norm[b]) # cos
       [c, b]
     end.max(n).find_all {|x| x[0] > 0}
   end
 
+  def search_by_name(card_name, n=5)
+    req = name_to_vector([card_name])
+    search_by_(req, n)
+  end
+
   def search_by_card(card_id, n=5)
     req = [[@id_norm[card_id], 1]]
-    norm = vec_to_norm(req)
-    return [] if norm == 0
-
-    @deck.map do |b, deck_b|
-      c = dot(req, deck_b) / (norm * @norm[b]) # cos
-      [c, b]
-    end.max(n).find_all {|x| x[0] > 0}
+    search_by_(req, n)
   end
 
   def search_by_screen_name(screen_name, n=30)
