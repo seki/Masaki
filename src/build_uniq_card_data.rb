@@ -37,7 +37,9 @@ def build_trainer_and_energy(regulation)
   end
   errata.update(
     {
-      '基本【水】エネルギー' => '基本水エネルギー'
+      '基本【水】エネルギー' => '基本水エネルギー',
+      'ワザマシン　TS-1' => 'ワザマシン TS-1',
+      'ワザマシン　TS-2' => 'ワザマシン TS-2'
     }
   )
 
@@ -47,6 +49,8 @@ end
 def build_pokemon_errata_region_form(name)
   if /\A(アローラ|ヒスイ|ガラル|パルデア)(\S.*)/ =~ name
     return [$1, $2].join(' ')
+  elsif name == "裂空の訪問者デオキシス　"
+    return "裂空の訪問者デオキシス"
   end
   name
 end
