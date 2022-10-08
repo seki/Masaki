@@ -44,10 +44,18 @@ def build_trainer_and_energy(regulation)
   uniq_card_list("energy", regulation, errata) + uniq_card_list("trainer", regulation, errata)  
 end
 
+def build_pokemon_errata_region_form(name)
+  if /\A(アローラ|ヒスイ|ガラル|パルデア)(\S.*)/ =~ name
+    return [$1, $2].join(' ')
+  end
+  name
+end
+
 def build_pokemon(regulation)
   detail = CardDetail.new
   list = PTCList.new('pokemon', regulation).map do |hash|
     name = hash['cardNameAltText'].gsub(/\&amp\;/, '&')
+    name = build_pokemon_errata_region_form(name)
     pair =  [name, hash['cardID'].to_i]
     body = detail[pair[1]]
     ary = ParseRawCard.section(body)
