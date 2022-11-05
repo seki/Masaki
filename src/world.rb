@@ -80,7 +80,7 @@ class MasakiWorld
 
   def name(k)
     it = @name[k] 
-    String === it ? it :@name[it]
+    String === it ? it : @name[it]
   end
 
   def cos(a, b)
@@ -168,6 +168,10 @@ class MasakiWorld
       end
     end
     s
+  end
+
+  def deck_desc_for_cluster(v, n=5)
+    v.max_by(n) {|x| @idf[x[0]] * x[1]}.map {|x| @name[x[0]]}
   end
 
   def deck_desc(code, n=5)
