@@ -7,7 +7,7 @@ city = JSON.parse(File.read(ARGV.shift))
 unless File.exist?('city_frozen.json')
   frozen = MasakiPG::KVS.frozen('deck')
   city_deck = Set.new(city.map(&:first))
-  it = frozen.find_all {|k, v| city_deck.include?(k)}
+  it = frozen.find_all {|k, v| city_deck.include?(k) }
   pp it.size
   File.write('city_frozen.json', it.to_json)
   exit
@@ -20,28 +20,127 @@ class MyWorld < MasakiWorld
   end
 end
 
-class Cluster
-  def initialize(decks, dist)
-    @decks = decks
-    @distance = {}
-    dist.each do |ab, cos|
-      @distance[ab] = (1 - cos)
+class DistMatrix
+  def initialize(name)
+    @name = name
+    @size = @name.size
+    @cluster_size = [1] * (@name.size * 2 - 1)
+    @matrix = []
+    (1..(@size-1)).each do |y|
+      y.times do |x|
+        self[x, y] = yield(@name[x], @name[y])
+      end
     end
-    @cluster = @decks.map {|x| Leaf.new(x)}
-    @memo = {}
-    step_zero
   end
-  attr_reader :distance
-  attr_reader :cluster
+
+  def [](x, y)
+    @matrix.dig(y, x) || @matrix.dig(x, y) || Float::INFINITY
+  end
+
+  def []=(x, y, z)
+    @matrix[y] ||= []
+    @matrix[y][x] = z
+  end
+
+  def each
+    @matrix.each_with_index do |r, y|
+      next unless r
+      next if r.empty?
+      r.each_with_index do |v, x|
+        yield(x, y, v) if v
+      end
+    end
+  end
+
+  def min
+    to_enum(:each).min_by {|x, y, v| v}
+  end
+
+  def remove(i)
+    @matrix[i] = []
+    @matrix.each do |r|
+      next unless r
+      next if r.empty?
+      r[i] = nil
+    end
+  end
+
+  def main
+    (@matrix.size - 1).times do |n|
+      it = step
+      yield(*it)
+      pp it[2]
+    end
+  end
+
+  def step
+    x, y, v = min
+    c = @cluster_size[@matrix.size] = @cluster_size[x] + @cluster_size[y]
+    self[x, y] = nil
+
+    fwd = @matrix.size - 1
+    @matrix << fwd.times.map do |n|
+      m = [self[n, x], self[n, y]].min
+      m == Float::INFINITY ? nil : m
+    end
+
+    remove(x)
+    remove(y)
+
+    [x, y, v, c]
+  end
+end
+
+module Cluster
+  module_function
+  def make_tree(world, decks, threshold=nil)
+    cluster = decks.map {|x| Leaf.new(x, world.deck[x])}
+    dist_matrix = DistMatrix.new(decks) do |a, b|
+      begin
+        1 - world.cos(a, b).clamp(0,1.0)
+      rescue
+        p a unless world.deck[a]
+        p b unless world.deck[b]
+        1
+      end
+    end
+    dist_matrix.main do |a, b, dist, size|
+      break if threshold && dist > threshold
+      left = cluster[a]
+      right = cluster[b]
+      cluster[a] = nil
+      cluster[b] = nil
+      cluster << Node.new(left, right, dist, size)
+    end
+    cluster.compact
+  end
+
+  class DeckSum
+    def initialize
+      @total = Hash.new(0)
+    end
+    attr_reader :total
+
+    def to_a
+      @total.to_a.sort
+    end
+
+    def add(deck)
+      deck.each do |k, v|
+        @total[k] += v.clamp(..4)
+      end
+    end
+  end
 
   class Node
-    def initialize(left, right, dist)
+    def initialize(left, right, dist, size)
       if dist == 0
         @children = left.to_a + right.to_a
       else
         @children = [left, right]
       end
       @dist = dist
+      @size = size
     end
     attr_reader :dist
 
@@ -49,14 +148,14 @@ class Cluster
       {
         'children' => @children.map {|x| x.to_h},
         'height' => @dist,
-        'size' => size,
+        'size' => @size,
         'index' => -1,
         'isLeaf' => false
       }
     end
 
     def size
-      @children.sum {|x| x.size}
+      @size
     end
 
     def [](i)
@@ -71,23 +170,27 @@ class Cluster
       @children
     end
 
-    def flatten
-      @flatten ||= @children.inject([]) {|s, x| s + x.flatten}
+    def sum(total=DeckSum.new)
+      @children.each do |node|
+        node.sum(total)
+      end
+      total
     end
   end
 
   class Leaf
-    def initialize(name)
-      @deck = name
+    def initialize(name, deck)
+      @name = name
+      @deck = deck
     end
-    attr_reader :deck
+    attr_reader :name, :deck
 
     def to_h
       {
         'children' => [],
         'height' => 0,
         'size' => 1,
-        'name' => @deck,
+        'name' => @name,
         'isLeaf' => true
       }
     end
@@ -100,10 +203,6 @@ class Cluster
       true
     end
 
-    def flatten
-      [self]
-    end
-
     def to_a
       [self]
     end
@@ -111,83 +210,33 @@ class Cluster
     def size
       1
     end
-  end
 
-  def dist(x, y)
-    x = x.flatten
-    y = y.flatten
-    x.to_a.product(y.to_a).map do |a, b|
-      ab = [a.deck, b.deck].sort
-      @distance[ab]
+    def sum(total)
+      total.add(@deck)
+      total
     end
   end
 
-  def find_pair
-    @cluster.combination(2).map do |ab|
-      [ab, @memo[ab] ||= dist(*ab).min]
-    end.min_by {|x| x[1]}
+  def merge(a, b, dist, size)
+    @cluster << Node.new(a, b, dist, size)
   end
 
-  def merge(dist, a, b)
-    @cluster.delete(a)
-    @cluster.delete(b)
-    @cluster << Node.new(a, b, dist)
-  end
-
-  def step_zero
-    ab, dist = find_pair
-    while dist == 0
-      merge(dist, *ab)
-      ab, dist = find_pair
-    end
-  end
-
-  def step
-    ab, dist = find_pair
-    merge(dist, *ab)
-    @cluster.size > 1
-  end
 end
 
 world = MyWorld.new
 
-decks = city.find_all {|k, d| d >= '2022-05-22'}.map {|k, d| k}.to_a
+decks = city.find_all {|k, d| d >= '2022-10-22'}.map {|k, d| k}.to_a
 p decks.size
 
-require 'benchmark'
+tree = Cluster.make_tree(world, decks, 0.1)
 
-Benchmark.bm do |x|
-  a = decks.first
-  x.report {
-    cos = decks.combination(2).map do |ab|
-      [ab.sort, world.cos(*ab).clamp(0,1.0)]
-    end
-  }
-end
-cos = decks.combination(2).map do |ab|
-  [ab.sort, world.cos(*ab).clamp(0,1.0)]
+it = tree.max_by(10) {|x| x.size}
+it.each do |x|
+  sum = x.sum.to_a
+  s = sum.max_by(15) {|x| world.idf[x[0]] * x[1]}
+  pp [x.size, world.deck_desc_for_cluster(sum, 15), world.search_by_(sum, 1)]
 end
 
-c = Cluster.new(decks, cos)
-n = 0
-while c.step
-  p n
-  n += 1
-end
+# File.write('tree3.json', JSON.generate(it, :max_nesting => false))
 
-def walk(node, level)
-  if node.leaf?
-    puts node.deck
-    return
-  end
-  p [level, node.dist, node.to_a.size]
-
-  node.to_a.each do |x|
-    walk(x, level+1)
-  end
-end
-
-pp c.cluster[0].class
-walk(c.cluster[0], 1)
-
-File.write('tree.json', JSON.generate(c.cluster[0].to_h, :max_nesting => false))
+# File.write('tree2.json', JSON.generate(tree.to_h, :max_nesting => false))
