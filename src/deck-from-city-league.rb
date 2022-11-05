@@ -3,11 +3,11 @@ require_relative 'masaki-pg'
 require_relative 'deck-detail'
 
 $deck = MasakiPG::KVS.new('deck')
-def main
+def main(fname)
   MasakiPG::instance.kvs_frozen_world("deck")
   frozen = MasakiPG::KVS.frozen('deck')
 
-  city = JSON.parse(File.read("data/city-deck.json"))
+  city = JSON.parse(File.read(fname))
   city.each {|name, date|
     next if frozen.include?(name) || $deck.include?(name)
     p name
@@ -19,5 +19,6 @@ def main
 end
 
 if __FILE__ == $0
-  main
+  fname = ARGV.shift || "data/city-deck.json"
+  main(fname)
 end
