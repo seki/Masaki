@@ -26,13 +26,7 @@ module Cluster
   def make_tree(world, decks, threshold=nil)
     cluster = decks.map {|x| Leaf.new(x, world.deck[x])}
     dist_matrix = SingleLinkage.new(decks) do |a, b|
-      begin
-        1 - world.cos(a, b).clamp(0,1.0)
-      rescue
-        p a unless world.deck[a]
-        p b unless world.deck[b]
-        1
-      end
+      1 - world.cos(a, b).clamp(0,1.0)
     end
     dist_matrix.main do |a, b, dist, size|
       break if threshold && dist > threshold
