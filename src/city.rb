@@ -144,7 +144,6 @@ module Cluster
   def merge(a, b, dist, size)
     @cluster << Node.new(a, b, dist, size)
   end
-
 end
 
 world = MyWorld.new
@@ -157,8 +156,7 @@ tree = Cluster.make_tree(world, decks, 0.1)
 it = tree.max_by(10) {|x| x.size}
 it.each do |x|
   sum = x.sum.to_a
-  s = sum.max_by(15) {|x| world.idf[x[0]] * x[1]}
-  pp [x.size, world.deck_desc_for_cluster(sum, 15), world.search_by_(sum, 1)]
+  pp [x.size, world.deck_desc_for_cluster(sum, 15)]
 end
 
 # File.write('tree3.json', JSON.generate(it, :max_nesting => false))
