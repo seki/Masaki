@@ -1,6 +1,7 @@
 require 'json'
 require_relative 'world'
 require_relative 'masaki-pg'
+require_relative 'single_linkage'
 require 'set'
 
 city = JSON.parse(File.read(ARGV.shift))
@@ -20,82 +21,11 @@ class MyWorld < MasakiWorld
   end
 end
 
-class DistMatrix
-  def initialize(name)
-    @name = name
-    @size = @name.size
-    @cluster_size = [1] * (@name.size * 2 - 1)
-    @matrix = []
-    (1..(@size-1)).each do |y|
-      y.times do |x|
-        self[x, y] = yield(@name[x], @name[y])
-      end
-    end
-  end
-
-  def [](x, y)
-    @matrix.dig(y, x) || @matrix.dig(x, y) || Float::INFINITY
-  end
-
-  def []=(x, y, z)
-    @matrix[y] ||= []
-    @matrix[y][x] = z
-  end
-
-  def each
-    @matrix.each_with_index do |r, y|
-      next unless r
-      next if r.empty?
-      r.each_with_index do |v, x|
-        yield(x, y, v) if v
-      end
-    end
-  end
-
-  def min
-    to_enum(:each).min_by {|x, y, v| v}
-  end
-
-  def remove(i)
-    @matrix[i] = []
-    @matrix.each do |r|
-      next unless r
-      next if r.empty?
-      r[i] = nil
-    end
-  end
-
-  def main
-    (@matrix.size - 1).times do |n|
-      it = step
-      yield(*it)
-      pp it[2]
-    end
-  end
-
-  def step
-    x, y, v = min
-    c = @cluster_size[@matrix.size] = @cluster_size[x] + @cluster_size[y]
-    self[x, y] = nil
-
-    fwd = @matrix.size - 1
-    @matrix << fwd.times.map do |n|
-      m = [self[n, x], self[n, y]].min
-      m == Float::INFINITY ? nil : m
-    end
-
-    remove(x)
-    remove(y)
-
-    [x, y, v, c]
-  end
-end
-
 module Cluster
   module_function
   def make_tree(world, decks, threshold=nil)
     cluster = decks.map {|x| Leaf.new(x, world.deck[x])}
-    dist_matrix = DistMatrix.new(decks) do |a, b|
+    dist_matrix = SingleLinkage.new(decks) do |a, b|
       begin
         1 - world.cos(a, b).clamp(0,1.0)
       rescue
