@@ -4,8 +4,9 @@ require 'json'
 
 class MasakiWorld
   def initialize
-    trainer = JSON.parse(File.read(__dir__ + "/../data/uniq_energy_trainer_all.txt"))
-    pokemon = JSON.parse(File.read(__dir__ + "/../data/uniq_pokemon_all.txt"))
+    data_dir = __dir__ + "/../data/"
+    trainer = JSON.parse(File.read(data_dir + "uniq_energy_trainer_all.txt"))
+    pokemon = JSON.parse(File.read(data_dir + "uniq_pokemon_all.txt"))
     @name = Hash[trainer + pokemon]
     make_id_norm
 
