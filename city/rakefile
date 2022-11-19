@@ -1,0 +1,52 @@
+require_relative 'analyze_city'
+
+file 'city-event.json' do |t|
+  p t.name
+  target = t.name
+  city = Masaki::Players::fetch_event_list.find_all {|x|
+    x['event_title'].start_with?("シティリーグ2023 シーズン1")
+  }
+  File.write(target, city.to_json)
+end
+
+file 'city-deck-date.json' => ['city-event.json'] do |t|
+  p t.name
+  target = t.name
+
+  event_list ||= JSON.parse(File.read('city-event.json'))
+  keys = event_list.map {|x| x['event_holding_id']}
+
+  db = Masaki::KVSCache.new("city_result")
+  events = keys.map do |key|
+    cache = db.fetch(key)
+    if cache
+      page = cache
+    else
+      page = Masaki::Players::fetch_result_page(key)
+      db.store(key, page)
+    end
+    JSON.parse(page)
+  end
+  db.close
+
+  decks = []
+  events.each do |ev|
+    decks += Masaki::Players::parse(ev)
+  end
+
+  File.write(target, decks.to_json)
+  pp decks.size
+end
+
+file "city-deck-frozen.json" => ['city-deck-date.json'] do |t|
+  p t.name
+  target = t.name
+  decks = JSON.parse(File.read('city-deck-date.json'))
+  updated = Masaki::Analyze.import_deck(decks)
+  pp updated.size
+  File.write(target, updated.to_json)
+end
+
+task :default => ['city-deck-frozen.json'] do
+  p :hello
+end
