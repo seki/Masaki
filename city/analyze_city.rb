@@ -112,6 +112,13 @@ module Masaki
   end
 end
 
+class MyWorld < MasakiWorld
+  def import_known_deck
+    frozen = JSON.parse(File.read('city-deck-frozen.json'))
+    import_deck(frozen)
+  end
+end
+
 if __FILE__ == $0
   c = Masaki::KVSCache.new("test")
   c.each {|x| pp x}

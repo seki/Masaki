@@ -1,8 +1,10 @@
 require_relative 'analyze_city'
+require_relative 'cluster'
 
 file 'city-event.json' do |t|
-  p t.name
   target = t.name
+  puts "generating #{target}."
+
   city = Masaki::Players::fetch_event_list.find_all {|x|
     x['event_title'].start_with?("シティリーグ2023 シーズン1")
   }
@@ -10,8 +12,8 @@ file 'city-event.json' do |t|
 end
 
 file 'city-deck-date.json' => ['city-event.json'] do |t|
-  p t.name
   target = t.name
+  puts "generating #{target}."
 
   event_list ||= JSON.parse(File.read('city-event.json'))
   keys = event_list.map {|x| x['event_holding_id']}
@@ -39,12 +41,32 @@ file 'city-deck-date.json' => ['city-event.json'] do |t|
 end
 
 file "city-deck-frozen.json" => ['city-deck-date.json'] do |t|
-  p t.name
   target = t.name
+  puts "generating #{target}."
+
   decks = JSON.parse(File.read('city-deck-date.json'))
   updated = Masaki::Analyze.import_deck(decks)
   pp updated.size
   File.write(target, updated.to_json)
+end
+
+task :analyze, [:lower, :upper] => ['city-deck-frozen.json', 'city-deck-date.json'] do |t, args|
+  range = Range.new(args[:lower], args[:upper])
+  pp range
+
+  world = MyWorld.new
+
+  city = JSON.parse(File.read('city-deck-date.json'))
+  decks = city.find_all {|k, d| range.include?(d)}.map {|k, d| k}.to_a
+  p decks.size
+
+  tree = Cluster.make_tree(world, decks, 0.1)
+
+  it = tree.max_by(10) {|x| x.size}
+  it.each do |x|
+    sum = x.sum.to_a
+    pp [x.size, world.deck_desc_for_cluster(sum, 15)]
+  end  
 end
 
 task :default => ['city-deck-frozen.json'] do

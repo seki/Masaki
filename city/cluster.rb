@@ -1,25 +1,7 @@
 require 'json'
-require_relative 'world'
-require_relative 'masaki-pg'
-require_relative 'single_linkage'
 require 'set'
-
-city = JSON.parse(File.read(ARGV.shift))
-unless File.exist?('city_frozen.json')
-  frozen = MasakiPG::KVS.frozen('deck')
-  city_deck = Set.new(city.map(&:first))
-  it = frozen.find_all {|k, v| city_deck.include?(k) }
-  pp it.size
-  File.write('city_frozen.json', it.to_json)
-  exit
-end
-
-class MyWorld < MasakiWorld
-  def import_known_deck
-    frozen = JSON.parse(File.read('city_frozen.json'))
-    import_deck(frozen)
-  end
-end
+require_relative '../src/world'
+require_relative '../src/single_linkage'
 
 module Cluster
   module_function
@@ -146,19 +128,17 @@ module Cluster
   end
 end
 
-world = MyWorld.new
+if __FILE__ == $0
+  world = MyWorld.new
 
-decks = city.find_all {|k, d| d >= '2022-10-22'}.map {|k, d| k}.to_a
-p decks.size
+  decks = city.find_all {|k, d| d >= '2022-10-22'}.map {|k, d| k}.to_a
+  p decks.size
 
-tree = Cluster.make_tree(world, decks, 0.1)
+  tree = Cluster.make_tree(world, decks, 0.1)
 
-it = tree.max_by(10) {|x| x.size}
-it.each do |x|
-  sum = x.sum.to_a
-  pp [x.size, world.deck_desc_for_cluster(sum, 15)]
+  it = tree.max_by(10) {|x| x.size}
+  it.each do |x|
+    sum = x.sum.to_a
+    pp [x.size, world.deck_desc_for_cluster(sum, 15)]
+  end
 end
-
-# File.write('tree3.json', JSON.generate(it, :max_nesting => false))
-
-# File.write('tree2.json', JSON.generate(tree.to_h, :max_nesting => false))
