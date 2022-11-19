@@ -1,7 +1,7 @@
 require 'json'
 require 'set'
 require_relative '../src/world'
-require_relative '../src/single_linkage'
+require_relative 'single_linkage'
 
 module Cluster
   module_function
