@@ -188,6 +188,7 @@ EOB
           delete_sql = "delete from #{table} where id=$1"
           conn.exec_params(delete_sql, [k])
         end
+        last
       end
     end
   end
