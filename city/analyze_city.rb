@@ -1,5 +1,6 @@
 require_relative '../src/world'
 require_relative '../src/masaki-pg'
+require_relative 'known_deck'
 require 'sqlite3'
 
 module Masaki
@@ -117,13 +118,13 @@ module Masaki
       }
 
       decks = deck_and_date.find_all {|k, d| range.include?(d)}.map {|k, d| k}
-      report['deck_size'] = decks.size
+      report['deck_count'] = decks.size
 
       tree = Cluster.make_tree(world, decks, threshold)
 
       ary = tree.max_by(10) {|x| x.size}.map do |x|
         sum = x.sum.to_a
-        [x.size, x.sample, world.deck_desc_for_cluster(sum, 20)]
+        [x.size, x.sample, KnownDeck.guess(world, x.sample), world.deck_desc_for_cluster(sum, 20)]
       end
 
       report['cluster'] = ary
