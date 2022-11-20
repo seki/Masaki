@@ -109,6 +109,26 @@ module Masaki
       # upload new arrived decks, again
       MasakiPG::instance.kvs_frozen_world("deck")
     end
+
+    def analyze(world, deck_and_date, range, threshold)
+      report = {
+        'range' => range,
+        'threshold' => threshold
+      }
+
+      decks = deck_and_date.find_all {|k, d| range.include?(d)}.map {|k, d| k}
+      report['deck_size'] = decks.size
+
+      tree = Cluster.make_tree(world, decks, threshold)
+
+      ary = tree.max_by(10) {|x| x.size}.map do |x|
+        sum = x.sum.to_a
+        [x.size, x.sample, world.deck_desc_for_cluster(sum, 20)]
+      end
+
+      report['cluster'] = ary
+      report
+    end
   end
 end
 

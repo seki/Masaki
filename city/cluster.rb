@@ -82,6 +82,10 @@ module Cluster
       end
       total
     end
+
+    def sample
+      @children.max_by {|x| x.size}.sample
+    end
   end
 
   class Leaf
@@ -120,6 +124,10 @@ module Cluster
     def sum(total)
       total.add(@deck)
       total
+    end
+
+    def sample
+      @name
     end
   end
 

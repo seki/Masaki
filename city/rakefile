@@ -1,5 +1,6 @@
 require_relative 'analyze_city'
 require_relative 'cluster'
+require 'date'
 
 file 'city-event.json' do |t|
   target = t.name
@@ -50,25 +51,38 @@ file "city-deck-frozen.json" => ['city-deck-date.json'] do |t|
   File.write(target, updated.to_json)
 end
 
-task :analyze, [:lower, :upper] => ['city-deck-frozen.json', 'city-deck-date.json'] do |t, args|
-  range = Range.new(args[:lower], args[:upper])
-  pp range
-
-  world = MyWorld.new
-
-  city = JSON.parse(File.read('city-deck-date.json'))
-  decks = city.find_all {|k, d| range.include?(d)}.map {|k, d| k}.to_a
-  p decks.size
-
-  tree = Cluster.make_tree(world, decks, 0.1)
-
-  it = tree.max_by(10) {|x| x.size}
-  it.each do |x|
-    sum = x.sum.to_a
-    pp [x.size, world.deck_desc_for_cluster(sum, 15)]
-  end  
+task :world => ['city-deck-frozen.json'] do |t|
+  $world = MyWorld.new
 end
 
-task :default => ['city-deck-frozen.json'] do
-  p :hello
+task :dake_and_date => ['city-deck-frozen.json'] do |t|
+  $deck_and_date = JSON.parse(File.read('city-deck-date.json'))
+end
+
+task :analyze, [:lower, :upper, :threshold] => [:world, :dake_and_date] do |t, args|
+  range = Range.new(args[:lower], args[:upper])
+  threshold = (args[:threshold] || 0.1).to_f
+  pp range, threshold
+
+  report = Masaki::Analyze.analyze($world, $deck_and_date, range, threshold)
+
+  pp report
+end
+
+task :default => [:world, :dake_and_date] do
+  origin = Date.parse('2022-10-07') # 金曜日始まり
+  today = Date.today
+  rough = []
+  detail = []
+
+  while origin < today
+    range = Range.new(origin.to_s, (origin + 6).to_s)
+    origin += 7
+
+    rough << Masaki::Analyze.analyze($world, $deck_and_date, range, 0.3)
+    detail << Masaki::Analyze.analyze($world, $deck_and_date, range, 0.05)
+  end
+
+  File.write("report_rough.json", rough.to_json)
+  File.write("report_detail.json", detail.to_json)
 end
