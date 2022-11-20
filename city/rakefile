@@ -4,7 +4,7 @@ require 'date'
 
 file 'city-event.json' do |t|
   target = t.name
-  puts "generating #{target}."
+  puts "generating #{target}"
 
   city = Masaki::Players::fetch_event_list.find_all {|x|
     x['event_title'].start_with?("シティリーグ2023 シーズン1")
@@ -14,7 +14,7 @@ end
 
 file 'city-deck-date.json' => ['city-event.json'] do |t|
   target = t.name
-  puts "generating #{target}."
+  puts "generating #{target}"
 
   event_list ||= JSON.parse(File.read('city-event.json'))
   keys = event_list.map {|x| x['event_holding_id']}
@@ -43,7 +43,7 @@ end
 
 file "city-deck-frozen.json" => ['city-deck-date.json'] do |t|
   target = t.name
-  puts "generating #{target}."
+  puts "generating #{target}"
 
   decks = JSON.parse(File.read('city-deck-date.json'))
   updated = Masaki::Analyze.import_deck(decks)
