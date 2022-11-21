@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>シティリーグの解析だよ</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <div>
+    <canvas id="pie_r_01"></canvas>
+  </div>
+<%  
+  require_relative 'bar'
+
+  rough = JSON.parse(File.read('report_rough.json'))
+  detail = JSON.parse(File.read('report_detail.json'))
+
+  bar_rough = ForBar.new(rough)
+  bar_detail = ForBar.new(detail)
+%>
+<script>
+let deck = <%= bar_rough.deck.to_json %>;
+var ctx = document.getElementById('pie_r_01');
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: <%= bar_rough.to_chart_data.to_json%>,
+  options: {
+    plugins: {
+      legend: {
+        display: true,
+        align: "end",
+        position: "right"
+      }
+    }
+  }
+});
+ctx.addEventListener( 'click', function( evt ){
+    var item = myChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+    if( item.length == 0 ){
+      return;
+    }
+
+    item = item[0];
+    let deck_code = deck[item.datasetIndex][item.index];
+    if (deck_code) {
+      window.open('https://hamana.herokuapp.com/' + deck_code)
+    }
+  });
+</script>
+</body>
