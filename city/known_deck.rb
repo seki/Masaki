@@ -1,7 +1,7 @@
 module KnownDeck
   Known = [
     ["LiLgLn-TnGmGw-gHLLn6", "アルセウスVSTAR"],
-    ["8x8x48-QzM65x-cxxGKx", "アルセウスVSTAR うらこうさく"],
+    ["8x8x48-QzM65x-cxxGKx", "アルセウスVSTAR"], # うらこうさく
     ["NNLHQL-3Saux2-nLinnL", "オリジンパルキアVSTAR"],
     ["xGDcY8-9Atco7-xDx8a8", "オリジンパルキアVSTAR"],
     ["6gLnig-A7WC7T-QgLngn", "オリジンパルキアVSTAR"],
@@ -17,6 +17,7 @@ module KnownDeck
     ["bkVkkk-L1Gt6e-fFkFfb", "ジュラルドン アルセウス"],
     ["LnnnLL-xxFlSc-n6LinH", "ジュラルドン アルセウス"],
     ["yyMyMM-Z5JEyZ-M2ypUX", "ゾロアーク"],
+    ["yyyM2M-Zgfdkb-SME22M", "ゾロアーク"], #ヒスイ ゾロアーク
     ["VkFvkw-TASUx9-VVVkVV", "ゾロアークVSTAR"],
     ["kFkkFV-fJIhh2-kf5k1V", "マタドガス ムゲンダイナVMAX"],
     ["nLnggg-bzZ5J7-HgLnHH", "ミュウVMAX"],
@@ -27,8 +28,11 @@ module KnownDeck
     ["L9LLnN-UOVCCT-Lgn6gL", "ムゲンダイナVMAX"],
     ["HNLNnn-oKw2Uo-nnLgnn", "ムゲンダイナVMAX"],
     ["x8cx8x-7lAAIA-88KG84", "ルギアVSTAR"],
+    ["yy2M2p-L5KX6A-ySSpMX", "ルギア そらをとぶピカチュウ"],
+    ["c8xxYc-ldylN3-c88888", "ルナトーン ソルロック"],
     ["F5VFbV-Wrub8f-kk5FVk", "レジエレキVMAX クワガノン"],
     ["yMM2yM-iKTV6Y-pMUpp3", "レジエレキVMAX クワガノン"],
+    ["yMMUyM-K1LaWB-yyypXy", "レジエレキVMAX クワガノン"],
     ["yMpypU-VKlvc8-pyyM2M", "レジギガス"],
     ["gnQLHg-1AaruO-nnngnn", "レジギガス"],
     ["8K8xxx-w7qMXf-8x88x8", "ロストカイオーガ"],
@@ -37,6 +41,7 @@ module KnownDeck
     ["MMyMXy-gxnyak-yMXyM3", "ロストバレット"],
     ["Jc84cJ-QgVka6-DD8x8K", "ロストバレット"],
     ["VkVFFf-BIdt7p-kk5V5F", "ロストバレット"],
+    ["fVfFkk-KWWo4B-VkvVkF", "ロストバレット"], #レシラム
     ["FkwVwk-CpUB9b-VFkVfk", "ロトムVSTAR"]
   ]
 
