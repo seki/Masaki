@@ -2,6 +2,7 @@ module KnownDeck
   Known = [
     ["LiLgLn-TnGmGw-gHLLn6", "アルセウスVSTAR"],
     ["8x8x48-QzM65x-cxxGKx", "アルセウスVSTAR"], # うらこうさく
+    ["gngLiL-WKQgyP-gLnLNL", "アルセウスVSTAR"], # うらこうさく
     ["NNLHQL-3Saux2-nLinnL", "オリジンパルキアVSTAR"],
     ["xGDcY8-9Atco7-xDx8a8", "オリジンパルキアVSTAR"],
     ["6gLnig-A7WC7T-QgLngn", "オリジンパルキアVSTAR"],
