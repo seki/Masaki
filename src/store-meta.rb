@@ -98,7 +98,10 @@ where screen_name= ?
 order by created_at desc limit ?;
 EOB
       synchronize do
-        @db.execute(sql, [screen_name, n]).to_a
+        @db.execute(sql, [screen_name, n]).map {|it|
+          it['created'] = to_time(it['created_at'])
+          it
+        }
       end  
     end
 
