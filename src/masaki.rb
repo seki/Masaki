@@ -1,4 +1,4 @@
-require_relative 'masaki-pg'
+require_relative 'store-meta'
 require_relative 'deck-detail'
 require_relative 'erbm'
 require_relative 'world'
@@ -92,7 +92,7 @@ class Masaki
   end
 
   def refer_tw(key)
-    tw = MasakiPG::instance.referer_tw_detail(key)
+    tw = Masaki::Meta.referer_tw_detail(key)
     return nil unless tw
     prepare_tw(tw)
   end

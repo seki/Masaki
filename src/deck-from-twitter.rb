@@ -5,8 +5,8 @@ require 'date'
 require 'open-uri'
 require_relative 'masaki-pg'
 require_relative 'deck-detail'
-
-$deck = MasakiPG::KVS.new('deck')
+require_relative 'store-meta'
+require_relative 'store-deck'
 
 class MyTwitter
   def auth
@@ -28,6 +28,7 @@ class MyTwitter
       tweet_mode: 'extended'
     }.merge(opt)
     tweets = @twitter.search("pokemon-card.com deck", params).to_a
+    return if tweets.empty?
 
     max_id = tweets[-1].id
     decks = extract_decks(tweets)
@@ -46,7 +47,8 @@ class MyTwitter
         ary = ary.collect {|x| url_to_name(x.chomp('/'))}
         ary.each do |x|
           next if x.nil?
-          MasakiPG::instance.referer_tw_store(t.to_h, x)
+          # MasakiPG::instance.referer_tw_store(t.to_h, x)
+          Masaki::Meta.referer_tw_store(t.to_h, x)
         end
         ary
       else
@@ -67,14 +69,15 @@ class MyTwitter
 end
 
 if __FILE__ == $0
-  MasakiPG::instance.kvs_frozen_world("deck")
-  frozen = MasakiPG::KVS.frozen('deck')
+  # MasakiPG::instance.kvs_frozen_world("deck")
+  # frozen = MasakiPG::KVS.frozen('deck')
   MyTwitter.new.search_decks {|name|
-    next if frozen.include?(name) || $deck.include?(name)
+    next if Masaki::Deck.include?(name)
     p name
     src = DeckDetail.fetch_deck_page(name)
     v = DeckDetail.parse(src)
-    $deck[name] = v.to_json
+    Masaki::Deck[name] = v
+    # $deck[name] = v.to_json
   }
-  puts(URI.open('https://hamana.herokuapp.com/ping/').read)
+  # puts(URI.open('https://hamana.herokuapp.com/ping/').read)
 end

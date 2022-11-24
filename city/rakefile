@@ -37,29 +37,21 @@ file 'city-deck-date.json' => ['city-event.json'] do |t|
     decks += Masaki::Players::parse(ev)
   end
 
+  Masaki::Analyze.import_deck(decks)
+
   File.write(target, decks.to_json)
   pp decks.size
 end
 
-file "city-deck-frozen.json" => ['city-deck-date.json'] do |t|
-  target = t.name
-  puts "generating #{target}"
-
-  decks = JSON.parse(File.read('city-deck-date.json'))
-  updated = Masaki::Analyze.import_deck(decks)
-  pp updated.size
-  File.write(target, updated.to_json)
+task :world => [:deck_and_date] do |t|
+  $world = MasakiWorld.new
 end
 
-task :world => ['city-deck-frozen.json'] do |t|
-  $world = MyWorld.new
-end
-
-task :dake_and_date => ['city-deck-frozen.json'] do |t|
+task :deck_and_date => ['city-deck-date.json'] do |t|
   $deck_and_date = JSON.parse(File.read('city-deck-date.json'))
 end
 
-task :analyze, [:lower, :upper, :threshold] => [:world, :dake_and_date] do |t, args|
+task :analyze, [:lower, :upper, :threshold] => [:world, :deck_and_date] do |t, args|
   range = Range.new(args[:lower], args[:upper])
   threshold = (args[:threshold] || 0.1).to_f
   pp range, threshold
@@ -76,7 +68,7 @@ file 'bar.html' => ['report_rough.json', 'bar.rhtml'] do |t|
   system("erb bar.rhtml > bar.html")
 end
 
-task :default => [:world, :dake_and_date] do
+task :default => [:world] do
   origin = Date.parse('2022-10-07') # 金曜日始まり
   today = Date.today
   rough = []

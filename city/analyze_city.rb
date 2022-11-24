@@ -1,9 +1,9 @@
 require_relative '../src/world'
-require_relative '../src/masaki-pg'
-require_relative 'known_deck'
+require_relative '../src/store-deck'
+require_relative 'deck_name'
 require 'sqlite3'
 
-module Masaki
+class Masaki
   class KVSCache
     def initialize(table, fname="cache.db")
       @db = SQLite3::Database.new(fname)
@@ -87,28 +87,14 @@ module Masaki
   module Analyze
     module_function
 
-    def make_deck_subset(decks)
-      frozen = MasakiPG::KVS.frozen('deck')
-      city_deck = Set.new(decks)
-      frozen.find_all {|k, v| city_deck.include?(k) }
-    end
-
-    $deck = MasakiPG::KVS.new('deck')
     def import_deck(decks)
-      # upload new arrived decks
-      MasakiPG::instance.kvs_frozen_world("deck")
-      # download from s3
-      frozen = MasakiPG::KVS.frozen('deck')
-    
       decks.each {|name, date|
-        next if frozen.include?(name) || $deck.include?(name)
+        next if Masaki::Deck.include?(name)
         p name
         src = DeckDetail.fetch_deck_page(name)
         v = DeckDetail.parse(src)
-        $deck[name] = v.to_json
+        Masaki::Deck[name] = v
       }
-      # upload new arrived decks, again
-      MasakiPG::instance.kvs_frozen_world("deck")
     end
 
     def analyze(world, deck_and_date, range, threshold)
@@ -124,19 +110,12 @@ module Masaki
 
       ary = tree.max_by(10) {|x| x.size}.map do |x|
         sum = x.sum.to_a
-        [x.size, x.sample, KnownDeck.guess(world, x.sample), world.deck_desc_for_cluster(sum, 20)]
+        [x.size, x.sample, DeckName.guess(world, x.sample), world.deck_desc_for_cluster(sum, 20)]
       end
 
       report['cluster'] = ary
       report
     end
-  end
-end
-
-class MyWorld < MasakiWorld
-  def import_known_deck
-    frozen = JSON.parse(File.read('city-deck-frozen.json'))
-    import_deck(frozen)
   end
 end
 

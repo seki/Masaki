@@ -1,5 +1,6 @@
-require_relative 'masaki-pg'
 require_relative 'deck-detail'
+require_relative 'store-deck'
+require_relative 'store-meta'
 require 'json'
 
 class MasakiWorld
@@ -11,11 +12,8 @@ class MasakiWorld
     make_id_norm
 
     @deck = {}
-
-    @kvs = MasakiPG::KVS.new('deck')
-
-    import_known_deck
-    import_new_deck
+    import_deck
+    pp @deck.size
 
     @recent = @deck.keys.last(10)
 
@@ -24,19 +22,9 @@ class MasakiWorld
   end
   attr_reader :deck, :idf, :norm, :recent, :id_latest
 
-  def import_known_deck
-    frozen = MasakiPG::KVS.frozen('deck')
-    import_deck(frozen)
-  end
-
-  def import_new_deck
-    import_deck(@kvs)
-  end
-
-  def import_deck(data)
-    data.each do |k, v|
+  def import_deck
+    Masaki::Deck.each do |k, v_ary|
       begin
-        v_ary = JSON.parse(v)
         next unless v_ary
         @deck[k] = re_normalize(v_ary)
       rescue => e
@@ -46,7 +34,7 @@ class MasakiWorld
   end
 
   def reload_recent(n=10)
-    @recent = MasakiPG::instance.referer_tw_recent(n)
+    @recent = Masaki::Meta.referer_tw_recent(n)
   end
 
   def re_normalize(v)
@@ -256,7 +244,7 @@ class MasakiWorld
   end
 
   def search_by_screen_name(screen_name, n=30)
-    ary = MasakiPG::instance.referer_tw_screen_name(screen_name, n)
+    ary = Masaki::Meta.referer_tw_screen_name(screen_name, n)
     ary.each {|tw| add(tw['deck'], true)}
     ary
   end
@@ -274,7 +262,7 @@ class MasakiWorld
     v = v.map {|card_id, n| [@id_norm[card_id], n]}.sort
     v = v.chunk {|e| e[0]}.map {|card_id, g|  [card_id, g.map{|h| h[1]}.sum]}
     if save
-      @kvs[name] = v.to_json
+      Masaki::Deck[name] = v
       @deck[name] = v
     else
       @deck_tmp[name] = v
