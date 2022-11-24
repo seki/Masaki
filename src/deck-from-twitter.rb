@@ -79,5 +79,5 @@ if __FILE__ == $0
     v = DeckDetail.parse(src)
     Masaki::Deck[name] = v
   }
-  # puts(URI.open('https://masaki.druby.work/ping/').read)
+  puts(URI.open('https://masaki.druby.work/ping/').read)
 end
