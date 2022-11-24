@@ -68,7 +68,9 @@ class MyTwitter
 end
 
 if __FILE__ == $0
-  load("env.rb") if File.exist?("env.rb")
+  env_path = __dir__ + "/../env.rb"
+  puts env_path
+  load(env_path) if File.exist?(env_path)
 
   MyTwitter.new.search_decks {|name|
     next if Masaki::Deck.include?(name)
