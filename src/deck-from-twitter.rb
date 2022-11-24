@@ -69,15 +69,14 @@ class MyTwitter
 end
 
 if __FILE__ == $0
-  # MasakiPG::instance.kvs_frozen_world("deck")
-  # frozen = MasakiPG::KVS.frozen('deck')
+  load("env.rb") if File.exist?("env.rb")
+
   MyTwitter.new.search_decks {|name|
     next if Masaki::Deck.include?(name)
     p name
     src = DeckDetail.fetch_deck_page(name)
     v = DeckDetail.parse(src)
     Masaki::Deck[name] = v
-    # $deck[name] = v.to_json
   }
-  # puts(URI.open('https://hamana.herokuapp.com/ping/').read)
+  # puts(URI.open('https://masaki.druby.work/ping/').read)
 end
