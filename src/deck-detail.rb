@@ -1,5 +1,5 @@
 require 'open-uri'
-require_relative 'masaki-pg'
+require_relative 'store-meta'
 
 module DeckDetail
   module_function
@@ -50,7 +50,7 @@ module DeckDetail
     [
       "https://www.pokemon-card.com/deck/confirm.html/deckID/#{key}/",
       "https://www.pokemon-card.com/deck/deckView.php/deckID/#{key}.png",
-      MasakiPG::instance.referer_tw_link(key)
+      Masaki::Meta.referer_tw_link(key)
     ]
   end
 end
