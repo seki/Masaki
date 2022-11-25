@@ -13,7 +13,6 @@ class MyTwitter
       :consumer_key    => ENV['TWITTER_API_KEY'],
       :consumer_secret => ENV['TWITTER_API_SECRET'],
     )
-    puts "Twitter APIの認証完了"
   end
 
   def search_decks(num = 5, opt = {}, &blk)

@@ -2,6 +2,7 @@ require_relative 'store-meta'
 require_relative 'deck-detail'
 require_relative 'erbm'
 require_relative 'world'
+require_relative 'deck-from-twitter'
 require 'json'
 
 class Masaki
@@ -208,4 +209,24 @@ class Masaki
   def deck_desc(code)
     @world.deck_desc(code, 5)
   end
+
+  def deck_from_twitter
+    p :deck_from_twitter
+    MyTwitter.new.search_decks {|name|
+      @world.add(name, true)
+    }
+  rescue
+  end
+
+  def deck_from_twitter_thread
+    Thread.new do
+      while true
+        sleep(60)
+        deck_from_twitter
+        do_reload_recent(nil, nil)
+        p :reload_recent
+        sleep(3600)
+      end
+    end
+  end 
 end

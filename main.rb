@@ -11,6 +11,7 @@ server = WEBrick::HTTPServer.new({
 })
 
 $masaki = Masaki.new
+$masaki.deck_from_twitter_thread
 
 Dir.glob('public/*') do |path|
   server.mount('/' + File.basename(path), WEBrick::HTTPServlet::FileHandler, path)
