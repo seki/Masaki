@@ -11,7 +11,8 @@ class Masaki
   EmbedView = ERBMethod.new(self, "to_embed(req, res, left, right, diff)", 'embed.html')
   def initialize
     @world = MasakiWorld.new
-    @recent = @world.recent.map {|k| [k, deck_desc(k)]}.reverse
+    do_reload_recent
+    @recent_updated_at = Time.now
   end
   attr_reader :world
 
@@ -61,16 +62,14 @@ class Masaki
 
   def do_recent_api(req, res, post)
     {
-      'recent' => @recent
+      'recent' => @recent,
+      'updated_at' => @recent_updated_at.strftime("%Y-%m-%d %H:%M")
     }
   end
 
-  def do_reload_recent(req, res)
+  def do_reload_recent
     @world.reload_recent(15)
     @recent = @world.recent.map {|k| [k, deck_desc(k)]}
-    {
-      'recent' => @recent        
-    }
   end
 
   def do_search_api(req, res, post)
@@ -223,7 +222,8 @@ class Masaki
       while true
         sleep(60)
         deck_from_twitter
-        do_reload_recent(nil, nil)
+        do_reload_recent
+        @recent_updated_at = Time.now
         p :reload_recent
         sleep(3600)
       end

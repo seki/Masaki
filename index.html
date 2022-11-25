@@ -121,8 +121,11 @@ footer {
 </div>
 
 <div class="container" id="recent-pane">
-  <div class="row justify-content-center m-4">
+  <div class="row justify-content-center mt-4">
     <h4>新着デッキ</h4>
+  </div>
+  <div class="row justify-content-end text-muted mb-4 mx-4">
+    Updated at &nbsp;<span id="recent-updated-at"></span>
   </div>
   <div class="container m-2">
     <div class="list-group" id="recent-list">
@@ -206,7 +209,7 @@ const update_text = document.querySelector('#update');
 const deck_query_text = document.querySelector('#deckquery');
 const filter_checkbox = document.querySelector('#filter-standard');
 const add_deck_checkbox = document.querySelector('#add-deck');
-
+const recent_updated_at = document.querySelector('#recent-updated-at');
 
 function emb_url_js(left, right) {
   let url = emb_url(left, right);
@@ -361,6 +364,7 @@ function insert_recent(item) {
 
 function apply_recent(state) {
   console.log(state);
+  recent_updated_at.textContent = state.updated_at;
   state.recent.forEach(function(name) {insert_recent(name)});
 }
 
