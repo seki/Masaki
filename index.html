@@ -166,9 +166,14 @@ footer {
         <div class="col-sm-3 row-op">
           <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt text-dark"></i> 公式サイトで見る</a>
         </div>
-        <div class="col-sm-3 row-tw">
-          <i class="fab fa-twitter text-dark"></i>
-          <span class="tw-date">2020年11月15日</span>&emsp;<a target="_blank" rel="noopener noreferrer">@m_sekiのツイート</a><span>で&emsp;出会った&emsp;ようだ。</span>
+        <div class="col-sm-3">
+          <div class="row-tw">
+            <i class="fab fa-twitter text-dark"></i>
+            <span class="tw-date">2020年11月15日</span>&emsp;<a target="_blank" rel="noopener noreferrer">@m_sekiのツイート</a><span>で&emsp;出会った&emsp;ようだ。</span>
+          </div>
+          <div class="row-city">
+            <span class="city"></span>
+          </div>
         </div>
       </div>
       <div class="row my-diff p-3"></div>
@@ -237,6 +242,8 @@ function insert_item(state, n) {
   let a3 = clone.querySelector("div.row-tw a");
   let tw_date = clone.querySelector("span.tw-date");
   let tw_div = clone.querySelector("div.row-tw");
+  let city_span = clone.querySelector("span.city");
+  let city_div = clone.querySelector("div.row-city");
   let span = clone.querySelector("span")
   let my_row = clone.querySelector(".my-diff");
   let my_emb = clone.querySelector(".my-emb");
@@ -261,6 +268,12 @@ function insert_item(state, n) {
   } else {
     tw_div.classList.add('d-none');
   }
+  if (item['city']) {
+    city_span.textContent = item['city']['date'];
+  } else {
+    city_div.classList.add('d-none');
+  }
+
   span.textContent = item['score'].toFixed(3) + " " + item["name"] + " - " + item['desc'].join(" ");
 
   newone = clone.querySelector("figure img");

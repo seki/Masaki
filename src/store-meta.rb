@@ -27,6 +27,41 @@ class Masaki
       @db = nil
     end
 
+    def referer_city_create_table
+      sql =<<EOQ
+    create table referer_city (
+    deck text
+    , event_date text
+    , primary key(deck));
+EOQ
+      synchronize do
+        @db.execute(sql)
+      end
+    end
+
+    def referer_city_store(deck, event_date)
+      sql =<<EOQ
+insert into referer_city (deck, event_date)
+  values (:deck, :event_date)
+  on conflict do update set
+    event_date = case when event_date > :event_date then :event_date else event_date end;
+EOQ
+      synchronize do
+        @db.execute(sql,
+          :deck => deck, :event_date => event_date
+        )
+      end
+    end
+
+    def referer_city_detail(deck)
+      sql =<<EOB
+select event_date from referer_city where deck=:deck;
+EOB
+      synchronize do
+        @db.execute(sql, :deck => deck).to_a.dig(0)
+      end
+    end
+
     def referer_tw_create_table
       sql =<<EOQ
     create table referer_tw (
@@ -116,6 +151,8 @@ EOB
   end
 
   Meta = MetaStore.new(__dir__ + '/../data/meta.db')
+  Meta.referer_tw_create_table rescue nil
+  Meta.referer_city_create_table rescue nil
 end
 
 if __FILE__ == $0

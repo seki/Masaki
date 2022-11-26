@@ -19,6 +19,7 @@ module DeckName
     ["VfkkV5-QwzM1B-Vkbv1V", "ジュラルドン アルセウス"],
     ["bkVkkk-L1Gt6e-fFkFfb", "ジュラルドン アルセウス"],
     ["LnnnLL-xxFlSc-n6LinH", "ジュラルドン アルセウス"],
+    [ "dVVkkV-IBRjwg-VVkVbk", "ジュラルドン アルセウス"],
     ["yyMyMM-Z5JEyZ-M2ypUX", "ゾロアーク"],
     ["yyyM2M-Zgfdkb-SME22M", "ゾロアーク"], #ヒスイ ゾロアーク
     ["UyyXME-JAghpd-yypyy2", "ゾロアーク"], #ヒスイ ウィンディ
@@ -33,8 +34,10 @@ module DeckName
     ["L9LLnN-UOVCCT-Lgn6gL", "ムゲンダイナVMAX"],
     ["HNLNnn-oKw2Uo-nnLgnn", "ムゲンダイナVMAX"],
     ["Vv5fVk-NZxydp-FVVkkv", "ムゲンダイナVMAX"],
+    ["yM2yyX-IlINvd-yMyyyS", "メタモンLO"],
     ["x8cx8x-7lAAIA-88KG84", "ルギアVSTAR"],
     ["yy2M2p-L5KX6A-ySSpMX", "ルギア そらをとぶピカチュウ"],
+    ["GDDa8c-05dv00-8x8Gxc", "ルギア そらをとぶピカチュウ"],
     ["c8xxYc-ldylN3-c88888", "ルナトーン ソルロック"],
     ["F5VFbV-Wrub8f-kk5FVk", "レジエレキVMAX クワガノン"],
     ["yMM2yM-iKTV6Y-pMUpp3", "レジエレキVMAX クワガノン"],

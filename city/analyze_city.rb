@@ -1,5 +1,6 @@
 require_relative '../src/world'
 require_relative '../src/store-deck'
+require_relative '../src/store-meta'
 require_relative 'deck_name'
 require 'sqlite3'
 
@@ -112,8 +113,8 @@ class Masaki
 
     def import_deck(decks)
       decks.each {|name, date|
+        Masaki::Meta.referer_city_store(name, date)
         next if Masaki::Deck.include?(name)
-        p name
         src = DeckDetail.fetch_deck_page(name)
         v = DeckDetail.parse(src)
         Masaki::Deck[name] = v
@@ -133,7 +134,7 @@ class Masaki
 
       ary = tree.max_by(10) {|x| x.size}.map do |x|
         sum = x.sum.to_a
-        [x.size, x.sample, DeckName.guess(world, x.sample), world.deck_desc_for_cluster(sum, 20)]
+        [x.size, x.sample, DeckName.guess(world, x.sample)]
       end
 
       report['cluster'] = ary

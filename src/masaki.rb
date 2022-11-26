@@ -97,6 +97,19 @@ class Masaki
     prepare_tw(tw)
   end
 
+  def prepare_city(city)
+    date = Time.parse(city['event_date']) rescue nil
+    return nil unless date
+    {
+      'date' => date.strftime("%m月%d日") + "のシティリーグで　活躍した。"
+    }
+  end
+
+  def refer_city(key)
+    city = Masaki::Meta.referer_city_detail(key)
+    prepare_city(city)
+  end
+
   def search(deck, n, add_deck)
     ary = @world.search_by_deck(deck, n, add_deck).map {|s, k|
       diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
@@ -104,6 +117,7 @@ class Masaki
       {
         'link' => link,
         'tweet' => refer_tw(k),
+        'city' => refer_city(k),
         'image' => image,
         'score' => s,
         'name' => k,
@@ -125,6 +139,7 @@ class Masaki
       {
         'link' => link,
         'tweet' => refer_tw(k),
+        'city' => refer_city(k),
         'image' => image,
         'score' => s,
         'name' => k,
@@ -144,6 +159,7 @@ class Masaki
       {
         'link' => link,
         'tweet' => refer_tw(k),
+        'city' => refer_city(k),
         'image' => image,
         'score' => s,
         'name' => k,
@@ -164,6 +180,7 @@ class Masaki
       {
         'link' => link,
         'tweet' => prepare_tw(tw),
+        'city' => refer_city(k),
         'image' => image,
         'score' => 1,
         'name' => k,

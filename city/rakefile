@@ -68,6 +68,10 @@ file 'bar.html' => ['report_rough.json', 'bar.rhtml'] do |t|
   system("erb bar.rhtml > bar.html")
 end
 
+task :clean do
+  File.unlink('city-event.json')
+end
+
 task :default => [:world] do
   origin = Date.parse('2022-10-07') # 金曜日始まり
   rough = []
