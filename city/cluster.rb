@@ -11,14 +11,17 @@ module Cluster
       1 - world.cos(a, b).clamp(0,1.0)
     end
     dist_matrix.main do |a, b, dist, size|
-      break if threshold && dist > threshold
+      # break if threshold && dist > threshold
       left = cluster[a]
       right = cluster[b]
-      cluster[a] = nil
-      cluster[b] = nil
+      #cluster[a] = nil
+      #cluster[b] = nil
       cluster << Node.new(left, right, dist, size)
     end
-    cluster.compact
+    cluster.find_all {|x|
+      x.dist < threshold &&
+      x.parent && x.parent.dist > threshold
+    }
   end
 
   class DeckSum
@@ -47,8 +50,12 @@ module Cluster
       end
       @dist = dist
       @size = size
+      @parent = nil
+      left.parent = self
+      right.parent = self
     end
     attr_reader :dist
+    attr_accessor :parent
 
     def to_h
       {
@@ -92,8 +99,10 @@ module Cluster
     def initialize(name, deck)
       @name = name
       @deck = deck
+      @parent = nil
     end
     attr_reader :name, :deck
+    attr_accessor :parent
 
     def to_h
       {
@@ -121,7 +130,7 @@ module Cluster
       1
     end
 
-    def sum(total)
+    def sum(total=DeckSum.new)
       total.add(@deck)
       total
     end

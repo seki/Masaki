@@ -70,11 +70,12 @@ end
 
 task :default => [:world] do
   origin = Date.parse('2022-10-07') # 金曜日始まり
-  today = Date.today
   rough = []
   detail = []
 
-  while origin < today
+  latest = Date.parse($deck_and_date.max_by {|x| x[1]}[1])
+  puts "generating report_rough.json report_detail.json"
+  while origin <= latest
     range = Range.new(origin.to_s, (origin + 6).to_s)
     origin += 7
 

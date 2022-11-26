@@ -5,6 +5,7 @@ require 'sqlite3'
 
 class Masaki
   class KVSCache
+    include Enumerable
     def initialize(table, fname="cache.db")
       @db = SQLite3::Database.new(fname)
       @table = table
@@ -32,6 +33,7 @@ class Masaki
     end
   
     def each(&blk)
+      return enum_for(__method__) unless block_given?
       @db.execute("select id, value from #{table} order by id") do |row|
         yield(row)
       end
@@ -41,6 +43,7 @@ class Masaki
   module Players
     module_function
     def fetch_event_list(last='20221001')
+      db = Masaki::KVSCache.new('city_event')
       offset = 0
       list = []
       while true
@@ -49,8 +52,28 @@ class Masaki
         offset += 20
         break if list[-1]['event_date_params'] <= last
         break if chunk['eventCount'] <= offset
+        break unless fetch_event_store(db, chunk)
       end
-      list
+      fetch_event_from_cache(db)
+    ensure
+      db.close
+    end
+
+    def fetch_event_store(db, chunk)
+      found = false
+      chunk['event'].each do |event|
+        unless db.fetch(event['event_holding_id'])
+          db.store(event['event_holding_id'], event.to_json)
+          found = true
+        end
+      end
+      found
+    end
+
+    def fetch_event_from_cache(db)
+      db.map do |row|
+        JSON.parse(row[1])
+      end
     end
   
     def fetch_event_list_1(offset)

@@ -9,7 +9,9 @@ module DeckName
     ["MyypyX-yR2Rbd-2UMSMM", "キュレム パルキア"],
     ["kFVkFF-YMbSeC-kkFFkV", "キュレム パルキア"],
     ["MMRMM2-UrIGQG-p3XMyy", "ギラティナ そらをとぶピカチュウ アルセウス"],
+    ["2MSyMy-HbjAnB-MXyyXp", "ギラティナ そらをとぶピカチュウ アルセウス"],
     ["XXMp3y-RZNFZT-pyXy2y", "ギラティナ アルセウス"],
+    ["cc8x8c-QVf0C6-8x88c8", "ギラティナ アルセウス"],
     ["8Yaxcx-FSlPpQ-8x8xcx", "ギラティナVSTAR"],
     ["dV5kfV-dCe4mL-VdkV51", "ジュラルドン アルセウス"],
     ["Vv1vkV-xfzQQr-kVkFkV", "ジュラルドン アルセウス"],
@@ -19,7 +21,9 @@ module DeckName
     ["LnnnLL-xxFlSc-n6LinH", "ジュラルドン アルセウス"],
     ["yyMyMM-Z5JEyZ-M2ypUX", "ゾロアーク"],
     ["yyyM2M-Zgfdkb-SME22M", "ゾロアーク"], #ヒスイ ゾロアーク
+    ["UyyXME-JAghpd-yypyy2", "ゾロアーク"], #ヒスイ ウィンディ
     ["VkFvkw-TASUx9-VVVkVV", "ゾロアークVSTAR"],
+    ["LL69gn-trUMzn-nL9gnn", "ゾロアークVSTAR"],
     ["kFkkFV-fJIhh2-kf5k1V", "マタドガス ムゲンダイナVMAX"],
     ["nLnggg-bzZ5J7-HgLnHH", "ミュウVMAX"],
     ["niLLPL-tyJQe1-gnnLQQ", "ミュウVMAX"],
@@ -28,6 +32,7 @@ module DeckName
     ["FkkFvk-UK4x2y-VVFFkw", "ミュウツーV-UNION"],
     ["L9LLnN-UOVCCT-Lgn6gL", "ムゲンダイナVMAX"],
     ["HNLNnn-oKw2Uo-nnLgnn", "ムゲンダイナVMAX"],
+    ["Vv5fVk-NZxydp-FVVkkv", "ムゲンダイナVMAX"],
     ["x8cx8x-7lAAIA-88KG84", "ルギアVSTAR"],
     ["yy2M2p-L5KX6A-ySSpMX", "ルギア そらをとぶピカチュウ"],
     ["c8xxYc-ldylN3-c88888", "ルナトーン ソルロック"],
@@ -43,6 +48,7 @@ module DeckName
     ["Jc84cJ-QgVka6-DD8x8K", "ロストバレット"],
     ["VkVFFf-BIdt7p-kk5V5F", "ロストバレット"],
     ["fVfFkk-KWWo4B-VkvVkF", "ロストバレット"], #レシラム
+    ["gNNgLn-iz2ItL-QngnnL", "ロストバレット"],
     ["FkwVwk-CpUB9b-VFkVfk", "ロトムVSTAR"]
   ]
 
