@@ -3,6 +3,7 @@ module DeckName
     ["LiLgLn-TnGmGw-gHLLn6", "アルセウスVSTAR"],
     ["8x8x48-QzM65x-cxxGKx", "アルセウスVSTAR"], # うらこうさく
     ["gngLiL-WKQgyP-gLnLNL", "アルセウスVSTAR"], # うらこうさく
+    ["yMXyUX-Zl2HpI-XySpSM", "アローラロコン そらをとぶピカチュウ"],
     ["NNLHQL-3Saux2-nLinnL", "オリジンパルキアVSTAR"],
     ["xGDcY8-9Atco7-xDx8a8", "オリジンパルキアVSTAR"],
     ["6gLnig-A7WC7T-QgLngn", "オリジンパルキアVSTAR"],
@@ -19,12 +20,14 @@ module DeckName
     ["VfkkV5-QwzM1B-Vkbv1V", "ジュラルドン アルセウス"],
     ["bkVkkk-L1Gt6e-fFkFfb", "ジュラルドン アルセウス"],
     ["LnnnLL-xxFlSc-n6LinH", "ジュラルドン アルセウス"],
-    [ "dVVkkV-IBRjwg-VVkVbk", "ジュラルドン アルセウス"],
+    ["dVVkkV-IBRjwg-VVkVbk", "ジュラルドン アルセウス"],
     ["yyMyMM-Z5JEyZ-M2ypUX", "ゾロアーク"],
     ["yyyM2M-Zgfdkb-SME22M", "ゾロアーク"], #ヒスイ ゾロアーク
     ["UyyXME-JAghpd-yypyy2", "ゾロアーク"], #ヒスイ ウィンディ
+    ["pMpyE2-N3FZ44-MypMyM", "ゾロアーク"],
     ["VkFvkw-TASUx9-VVVkVV", "ゾロアークVSTAR"],
     ["LL69gn-trUMzn-nL9gnn", "ゾロアークVSTAR"],
+    ["QnHNnn-0rIYSO-nLHLnN", "ヒスイヌメルゴン アローラロコン アルセウス"],
     ["kFkkFV-fJIhh2-kf5k1V", "マタドガス ムゲンダイナVMAX"],
     ["nLnggg-bzZ5J7-HgLnHH", "ミュウVMAX"],
     ["niLLPL-tyJQe1-gnnLQQ", "ミュウVMAX"],
@@ -35,6 +38,7 @@ module DeckName
     ["HNLNnn-oKw2Uo-nnLgnn", "ムゲンダイナVMAX"],
     ["Vv5fVk-NZxydp-FVVkkv", "ムゲンダイナVMAX"],
     ["yM2yyX-IlINvd-yMyyyS", "メタモンLO"],
+    ["G88Yx8-Mu2OHC-c48Dxx", "メタモンLO"],
     ["x8cx8x-7lAAIA-88KG84", "ルギアVSTAR"],
     ["yy2M2p-L5KX6A-ySSpMX", "ルギア そらをとぶピカチュウ"],
     ["GDDa8c-05dv00-8x8Gxc", "ルギア そらをとぶピカチュウ"],

@@ -78,15 +78,13 @@ task :default => [:world] do
   detail = []
 
   latest = Date.parse($deck_and_date.max_by {|x| x[1]}[1])
-  puts "generating report_rough.json report_detail.json"
+  puts "generating report_rough.json"
   while origin <= latest
     range = Range.new(origin.to_s, (origin + 6).to_s)
     origin += 7
 
     rough << Masaki::Analyze.analyze($world, $deck_and_date, range, 0.3)
-    detail << Masaki::Analyze.analyze($world, $deck_and_date, range, 0.05)
   end
 
   File.write("report_rough.json", rough.to_json)
-  File.write("report_detail.json", detail.to_json)
 end
