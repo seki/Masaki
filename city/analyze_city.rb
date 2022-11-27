@@ -110,7 +110,6 @@ class Masaki
 
   module Analyze
     module_function
-
     def import_deck(decks)
       decks.each {|name, date|
         Masaki::Meta.referer_city_store(name, date)
@@ -138,6 +137,20 @@ class Masaki
 
       report['cluster'] = ary
       report
+    end
+
+    def weekly_analyze(world, deck_and_date)
+      origin = Date.parse('2022-10-07') # 金曜日始まり
+      weekly = deck_and_date.sort_by {|x| x[1]}.chunk {|x|
+        (Date.parse(x[1]) - origin).to_i / 7
+      }
+      result = weekly.map {|_, decks|
+        {
+          'range' => Range.new(decks[0][1], decks[-1][1]),
+          'deck_count' => decks.size,
+          'cluster' => Cluster.new(world, decks.map {|x, d| x})
+        }
+      }
     end
   end
 end

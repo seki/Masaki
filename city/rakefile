@@ -73,6 +73,10 @@ task :clean do
   File.unlink('report_rough.json')
 end
 
+task :test => [:world] do
+  Masaki::Analyze.weekly_analyze($world, $deck_and_date)
+end
+
 task :default => [:world] do
   origin = Date.parse('2022-10-07') # 金曜日始まり
   rough = []

@@ -21,6 +21,18 @@ class Cluster
     }
   end
 
+  def do_division(ary, n)
+    return ary if ary.size >= n
+    top = ary.pop
+    return ary if top.to_a.size <= 1
+    ary += top.to_a
+    do_division(ary.sort_by {|x| x.index}, n)
+  end
+
+  def division(index, n)
+    do_division([@cluster[index]], n)
+  end
+
   def make_tree(world, decks)
     index = -1
     cluster = decks.map {|x| index += 1; Leaf.new(x, world.deck[x], index)}
@@ -148,7 +160,7 @@ if __FILE__ == $0
 
   world = MasakiWorld.new
   city = JSON.parse(File.read('city-deck-date.json'))
-  decks = city.find_all {|k, d| d >= '2022-11-18'}.map {|k, d| k}.to_a
+  decks = city.find_all {|k, d| d >= '2022-11-10'}.map {|k, d| k}.to_a
   p decks.size
 
   cluster = Cluster.new(world, decks)
@@ -166,4 +178,6 @@ if __FILE__ == $0
     ).find_all {|x| x[2][0] != x[2][1]}
   end
 
+  pp cluster.division(2855, 10).map {|x| [x.index, x.size, x.dist]}.reverse
+  pp cluster.threshold(cluster[2855].dist * 0.5, 2855).max_by(10) {|x| x.size}.map {|x| [x.index, x.size]}
 end
