@@ -24,7 +24,7 @@ class ForBar
     @ary.each_with_index do |report, i|
       labels << (report['range'].split('.').first)
       total = report['deck_count']
-      report['cluster'][0,8].each do |c|
+      report['cluster'].each do |c|
         dict[c[2]][i] = c[0]
         deck[c[2]][i] = c[1]
         total -= c[0]
@@ -48,7 +48,6 @@ end
 
 if __FILE__ == $0
   rough = JSON.parse(File.read('report_rough.json'))
-  detail = JSON.parse(File.read('report_detail.json'))
 
   # fp = ForPie.new(detail[-2])
   # puts fp.to_chart_data

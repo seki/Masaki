@@ -15,10 +15,8 @@
   require_relative 'bar'
 
   rough = JSON.parse(File.read('report_rough.json'))
-  detail = JSON.parse(File.read('report_detail.json'))
 
   bar_rough = ForBar.new(rough)
-  bar_detail = ForBar.new(detail)
 %>
 <script>
 let deck = <%= bar_rough.deck.to_json %>;

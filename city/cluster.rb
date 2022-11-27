@@ -3,25 +3,43 @@ require 'set'
 require_relative '../src/world'
 require_relative 'single_linkage'
 
-module Cluster
-  module_function
-  def make_tree(world, decks, threshold=nil)
-    cluster = decks.map {|x| Leaf.new(x, world.deck[x])}
+class Cluster
+  def initialize(world, decks)
+    @world = world
+    @decks = decks
+    @cluster = make_tree(world, decks)
+  end
+
+  def [](index)
+    @cluster[index]
+  end
+
+  def threshold(diff, clip=nil)
+    @cluster.find_all {|x|
+      x.dist < diff &&
+      x.parent && x.parent.dist > diff &&
+      (clip ? x.ancestor?(clip) : true)
+    }
+  end
+
+  def make_tree(world, decks)
+    index = -1
+    cluster = decks.map {|x| index += 1; Leaf.new(x, world.deck[x], index)}
     dist_matrix = SingleLinkage.new(decks) do |a, b|
       1 - world.cos(a, b).clamp(0,1.0)
     end
     dist_matrix.main do |a, b, dist, size|
-      # break if threshold && dist > threshold
       left = cluster[a]
       right = cluster[b]
-      #cluster[a] = nil
-      #cluster[b] = nil
-      cluster << Node.new(left, right, dist, size)
+      index += 1
+      cluster << Node.new(left, right, dist, size, index)
     end
-    cluster.find_all {|x|
-      x.dist < threshold &&
-      x.parent && x.parent.dist > threshold
-    }
+    cluster
+  end
+
+  def self.make_tree(world, decks, diff)
+    c = self.new(world, decks)
+    c.threshold(diff).map {|x, i| x}
   end
 
   class DeckSum
@@ -42,7 +60,7 @@ module Cluster
   end
 
   class Node
-    def initialize(left, right, dist, size)
+    def initialize(left, right, dist, size, index)
       if dist == 0
         @children = left.to_a + right.to_a
       else
@@ -50,11 +68,12 @@ module Cluster
       end
       @dist = dist
       @size = size
+      @index = index
       @parent = nil
       left.parent = self
       right.parent = self
     end
-    attr_reader :dist
+    attr_reader :dist, :index
     attr_accessor :parent
 
     def to_h
@@ -93,15 +112,22 @@ module Cluster
     def sample
       @children.max_by {|x| x.size}.sample
     end
+
+    def ancestor?(index)
+      return true if @index == index
+      return false unless @parent
+      @parent.ancestor?(index)
+    end
   end
 
   class Leaf
-    def initialize(name, deck)
+    def initialize(name, deck, index)
       @name = name
       @deck = deck
       @parent = nil
+      @index = index
     end
-    attr_reader :name, :deck
+    attr_reader :name, :deck, :index
     attr_accessor :parent
 
     def to_h
@@ -138,22 +164,30 @@ module Cluster
     def sample
       @name
     end
-  end
 
-  def merge(a, b, dist, size)
-    @cluster << Node.new(a, b, dist, size)
+    def ancestor?(index)
+      return true if @index == index
+      return false unless @parent
+      @parent.ancestor?(index)
+    end
   end
 end
 
 if __FILE__ == $0
-  world = MyWorld.new
+  require_relative '../src/world'
 
-  decks = city.find_all {|k, d| d >= '2022-10-22'}.map {|k, d| k}.to_a
+  world = MasakiWorld.new
+  city = JSON.parse(File.read('city-deck-date.json'))
+  decks = city.find_all {|k, d| d >= '2022-11-24'}.map {|k, d| k}.to_a
   p decks.size
 
-  tree = Cluster.make_tree(world, decks, 0.1)
+  cluster = Cluster.new(world, decks)
+  pp cluster.threshold(0.25).map {|x| [x.index, x.size]}
+  pp cluster.threshold(0.25 / 2, 370).map {|x| [x.index, x.size]}
+  pp cluster.threshold(0.25 / 4, 355).map {|x| [x.index, x.size]}
+  pp cluster.threshold(0.25 / 8, 324).map {|x| [x.index, x.size]}
 
-  it = tree.max_by(10) {|x| x.size}
+  it = cluster.threshold(0.1).max_by(10) {|x| x.size}
   it.each do |x|
     sum = x.sum.to_a
     pp [x.size, world.deck_desc_for_cluster(sum, 15)]

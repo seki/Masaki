@@ -70,6 +70,7 @@ end
 
 task :clean do
   File.unlink('city-event.json')
+  File.unlink('report_rough.json')
 end
 
 task :default => [:world] do
