@@ -277,7 +277,11 @@ function insert_item(state, n) {
     city_div.classList.add('d-none');
   }
 
-  span.textContent = item['score'].toFixed(3) + " " + item["name"] + " - " + item['desc'].join(" ");
+  if (state['query'][0] == 'search_by_screen_name') {
+    span.textContent = item['tweet']['date2'] + " " + item["name"] + " - " + item['desc'].join(" ");
+  } else {
+    span.textContent = item['score'].toFixed(3) + " " + item["name"] + " - " + item['desc'].join(" ");
+  }
 
   newone = clone.querySelector("figure img");
   newone.dataset['name'] = item['name'];
