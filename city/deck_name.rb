@@ -14,6 +14,7 @@ module DeckName
     ["XXMp3y-RZNFZT-pyXy2y", "ギラティナ アルセウス"],
     ["cc8x8c-QVf0C6-8x88c8", "ギラティナ アルセウス"],
     ["8Yaxcx-FSlPpQ-8x8xcx", "ギラティナVSTAR"],
+    ["Lg6Hnn-cc7Kg9-nnLnnL", "コケコ そらをとぶピカチュウ アルセウス"],
     ["dV5kfV-dCe4mL-VdkV51", "ジュラルドン アルセウス"],
     ["Vv1vkV-xfzQQr-kVkFkV", "ジュラルドン アルセウス"],
     ["pMpyyp-y6qr3X-yMypUy", "ジュラルドン アルセウス"],

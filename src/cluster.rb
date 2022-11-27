@@ -1,11 +1,10 @@
 require 'json'
 require 'set'
-require_relative '../src/world'
+require_relative 'world'
 require_relative 'single_linkage'
 
 class Cluster
   def initialize(world, decks)
-    @world = world
     @decks = decks
     @cluster = make_tree(world, decks)
   end
@@ -37,32 +36,9 @@ class Cluster
     cluster
   end
 
-  def deck_diff(a, b)
-    left = @cluster[a].sample
-    right = @cluster[b].sample
-    @world.diff(left, right)
-  end
-
   def self.make_tree(world, decks, diff)
     c = self.new(world, decks)
     c.threshold(diff).map {|x, i| x}
-  end
-
-  class DeckSum
-    def initialize
-      @total = Hash.new(0)
-    end
-    attr_reader :total
-
-    def to_a
-      @total.to_a.sort
-    end
-
-    def add(deck)
-      deck.each do |k, v|
-        @total[k] += v.clamp(..4)
-      end
-    end
   end
 
   class Node
@@ -106,13 +82,6 @@ class Cluster
 
     def to_a
       @children
-    end
-
-    def sum(total=DeckSum.new)
-      @children.each do |node|
-        node.sum(total)
-      end
-      total
     end
 
     def sample
@@ -162,11 +131,6 @@ class Cluster
       1
     end
 
-    def sum(total=DeckSum.new)
-      total.add(@deck)
-      total
-    end
-
     def sample
       @name
     end
@@ -180,7 +144,7 @@ class Cluster
 end
 
 if __FILE__ == $0
-  require_relative '../src/world'
+  require_relative 'world'
 
   world = MasakiWorld.new
   city = JSON.parse(File.read('city-deck-date.json'))
@@ -188,6 +152,7 @@ if __FILE__ == $0
   p decks.size
 
   cluster = Cluster.new(world, decks)
+  File.write("cluster.dump", Marshal.dump(cluster))
   th = 0.5
 
   ary = cluster.threshold(th ** 2).max_by(10) {|x| x.size}
@@ -195,14 +160,10 @@ if __FILE__ == $0
 
   (3..6).each do |n|
     ary = cluster.threshold(th ** n, ary[0].index).max_by(10) {|x| x.size}
-    pp cluster.deck_diff(ary[0].index, ary[1].index).find_all {|x| x[2][0] != x[2][1]}
+    pp world.diff(
+      cluster[ary[0].index].sample, 
+      cluster[ary[1].index].sample
+    ).find_all {|x| x[2][0] != x[2][1]}
   end
 
-=begin
-  it = cluster.threshold(0.1).max_by(10) {|x| x.size}
-  it.each do |x|
-    sum = x.sum.to_a
-    pp [x.size, world.deck_desc_for_cluster(sum, 15)]
-  end
-=end
 end

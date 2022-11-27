@@ -133,7 +133,6 @@ class Masaki
       tree = Cluster.make_tree(world, decks, threshold)
 
       ary = tree.max_by(8) {|x| x.size}.map do |x|
-        sum = x.sum.to_a
         [x.size, x.sample, DeckName.guess(world, x.sample)]
       end
 

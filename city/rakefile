@@ -1,5 +1,5 @@
 require_relative 'analyze_city'
-require_relative 'cluster'
+require_relative '../src/cluster'
 require 'date'
 
 file 'city-event.json' do |t|
