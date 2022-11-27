@@ -37,6 +37,12 @@ class Cluster
     cluster
   end
 
+  def deck_diff(a, b)
+    left = @cluster[a].sample
+    right = @cluster[b].sample
+    @world.diff(left, right)
+  end
+
   def self.make_tree(world, decks, diff)
     c = self.new(world, decks)
     c.threshold(diff).map {|x, i| x}
@@ -178,18 +184,25 @@ if __FILE__ == $0
 
   world = MasakiWorld.new
   city = JSON.parse(File.read('city-deck-date.json'))
-  decks = city.find_all {|k, d| d >= '2022-11-24'}.map {|k, d| k}.to_a
+  decks = city.find_all {|k, d| d >= '2022-11-18'}.map {|k, d| k}.to_a
   p decks.size
 
   cluster = Cluster.new(world, decks)
-  pp cluster.threshold(0.25).map {|x| [x.index, x.size]}
-  pp cluster.threshold(0.25 / 2, 370).map {|x| [x.index, x.size]}
-  pp cluster.threshold(0.25 / 4, 355).map {|x| [x.index, x.size]}
-  pp cluster.threshold(0.25 / 8, 324).map {|x| [x.index, x.size]}
+  th = 0.5
 
+  ary = cluster.threshold(th ** 2).max_by(10) {|x| x.size}
+  pp ary.map {|x| [x.index, x.size]}
+
+  (3..6).each do |n|
+    ary = cluster.threshold(th ** n, ary[0].index).max_by(10) {|x| x.size}
+    pp cluster.deck_diff(ary[0].index, ary[1].index).find_all {|x| x[2][0] != x[2][1]}
+  end
+
+=begin
   it = cluster.threshold(0.1).max_by(10) {|x| x.size}
   it.each do |x|
     sum = x.sum.to_a
     pp [x.size, world.deck_desc_for_cluster(sum, 15)]
   end
+=end
 end
