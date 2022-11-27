@@ -214,6 +214,7 @@ class MasakiWorld
 
     top = @deck.map do |b, deck_b|
       c = dot(v, deck_b) / (norm * @norm[b]) # cos
+      c = 0 if c >= 1.0 # ifnore same deck
       [c, b]
     end.max(n).find_all {|x| x[0] > 0}
 
