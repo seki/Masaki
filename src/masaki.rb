@@ -23,7 +23,7 @@ class Masaki
   def setup_city
     @cluster = File.open('city/weekly.dump') {|fp| Marshal.load(fp)}
     report_for_bar = @cluster.map do |c|
-      ary = c['cluster'].threshold(0.3).max_by(8) {|x| x.size}.map do |x|
+      ary = c['cluster'].threshold(0.25).max_by(8) {|x| x.size}.map do |x|
         [x.size, x.sample, DeckName.guess(@world, x.sample), x.index]
       end
       {
@@ -235,7 +235,7 @@ class Masaki
     pp city_index
     c = @cluster[city_index[0]]
     clip = c['cluster'][city_index[1]]
-    ary = c['cluster'].threshold(clip.dist * 0.5, clip.index).max_by(6) {|x| x.size}.map { |x|
+    ary = c['cluster'].threshold(clip.dist * 0.25, clip.index).max_by(6) {|x| x.size}.map { |x|
       s = x.size
       k = x.sample
       link, image = DeckDetail::make_url(k)
