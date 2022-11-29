@@ -73,8 +73,12 @@ task :clean do
   File.unlink('report_rough.json')
 end
 
-task :test => [:world] do
-  Masaki::Analyze.weekly_analyze($world, $deck_and_date)
+file 'weekly.dump' => [:world] do |t|
+  target = t.name
+  puts "generating #{target}"
+
+  it = Masaki::Analyze.weekly_analyze($world, $deck_and_date)
+  File.open(target, "w") {|fp| Marshal.dump(it, fp)}
 end
 
 task :default => [:world] do

@@ -77,6 +77,8 @@ def build_pokemon(regulation)
     [pair.first, ary, pair.last]
   end
 
+  File.open("debug_pokemon.dump", "w") {|fp| Marshal.dump(list, fp)} if regulation == "all"
+
   last = []
   result = list.sort.map { |name, desc, card_id|
     if last[0..1] == [name, desc]
@@ -97,6 +99,8 @@ File.open("uniq_energy_trainer_all.txt", "w") {|fp| fp.write(all_trainer.pretty_
 p :step_2
 all_pokemon = build_pokemon("all")
 File.open("uniq_pokemon_all.txt", "w") {|fp| fp.write(all_pokemon.pretty_inspect)}
+
+exit unless ARGV.shift
 
 p :step_3
 xy_trainer = build_trainer_and_energy("XY")

@@ -8,6 +8,18 @@ class Cluster
     @decks = decks
     @cluster = make_tree(world, decks)
   end
+  
+  def to_a
+    @cluster
+  end
+
+  def inspect
+    "<Cluster>"
+  end
+
+  def pretty_inspect
+    "<Cluster>"
+  end
 
   def [](index)
     @cluster[index]

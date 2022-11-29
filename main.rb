@@ -36,6 +36,12 @@ server.mount_proc('/e/') {|req, res|
   end
 }
 
+server.mount_proc('/city') {|req, res|
+  pp req.path_info
+  res.content_type = "text/html; charset=UTF-8"
+  res.body = $masaki.do_city(req, res)
+}
+
 server.mount_proc('/') {|req, res|
   pp req.path_info
   res.content_type = "text/html; charset=UTF-8"

@@ -3,18 +3,37 @@ require_relative 'deck-detail'
 require_relative 'erbm'
 require_relative 'world'
 require_relative 'deck-from-twitter'
+require_relative 'cluster'
+require_relative '../city/deck_name'
 require 'json'
 
 class Masaki
   include ERB::Util
   View = ERBMethod.new(self, "to_html(req, res)", 'index.html')
+  CityView = ERBMethod.new(self, "to_city(req, res)", 'city.html')
   EmbedView = ERBMethod.new(self, "to_embed(req, res, left, right, diff)", 'embed.html')
   def initialize
     @world = MasakiWorld.new
     do_reload_recent
     @recent_updated_at = Time.now
+    setup_city
   end
   attr_reader :world
+
+  def setup_city
+    @cluster = File.open('city/weekly.dump') {|fp| Marshal.load(fp)}
+    report_for_bar = @cluster.map do |c|
+      ary = c['cluster'].threshold(0.3).max_by(8) {|x| x.size}.map do |x|
+        [x.size, x.sample, DeckName.guess(@world, x.sample), x.index]
+      end
+      {
+        'range' => c['range'],
+        'deck_count' => c['deck_count'],
+        'cluster' => ary
+      }
+    end
+    @for_bar = ForBar.new(report_for_bar)
+  end
 
   def do_embed(req, res)
     if /\/(\w{6}\-\w{6}\-\w{6})\.(js|html)\Z/ =~ req.path_info
@@ -51,6 +70,13 @@ class Masaki
     to_html(req, res)
   end
 
+  def do_city(req, res)
+    p :do_city
+    CityView.reload
+    p :to_city
+    to_city(req, res)
+  end
+
   def do_api(req, res, post)
     case post['method']
     when "search"
@@ -75,6 +101,9 @@ class Masaki
   def do_search_api(req, res, post)
     str = post["search"]
     add_deck = post["add"] ? true : false
+    sign = post["sign"]
+    city_index = guess_city(str)
+    return search_city_cluster(city_index, sign) if city_index
     name = DeckDetail::guess_deck_name(str)
     return search(name, 5, add_deck) if name
     screen_name = guess_screen_name(str)
@@ -195,6 +224,43 @@ class Masaki
     }
   end
 
+  def guess_city(str)
+    ary = str.split(':')
+    return nil unless ary[0] == 'city'
+    return nil unless ary.size == 3
+    [ary[1].to_i, ary[2].to_i]
+  end
+
+  def search_city_cluster(city_index, sign)
+    pp city_index
+    c = @cluster[city_index[0]]
+    clip = c['cluster'][city_index[1]]
+    ary = c['cluster'].threshold(clip.dist * 0.5, clip.index).max_by(6) {|x| x.size}.map { |x|
+      s = x.size
+      k = x.sample
+      link, image = DeckDetail::make_url(k)
+      {
+        'link' => link,
+        'tweet' => refer_tw(k),
+        'city' => refer_city(k),
+        'image' => image,
+        'score' => s,
+        'name' => k,
+        'desc' => deck_desc(k)
+      }
+    }
+    head = ary[0]
+    ary.each do |x|
+      diff = @world.diff(ary[0]['name'], x['name']).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
+      x['diff'] = diff
+    end
+    {
+      'query' => ['search_by_city'] + city_index,
+      'desc' => "#{c['range'].first}のシティリーグの「#{DeckName.guess(@world, clip.sample)}」クラスタのようす",
+      'result' => ary
+    }
+  end
+
   def add(deck)
     @world.add(deck)
   end
@@ -246,5 +312,51 @@ class Masaki
         sleep(3600)
       end
     end
-  end 
+  end
+
+  class ForBar
+    Paired12 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']
+  
+    def initialize(ary)
+      @ary = ary
+      make_dataset
+    end
+    attr_reader :deck
+  
+    def to_chart_data
+      {
+        "labels" => @labels,
+        "datasets" => @dataset
+      }
+    end
+  
+    def make_dataset
+      dict = Hash.new {|h,k| h[k] = [0] * @ary.size}
+      deck = Hash.new {|h,k| h[k] = Array.new(@ary.size)}
+      other = []
+      labels = []
+      @ary.each_with_index do |report, i|
+        labels << report['range'].first
+        total = report['deck_count']
+        report['cluster'].each do |c|
+          dict[c[2]][i] = c[0]
+          deck[c[2]][i] = [c[1], c[3]]
+          total -= c[0]
+        end
+        other << total
+      end
+      dict['other'] = other
+      deck['other'] = Array.new(@ary.size)
+      color = Paired12.dup
+      dataset = dict.map do |k, v|
+        color.rotate!
+        c = color.last
+        {"label" => k, "data" => v, "stack" => "stack-1", "backgroundColor" => c + "ee", "borderColor" => c}
+      end
+  
+      @labels = labels
+      @dataset = dataset.reverse
+      @deck = deck.values.reverse
+    end
+  end  
 end
