@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%=h ENV['ADSENSE']%>"
      crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 
 .jumbotron {
@@ -75,7 +76,7 @@ footer {
           <a class="nav-link" href="#recent-pane">Recent</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/city">City League</a>
+          <a class="nav-link active" href="/city">City League</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="https://www.buymeacoffee.com/druby"><i class="fas fa-coffee"></i> buy me a coffee</a>
@@ -98,26 +99,10 @@ footer {
 
 <div class="container">
   <div class="row justify-content-center m-2">
-    <large>
-      <div class="input-group">
-        <input type="deck" class="form-control" placeholder="デッキコード カード名 番号" onchange="call_api()"
-        aria-label="検索デッキコード" aria-describedby="basic-addon1" id="update">
-        <div class="input-group-append">
-          <button class="btn btn-secondary" type="button">検索</button>
-        </div>
-      </div>
-      <div class="text-muted custom-control custom-checkbox d-none">
-        <input class="custom-control-input" type="checkbox" value="filter-standard" id="filter-standard">
-        <label class="custom-control-label" for="filter-standard">スタンダードのみ（ハイボ グズマ テテフ等を使うデッキを隠す）</label>
-      </div>
-      <div class="text-muted custom-control custom-checkbox d-none">
-        <input class="custom-control-input" type="checkbox" value="add-deck" id="add-deck">
-        <label class="custom-control-label" for="add-deck"">デッキコードを検索対象に追加する</label>
-      </div>
-    </large>
+    <p>Twitterなどに投稿されたデッキを解析してリサーチ。第二弾はシティリーグの分析です。</p>
   </div>
   <div class="row justify-content-center m-2">
-    <p>Twitterなどに投稿されたデッキを解析してリサーチ。第一弾は似ているデッキを探します。</p>
+    <canvas id="city_canvas"></canvas>
   </div>
   <div class="row justify-content-center m-2">
     <span class="lead" id="deckquery"></span>
@@ -126,7 +111,7 @@ footer {
   </div>
 </div>
 
-<div class="container" id="recent-pane">
+<div class="container d-none" id="recent-pane">
   <div class="row justify-content-center mt-4">
     <h4>新着デッキ</h4>
   </div>
@@ -218,8 +203,6 @@ footer {
 <script>
 const update_text = document.querySelector('#update');
 const deck_query_text = document.querySelector('#deckquery');
-const filter_checkbox = document.querySelector('#filter-standard');
-const add_deck_checkbox = document.querySelector('#add-deck');
 const recent_updated_at = document.querySelector('#recent-updated-at');
 
 function emb_url_js(left, right) {
@@ -261,7 +244,7 @@ function insert_item(state, n) {
   a.href = '#collapse-' + item['name'];
 
   if (n == 0) {
-    card.classList.add('show');
+    /* card.classList.add('show'); */
   }
   
   img.src = item['image'];
@@ -282,6 +265,8 @@ function insert_item(state, n) {
 
   if (state['query'][0] == 'search_by_screen_name') {
     span.textContent = item['tweet']['date2'] + " " + item["name"] + " - " + item['desc'].join(" ");
+  } else if (state['query'][0] == 'search_by_city') {
+    span.textContent = item['score'] + " " + item["name"] + " - " + item['desc'].join(" ");
   } else {
     span.textContent = item['score'].toFixed(3) + " " + item["name"] + " - " + item['desc'].join(" ");
   }
@@ -304,6 +289,17 @@ function insert_item(state, n) {
         insert_card_diff(my_row, item['diff'][i]);
       }
     }
+  } else if (state.query[0] == 'search_by_city') {
+    if (n == 0) {
+      for(i in item['diff']) {
+        insert_card(my_row, item['diff'][i]);
+      }
+    } else {
+      for(i in item['diff']) {
+        insert_card_diff(my_row, item['diff'][i]);
+      }
+    }
+    my_emb.classList.add('d-none');
   } else {
     my_emb.classList.add('d-none');
   }
@@ -363,6 +359,8 @@ function apply_state(state) {
   } else if (state.query[0] == 'search_by_screen_name') {
     deck_query_text.textContent = "@" + state.query[1] + " のツイートしたデッキ";
     history.replaceState(null, '', "@" + state.query[1]);
+  } else if (state.query[0] == 'search_by_city') {
+    deck_query_text.textContent = state.desc;
   } else {
     deck_query_text.textContent = "カード番号 " + state.query[1] + " を使用するデッキ";
     history.replaceState(null, '', '/');
@@ -412,12 +410,11 @@ function call_set_recent() {
 
 function call_set_deck_code(name) {
   url = '/api';
-  console.log(filter_checkbox.checked);
 
   data = {
     method: "search",
-    filter: filter_checkbox.checked,
-    add: add_deck_checkbox.checked,
+    filter: false,
+    add: false,
     search: name
   };
 
@@ -449,14 +446,41 @@ function copyEmbedUrl(me) {
   document.execCommand("Copy");
 }
 
+function buildBar() {
+  let deck = <%= @for_bar.deck.to_json %>;
+  var ctx = document.getElementById('city_canvas');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: <%= @for_bar.to_chart_data.to_json%>,
+    options: {
+      plugins: {
+        legend: {
+          display: true,
+          align: "end",
+          position: "right"
+        }
+      }
+    }
+  });
+  ctx.addEventListener( 'click', function( evt ){
+    var item = myChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+    if( item.length == 0 ){
+      return;
+    }
+
+    item = item[0];
+    let deck_code = deck[item.datasetIndex][item.index];
+    if (deck_code) {
+      call_set_deck_code('city:' + item.index + ':' + deck_code[1])
+      /* window.open('https://masaki.druby.work/' + deck_code[0]) */
+    }
+  });
+}
+
+buildBar();
 /* 
 call_set_recent();
-*/
 apply_recent(<%= do_recent_api(req, res, nil).to_json %>);
-<%
-  if page_info
-%>apply_state(<%= page_info.to_json %>);<%
-  end 
-%>
+*/
 </script>
 </html>
