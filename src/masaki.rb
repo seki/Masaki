@@ -256,7 +256,7 @@ class Masaki
     end
     {
       'query' => ['search_by_city'] + city_index,
-      'desc' => "#{c['range'].first}のシティリーグの「#{DeckName.guess(@world, clip.sample)}」クラスタのようす",
+      'desc' => "#{c['range'].first}の週の「#{DeckName.guess(@world, clip.sample)}」クラスタのようす",
       'result' => ary
     }
   end
@@ -316,7 +316,9 @@ class Masaki
 
   class ForBar
     Paired12 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']
-  
+    PRGn11 = ['#40004b', '#762a83', '#9970ab', '#c2a5cf', '#e7d4e8', '#f7f7f7', '#d9f0d3', '#a6dba0', '#5aae61', '#1b7837', '#00441b']
+    Spectral11 = ['#9e0142', '#d53e4f', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#e6f598', '#abdda4', '#66c2a5', '#3288bd', '#5e4fa2']
+
     def initialize(ary)
       @ary = ary
       make_dataset
@@ -347,7 +349,7 @@ class Masaki
       end
       dict['other'] = other
       deck['other'] = Array.new(@ary.size)
-      color = Paired12.dup
+      color = Spectral11.dup
       dataset = dict.map do |k, v|
         color.rotate!
         c = color.last

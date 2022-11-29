@@ -104,7 +104,7 @@ footer {
   <div class="row justify-content-center m-2">
     <canvas id="city_canvas"></canvas>
   </div>
-  <div class="row justify-content-center m-2">
+  <div class="row justify-content-center m-4">
     <span class="lead" id="deckquery"></span>
   </div>
   <div id="deckresult" class="accordion" role="tablist" aria-multiselectable="true">
@@ -266,7 +266,7 @@ function insert_item(state, n) {
   if (state['query'][0] == 'search_by_screen_name') {
     span.textContent = item['tweet']['date2'] + " " + item["name"] + " - " + item['desc'].join(" ");
   } else if (state['query'][0] == 'search_by_city') {
-    span.textContent = item['score'] + " " + item["name"] + " - " + item['desc'].join(" ");
+    span.textContent = item['score'] + "デッキ " + " - " + item['desc'].join(" ");
   } else {
     span.textContent = item['score'].toFixed(3) + " " + item["name"] + " - " + item['desc'].join(" ");
   }
