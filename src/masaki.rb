@@ -22,6 +22,7 @@ class Masaki
 
   def setup_city
     @cluster = File.open('city/weekly.dump') {|fp| Marshal.load(fp)}
+    @cluster_sign = File.mtime('city/weekly.dump').to_i.to_s(36)
     report_for_bar = @cluster.map do |c|
       ary = c['cluster'].threshold(0.25).max_by(8) {|x| x.size}.map do |x|
         [x.size, x.sample, DeckName.guess(@world, x.sample), x.index]
@@ -232,6 +233,16 @@ class Masaki
   end
 
   def search_city_cluster(city_index, sign)
+    pp [sign, @cluster_sign]
+    if (sign != @cluster_sign)
+      return {
+        'query' => ['search_by_city'] + city_index,
+        'desc' => "データが更新されたのでリロードしてね",
+        'result' => [],
+        'status' => 'updated'
+      }
+    end
+
     pp city_index
     c = @cluster[city_index[0]]
     clip = c['cluster'][city_index[1]]

@@ -2,7 +2,6 @@ require 'json'
 
 class ForBar
   Paired12 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']
-  PRGn11 = ['#40004b', '#762a83', '#9970ab', '#c2a5cf', '#e7d4e8', '#f7f7f7', '#d9f0d3', '#a6dba0', '#5aae61', '#1b7837', '#00441b']
 
   def initialize(ary)
     @ary = ary
@@ -34,7 +33,7 @@ class ForBar
     end
     dict['other'] = other
     deck['other'] = Array.new(@ary.size)
-    color = PRGn11.dup
+    color = Paired12.dup
     dataset = dict.map do |k, v|
       color.rotate!
       c = color.last
