@@ -100,9 +100,9 @@ class Masaki
   end
 
   def do_search_api(req, res, post)
-    str = post["search"]
+    str = post["search"].encode('utf-8') rescue nil
     add_deck = post["add"] ? true : false
-    sign = post["sign"]
+    sign = post["sign"].encode('utf-8') rescue nil
     city_index = guess_city(str)
     return search_city_cluster(city_index, sign) if city_index
     name = DeckDetail::guess_deck_name(str)

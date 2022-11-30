@@ -42,7 +42,7 @@ module DeckDetail
 
   def guess_deck_name(str)
     if /(\W|\A)(\w{6}\-\w{6}\-\w{6})(\W|\Z)/ =~ str
-      return $2.encode('utf-8')
+      return $2
     end
   end
 

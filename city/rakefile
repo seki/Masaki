@@ -81,7 +81,7 @@ file 'weekly.dump' => [:world] do |t|
   File.open(target, "w") {|fp| Marshal.dump(it, fp)}
 end
 
-task :default => [:world] do
+task :default => ['weekly.dump'] do
   origin = Date.parse('2022-10-07') # 金曜日始まり
   rough = []
   detail = []
