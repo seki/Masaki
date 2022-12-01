@@ -204,7 +204,7 @@ footer {
 </template>
 
 <template id="recent-item">
-  <button type="button" class="list-group-item list-group-item-action" onclick="move_to(this);"></button>
+  <button type="button" class="list-group-item list-group-item-action" onclick="move_to(this);"><span></span>&emsp;<span class="badge badge-pill badge-primary">4</span></button>
 </template>
 
 <template id="card-item">
@@ -221,6 +221,32 @@ const deck_query_text = document.querySelector('#deckquery');
 const filter_checkbox = document.querySelector('#filter-standard');
 const add_deck_checkbox = document.querySelector('#add-deck');
 const recent_updated_at = document.querySelector('#recent-updated-at');
+
+function time_util(str) {
+  let from = new Date(str);
+  let diff = new Date().getTime() - from.getTime();
+  let elapsed = new Date(diff);
+
+  // 大きい単位から順に表示
+  if (elapsed.getUTCFullYear() - 1970) {
+    // return elapsed.getUTCFullYear() - 1970 + ' year';
+    return null;
+  } else if (elapsed.getUTCMonth()) {
+    //　return elapsed.getUTCMonth() + ' month';
+    return null;
+  } else if (elapsed.getUTCDate() - 1) {
+    // return elapsed.getUTCDate() - 1 + ' day';
+    return null;
+  } else if (elapsed.getUTCHours() > 3) {
+    return null
+  } else if (elapsed.getUTCHours()) {
+    return elapsed.getUTCHours() + ' hour';
+  } else if (elapsed.getUTCMinutes()) {
+    return elapsed.getUTCMinutes() + ' min';
+  } else {
+    return 'now';
+  }
+}
 
 function emb_url_js(left, right) {
   let url = emb_url(left, right);
@@ -378,9 +404,17 @@ function insert_recent(item) {
   let template = document.querySelector('#recent-item');
   let clone = document.importNode(template.content, true);
 
-  let newone = clone.querySelector("button");
-  newone.textContent = [item[0], item[1].join(" ")].join(" - ");
-  newone.dataset['name'] = item[0];
+  let newone = clone.querySelector("button span");
+  newone.textContent = [item[0], item[1].join(" ")].join(" ");
+  newone.parentNode.dataset['name'] = item[0];
+
+  let badge = clone.querySelector("button span.badge");
+  let time = time_util(item[2]);
+  if (time) {
+    badge.textContent = time;
+  } else {    
+    badge.classList.add('d-none');
+  }
 
   list.appendChild(clone);
 }

@@ -142,10 +142,12 @@ EOB
 
     def referer_tw_recent(n=10)
     sql =<<EOB
-select deck from referer_tw order by created_at desc limit ?;
+select deck, created_at from referer_tw order by created_at desc limit ?;
 EOB
       synchronize do
-        @db.execute(sql, [n]).to_a.map {|x| x['deck']}
+        @db.execute(sql, [n]).to_a.map {|x|
+          [x['deck'], to_time(x['created_at'])]
+        }
       end
     end
   end

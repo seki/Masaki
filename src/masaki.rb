@@ -96,7 +96,7 @@ class Masaki
 
   def do_reload_recent
     @world.reload_recent(15)
-    @recent = @world.recent.map {|k| [k, deck_desc(k)]}
+    @recent = @world.recent.map {|k, t| [k, deck_desc(k), t.getlocal.strftime("%Y-%m-%d %H:%M")]}
   end
 
   def do_search_api(req, res, post)
@@ -233,7 +233,6 @@ class Masaki
   end
 
   def search_city_cluster(city_index, sign)
-    pp [sign, @cluster_sign]
     if (sign != @cluster_sign)
       return {
         'query' => ['search_by_city'] + city_index,
@@ -243,7 +242,6 @@ class Masaki
       }
     end
 
-    pp city_index
     c = @cluster[city_index[0]]
     clip = c['cluster'][city_index[1]]
     ary = c['cluster'].threshold(clip.dist * 0.25, clip.index).max_by(6) {|x| x.size}.map { |x|

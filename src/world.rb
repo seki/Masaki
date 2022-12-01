@@ -15,8 +15,8 @@ class MasakiWorld
     import_deck
     pp @deck.size
 
-    @recent = @deck.keys.last(10)
-
+    reload_recent
+    
     @deck_tmp = {}
     make_index
   end
