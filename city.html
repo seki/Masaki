@@ -378,6 +378,8 @@ function apply_state(state) {
   for(item in result) {
     insert_item(state, item);
   }
+  document.querySelector("a.text-body").scrollIntoView();  
+
 }
 
 function insert_recent(item) {

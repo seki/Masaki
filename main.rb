@@ -19,7 +19,6 @@ end
 
 server.mount_proc('/api') {|req, res|
   post = JSON.parse(req.body)
-  pp post
   str = post['search']
   res.content_type = "application/json; charset=UTF-8"
   it = $masaki.do_api(req, res, post).to_json
