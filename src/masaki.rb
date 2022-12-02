@@ -118,7 +118,6 @@ class Masaki
     tw['url'] = "https://twitter.com/#{tw['screen_name']}/status/#{tw['id_str']}"
     tw['date'] = tw['created'].strftime("%Y年%m月%d日")
     tw['date2'] = tw['created'].strftime("%Y-%m-%d")
-    tw['where'] = "@#{tw['screen_name']}のツイート"
     tw
   end
 

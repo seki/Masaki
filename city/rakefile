@@ -69,8 +69,8 @@ file 'bar.html' => ['report_rough.json', 'bar.rhtml'] do |t|
 end
 
 task :clean do
-  File.unlink('city-event.json')
-  File.unlink('report_rough.json')
+  File.unlink('city-event.json') rescue nil
+  File.unlink('report_rough.json') rescue nil
 end
 
 file 'weekly.dump' => [:world] do |t|
@@ -81,7 +81,7 @@ file 'weekly.dump' => [:world] do |t|
   File.open(target, "w") {|fp| Marshal.dump(it, fp)}
 end
 
-task :default => ['weekly.dump'] do
+file "report_rough.json" => ['weekly.dump'] do
   origin = Date.parse('2022-10-07') # 金曜日始まり
   rough = []
   detail = []
@@ -96,4 +96,7 @@ task :default => ['weekly.dump'] do
   end
 
   File.write("report_rough.json", rough.to_json)
+end
+
+task :default => ['weekly.dump'] do
 end

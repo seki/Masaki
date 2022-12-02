@@ -167,7 +167,7 @@ footer {
           <figure><img loading="lazy" decoding="async" class="img-fluid img-thumbnail" onclick="move_to(this);"/></figure>
         </div>
         <div class="col-sm-3">
-          <a class="my-glasses" onclick="move_to(this);" href="#"><i class="fas fa-glasses text-danger"></i> このデッキを中心に</a>
+          <a class="my-glasses" onclick="move_to(this);" href="#"><i class="fas fa-glasses text-danger"></i> このデッキに似ているデッキ</a>
         </div>
         <div class="col-sm-3 row-op">
           <a target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt text-dark"></i> 公式サイトで見る</a>
@@ -175,7 +175,7 @@ footer {
         <div class="col-sm-3">
           <div class="row-tw">
             <i class="fab fa-twitter text-dark"></i>
-            <span class="tw-date">2020年11月15日</span>&emsp;<a target="_blank" rel="noopener noreferrer">@m_sekiのツイート</a><span>で&emsp;出会った&emsp;ようだ。</span>
+            <span class="tw-date">2020年11月15日</span>&emsp;<a>@m_seki</a>の<a target="_blank" rel="noopener noreferrer">ツイート</a><span>で&emsp;出会った&emsp;ようだ。</span>
           </div>
           <div class="row-city">
             <span class="city"></span>
@@ -271,7 +271,7 @@ function insert_item(state, n) {
   let img = clone.querySelector("img");
   let a = clone.querySelector("a");
   let a2 = clone.querySelector("div.row-op a");
-  let a3 = clone.querySelector("div.row-tw a");
+  let a3 = clone.querySelectorAll("div.row-tw a");
   let tw_date = clone.querySelector("span.tw-date");
   let tw_div = clone.querySelector("div.row-tw");
   let city_span = clone.querySelector("span.city");
@@ -294,8 +294,9 @@ function insert_item(state, n) {
   a2.href = item['link'];
   if (item['tweet']) {
     console.log(item['tweet']);
-    a3.href = item['tweet']['url'];
-    a3.textContent = item['tweet']['where'];
+    a3[1].href = item['tweet']['url'];
+    a3[0].textContent = '@' + item['tweet']['screen_name'];
+    a3[0].href = '/@' + item['tweet']['screen_name'];
     tw_date.textContent = item['tweet']['date'];
   } else {
     tw_div.classList.add('d-none');
