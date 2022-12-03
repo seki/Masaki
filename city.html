@@ -5,7 +5,7 @@
   path = req.path_info
   valid = DeckDetail::guess_deck_name(path) || guess_card_id(path) || guess_screen_name(path)
   page_info = valid ? do_search_api(req, res, {'search' => path}) : nil
-  desc = "Twitterに投稿されたデッキを解析してリサーチ。"
+  desc = "シティリーグのデッキの傾向をクラスタ分析。"
   desc = page_info.dig("desc") if page_info
 %>
 <meta name="twitter:card" content="summary"></meta>
