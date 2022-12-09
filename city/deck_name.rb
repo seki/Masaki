@@ -37,6 +37,7 @@ module DeckName
     ["DxD8c8-Rh4mtx-xJxcc4", "ミュウVMAX"],
     ["Lnngnn-5jj8Z9-NNn6PN", "ミュウVMAX"],
     ["FkkFvk-UK4x2y-VVFFkw", "ミュウツーV-UNION"],
+    ["iLgnni-5W7MFN-Q69ngn", "ミュウツーV-UNION"],
     ["L9LLnN-UOVCCT-Lgn6gL", "ムゲンダイナVMAX"],
     ["HNLNnn-oKw2Uo-nnLgnn", "ムゲンダイナVMAX"],
     ["Vv5fVk-NZxydp-FVVkkv", "ムゲンダイナVMAX"],
