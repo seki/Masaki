@@ -85,11 +85,11 @@ class MasakiWorld
     @deck_tmp = {}
     @added_deck = {}
     make_index
-    @ractor = for_ractor
+    @ractor = for_ractor(8)
   end
   attr_reader :deck, :idf, :recent, :id_latest
 
-  def for_ractor(nproc=16)
+  def for_ractor(nproc=8)
     Ractor.make_shareable(ForRactor.new(@idf, @deck, nproc))
   end
 

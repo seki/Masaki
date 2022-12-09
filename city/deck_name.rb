@@ -9,6 +9,7 @@ module DeckName
     ["6gLnig-A7WC7T-QgLngn", "オリジンパルキアVSTAR"],
     ["MyypyX-yR2Rbd-2UMSMM", "キュレム パルキア"],
     ["kFVkFF-YMbSeC-kkFFkV", "キュレム パルキア"],
+    ["kkk1F5-gGq15i-kk1VFb", "キュレム アローラロコン"],
     ["MMRMM2-UrIGQG-p3XMyy", "そらをとぶピカチュウ アルセウス"],
     ["2MSyMy-HbjAnB-MXyyXp", "そらをとぶピカチュウ アルセウス"],
     ["Lg6Hnn-cc7Kg9-nnLnnL", "そらをとぶピカチュウ アルセウス"],
@@ -21,6 +22,7 @@ module DeckName
     ["bkVkkk-L1Gt6e-fFkFfb", "ジュラルドン アルセウス"],
     ["LnnnLL-xxFlSc-n6LinH", "ジュラルドン アルセウス"],
     ["dVVkkV-IBRjwg-VVkVbk", "ジュラルドン アルセウス"],
+    ["48YJ8c-3EKPdw-DxcKD8", "ジュラルドン アルセウス"], # かがやくムゲンダイナ
     ["yyMyMM-Z5JEyZ-M2ypUX", "ゾロアーク"],
     ["yyyM2M-Zgfdkb-SME22M", "ゾロアーク"], #ヒスイ ゾロアーク
     ["UyyXME-JAghpd-yypyy2", "ゾロアーク"], #ヒスイ ウィンディ
@@ -33,6 +35,7 @@ module DeckName
     ["niLLPL-tyJQe1-gnnLQQ", "ミュウVMAX"],
     ["D8848J-NRLceF-xc448x", "ミュウVMAX"],
     ["DxD8c8-Rh4mtx-xJxcc4", "ミュウVMAX"],
+    ["Lnngnn-5jj8Z9-NNn6PN", "ミュウVMAX"],
     ["FkkFvk-UK4x2y-VVFFkw", "ミュウツーV-UNION"],
     ["L9LLnN-UOVCCT-Lgn6gL", "ムゲンダイナVMAX"],
     ["HNLNnn-oKw2Uo-nnLgnn", "ムゲンダイナVMAX"],
@@ -48,7 +51,9 @@ module DeckName
     ["yMMUyM-K1LaWB-yyypXy", "レジエレキVMAX クワガノン"],
     ["yMpypU-VKlvc8-pyyM2M", "レジギガス"],
     ["gnQLHg-1AaruO-nnngnn", "レジギガス"],
+    ["4884DJ-3zEddf-xD8xcK", "レジドラゴVSTAR"],
     ["8Yaxcx-FSlPpQ-8x8xcx", "ロスト ギラティナVSTAR"],
+    ["xc8aGx-8tEipa-JD8888", "ロスト ギラティナVSTAR"],
     ["8K8xxx-w7qMXf-8x88x8", "ロストバレット"],
     ["n9ggng-2Y4KdR-N6LnLn", "ロストバレット"],
     ["8xxx8Y-r1RHlR-4cG8JY", "ロストバレット"],
@@ -57,6 +62,7 @@ module DeckName
     ["VkVFFf-BIdt7p-kk5V5F", "ロストバレット"],
     ["fVfFkk-KWWo4B-VkvVkF", "ロストバレット"], #レシラム
     ["gNNgLn-iz2ItL-QngnnL", "ロストバレット"],
+    ["nnggnQ-BQoY6p-LgLg66", "ロストバレット"], 
     ["FkwVwk-CpUB9b-VFkVfk", "ロトムVSTAR"]
   ]
 
