@@ -1,6 +1,7 @@
 require 'sqlite3'
 require 'erb'
 require 'pp'
+require 'json'
 require_relative '../data/known_deck.rb'
 
 class Masaki
@@ -87,5 +88,12 @@ EOS
 end
 
 if __FILE__ == $0
-  Masaki::Deck.delete_duplicate
+  case ARGV.shift
+  when nil
+    puts "usage: [delete|write]"
+  when "delete"
+    Masaki::Deck.delete_duplicate
+  when "write"
+    Masaki::Deck.to_rb("known_deck.rb")
+  end
 end
