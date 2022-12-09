@@ -4,6 +4,71 @@ require_relative 'store-meta'
 require 'json'
 
 class MasakiWorld
+  module Dot
+    def deck_norm(deck)
+      deck.instance_variable_get(:@norm)
+    end
+
+    def dot(a, b)
+      s = 0
+      ia = 0
+      ib = 0
+      while true
+        break unless a[ia]
+        break unless b[ib]
+        if a[ia][0] == b[ib][0]
+          idf = @idf[a[ia][0]]
+          s += (a[ia][1].clamp(..5) * b[ib][1].clamp(..5) * idf * idf)
+          ia += 1
+          ib += 1
+        elsif a[ia][0] > b[ib][0]
+          ib += 1
+        else
+          ia += 1
+        end
+      end
+      s
+    end
+
+    def _search_by_deck(v, n)
+      _search_by_deck_core(@deck, v, n)
+    end
+
+    def _search_by_deck_core(all_deck, v, n)
+      norm = deck_norm(v)
+      all_deck.map do |b, deck_b|
+        c = dot(v, deck_b) / (norm * deck_norm(deck_b)) # cos
+        c = 0 if c + Float::EPSILON >= 1 # ignore same deck
+        [c, b]
+      end.max(n).find_all {|x| x[0] > 0}
+    end
+  end
+
+  class ForRactor
+    include Dot
+    NPROC = 8
+    def initialize(idf, deck, nproc=NPROC)
+      @idf = idf
+      @deck = deck.to_a
+      @nproc = nproc
+    end
+
+    def each_in(range)
+      return enum_for(__method__, range) unless block_given?
+      range.each {|x| yield(@deck[x])}
+    end
+
+    def _search_by_deck(v, n)
+      ((0..@deck.size).step(@deck.size / @nproc + 1) + [@deck.size]).each_cons(2).map {|s, e|
+        r = Ractor.new { msg = * Ractor.recv; (msg.shift)._search_by_deck_core(*msg)}
+        d = each_in(s...e)
+        r.send([self, d, v, n])
+        r
+      }.map {|r| r.take}.sum([]).max(n)
+    end
+  end
+  
+  include Dot
   def initialize
     data_dir = __dir__ + "/../data/"
     trainer = JSON.parse(File.read(data_dir + "uniq_energy_trainer_all.txt"))
@@ -18,9 +83,15 @@ class MasakiWorld
     reload_recent
     
     @deck_tmp = {}
+    @added_deck = {}
     make_index
+    @ractor = for_ractor
   end
-  attr_reader :deck, :idf, :norm, :recent, :id_latest
+  attr_reader :deck, :idf, :recent, :id_latest
+
+  def for_ractor(nproc=16)
+    Ractor.make_shareable(ForRactor.new(@idf, @deck, nproc))
+  end
 
   def import_deck
     Masaki::Deck.each do |k, v_ary|
@@ -75,7 +146,7 @@ class MasakiWorld
   def cos(a, b)
     left = @deck[a]
     right = @deck[b]
-    dot(left, right) / (@norm[a] * @norm[b])
+    dot(left, right) / (deck_norm(left) * deck_norm(right))
   end
 
   def name_to_vector(names)
@@ -127,36 +198,17 @@ class MasakiWorld
     Math::sqrt(norm2)
   end
 
-  def make_norm1(name, value)
-    @norm[name] = vec_to_norm(value)
+  def make_norm1(value)
+    norm = vec_to_norm(value)
+    value.instance_variable_set(:@norm, norm)
+    value.freeze
+    norm
   end
 
   def make_norm
-    @norm = Hash.new(0)
     @deck.each do |k, v|
-      make_norm1(k, v)
+      make_norm1(v)
     end
-  end
-
-  def dot(a, b)
-    s = 0
-    ia = 0
-    ib = 0
-    while true
-      break unless a[ia]
-      break unless b[ib]
-      if a[ia][0] == b[ib][0]
-        idf = @idf[a[ia][0]]
-        s += (a[ia][1].clamp(..5) * b[ib][1].clamp(..5) * idf * idf)
-        ia += 1
-        ib += 1
-      elsif a[ia][0] > b[ib][0]
-        ib += 1
-      else
-        ia += 1
-      end
-    end
-    s
   end
 
   def deck_desc_for_cluster(v, n=5)
@@ -210,28 +262,27 @@ class MasakiWorld
 
   def search_by_deck(name, n, add_deck=false)
     v = add(name, add_deck)
-    norm = @norm[name]
 
-    top = @deck.map do |b, deck_b|
-      c = dot(v, deck_b) / (norm * @norm[b]) # cos
-      c = 0 if c >= 1.0 # ifnore same deck
-      [c, b]
-    end.max(n).find_all {|x| x[0] > 0}
+    s = Time.now
+    top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
+    p [:search, Time.now - s]
+    pp top
 
     if top[0][1] != name
       top.unshift([1.0, name])
     end
     top[0,n]
-  end
+  end 
 
   def search_by_(v, n)
-    norm = vec_to_norm(v)
+    norm = make_norm1(v)
     return [] if norm == 0
 
-    @deck.map do |b, deck_b|
-      c = dot(v, deck_b) / (norm * @norm[b]) # cos
-      [c, b]
-    end.max(n).find_all {|x| x[0] > 0}
+    s = Time.now
+    top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
+    p [:search, Time.now - s]
+
+    top
   end
 
   def search_by_name(card_name, n=5)
@@ -266,10 +317,32 @@ class MasakiWorld
       puts name
       Masaki::Deck[name] = v
       @deck[name] = v
+      @added_deck[name] = v
     else
       @deck_tmp[name] = v
     end
-    make_norm1(name, v)
+    make_norm1(v)
     v
+  end
+end
+
+if __FILE__ == $0
+  require 'benchmark'
+
+  p Ractor.new {1}.take
+
+  mw = MasakiWorld.new
+
+  key = "yyyyyS-NFYSqN-pUXMXy"
+  v = mw.deck[key]
+
+  Benchmark.bm do |x|
+    [16, 32, 64].each do |n|
+      r = mw.for_ractor(n)
+      x.report("%02d E" % n){ 50.times{ r._search_by_deck(v, 10) } }
+      x.report("%02d D" % n){ 50.times{ r._search_by_deck_dup(v, 10) } }
+    end
+    x.report('org '){ 50.times{ mw.search_by_deck(key, 10) } }
+
   end
 end
