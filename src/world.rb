@@ -340,7 +340,6 @@ if __FILE__ == $0
     [16, 32, 64].each do |n|
       r = mw.for_ractor(n)
       x.report("%02d E" % n){ 50.times{ r._search_by_deck(v, 10) } }
-      x.report("%02d D" % n){ 50.times{ r._search_by_deck_dup(v, 10) } }
     end
     x.report('org '){ 50.times{ mw.search_by_deck(key, 10) } }
 
