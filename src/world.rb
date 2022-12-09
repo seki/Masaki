@@ -266,7 +266,6 @@ class MasakiWorld
     s = Time.now
     top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
     p [:search, Time.now - s]
-    pp top
 
     if top[0][1] != name
       top.unshift([1.0, name])
@@ -337,11 +336,10 @@ if __FILE__ == $0
   v = mw.deck[key]
 
   Benchmark.bm do |x|
-    [16, 32, 64].each do |n|
+    [2, 4, 8, 16, 32, 64].each do |n|
       r = mw.for_ractor(n)
       x.report("%02d E" % n){ 50.times{ r._search_by_deck(v, 10) } }
     end
-    x.report('org '){ 50.times{ mw.search_by_deck(key, 10) } }
-
+    x.report('org '){ 50.times{ mw._search_by_deck(v, 10) } }
   end
 end
