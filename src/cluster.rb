@@ -50,11 +50,6 @@ class Cluster
     do_division([@cluster[index]], n)
   end
 
-  def prepare_dist_matrix(world, decks)
-    all_deck = decks.map {|x| world.deck[x]}
-    world.for_ractor(32).permutation(all_deck)
-  end
-
   def self._make_tree(r, all_deck, deck_name)
     index = -1
     cluster = deck_name.map {|x| index += 1; Leaf.new(x, index)}
@@ -72,8 +67,9 @@ class Cluster
 
   def self.make_tree_r(world, decks)
     all_deck = decks.map {|x| world.deck[x]}
-    r = Ractor.new { msg = * Ractor.recv; Cluster._make_tree(*msg)}
-    r.send([world.ractor, all_deck, decks])
+    Ractor.new(world.ractor, all_deck, decks) {|world, all_deck, decks|
+      Cluster._make_tree(world, all_deck, decks)
+    }
   end
 
   def self.make_tree(world, decks)

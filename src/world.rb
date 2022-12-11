@@ -64,41 +64,10 @@ class MasakiWorld
 
     def _search_by_deck(v, n)
       ((0..@deck.size).step(@deck.size / @nproc + 1) + [@deck.size]).each_cons(2).map {|s, e|
-        r = Ractor.new { msg = * Ractor.recv; (msg.shift)._search_by_deck_core(*msg)}
-        d = each_in(s...e)
-        r.send([self, d, v, n])
-        r
+        Ractor.new(self, each_in(s...e), v, n) {|world, sub_decks, v, n|
+          world._search_by_deck_core(sub_decks, v, n)
+        }
       }.map {|r| r.take}.sum([]).max(n)
-    end
-
-    def _permutation(all_deck, deck_a, y)
-      norm = deck_norm(deck_a)
-      y.times.map do |x|
-        deck_b = all_deck[x]
-        cos = dot(deck_a, deck_b) / (norm * deck_norm(deck_b))
-        1 - cos.clamp(0,1.0)
-      end
-    end
-
-    def _enum_permutation(queue, &blk)
-      return enum_for(__method__, queue) unless block_given?
-      while r = queue.pop
-        r.take.each(&blk)
-      end
-    end
-
-    def permutation(all_deck)
-      queue = SizedQueue.new(@nproc)
-      Thread.new do
-        (1..(all_deck.size-1)).each do |y|
-          v = all_deck[y]
-          r = Ractor.new { msg = * Ractor.recv; (msg.shift)._permutation(*msg) }
-          r.send([self, all_deck, v, y])
-          queue.push(r)
-        end
-        queue.close
-      end
-      _enum_permutation(queue)
     end
   end
   
