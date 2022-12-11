@@ -30,6 +30,10 @@ class MasakiWorld
       s
     end
 
+    def _cos(deck_a, deck_b)
+      dot(deck_a, deck_b) / (deck_norm(deck_a) * deck_norm(deck_b))
+    end
+
     def _search_by_deck(v, n)
       _search_by_deck_core(@deck, v, n)
     end
@@ -66,6 +70,36 @@ class MasakiWorld
         r
       }.map {|r| r.take}.sum([]).max(n)
     end
+
+    def _permutation(all_deck, deck_a, y)
+      norm = deck_norm(deck_a)
+      y.times.map do |x|
+        deck_b = all_deck[x]
+        cos = dot(deck_a, deck_b) / (norm * deck_norm(deck_b))
+        1 - cos.clamp(0,1.0)
+      end
+    end
+
+    def _enum_permutation(queue, &blk)
+      return enum_for(__method__, queue) unless block_given?
+      while r = queue.pop
+        r.take.each(&blk)
+      end
+    end
+
+    def permutation(all_deck)
+      queue = SizedQueue.new(@nproc)
+      Thread.new do
+        (1..(all_deck.size-1)).each do |y|
+          v = all_deck[y]
+          r = Ractor.new { msg = * Ractor.recv; (msg.shift)._permutation(*msg) }
+          r.send([self, all_deck, v, y])
+          queue.push(r)
+        end
+        queue.close
+      end
+      _enum_permutation(queue)
+    end
   end
   
   include Dot
@@ -87,7 +121,7 @@ class MasakiWorld
     make_index
     @ractor = for_ractor(8)
   end
-  attr_reader :deck, :idf, :recent, :id_latest
+  attr_reader :deck, :idf, :recent, :id_latest, :ractor
 
   def for_ractor(nproc=8)
     Ractor.make_shareable(ForRactor.new(@idf, @deck, nproc))

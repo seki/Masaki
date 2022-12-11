@@ -120,25 +120,6 @@ class Masaki
       }
     end
 
-    def analyze(world, deck_and_date, range, threshold)
-      report = {
-        'range' => range,
-        'threshold' => threshold
-      }
-
-      decks = deck_and_date.find_all {|k, d| range.include?(d)}.map {|k, d| k}
-      report['deck_count'] = decks.size
-
-      tree = Cluster.make_tree(world, decks, threshold)
-
-      ary = tree.max_by(8) {|x| x.size}.map do |x|
-        [x.size, x.sample, DeckName.guess(world, x.sample)]
-      end
-
-      report['cluster'] = ary
-      report
-    end
-
     def weekly_analyze(world, deck_and_date)
       origin = Date.parse('2022-10-07') # 金曜日始まり
       weekly = deck_and_date.sort_by {|x| x[1]}.chunk {|x|
@@ -151,6 +132,10 @@ class Masaki
           'cluster' => Cluster.new(world, decks.map {|x, d| x})
         }
       }
+      result.each do |x|
+        x['cluster'].join
+      end
+      result
     end
   end
 end

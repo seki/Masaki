@@ -6,7 +6,12 @@ require_relative 'single_linkage'
 class Cluster
   def initialize(world, decks)
     @decks = decks
-    @cluster = make_tree(world, decks)
+    @cluster = self.class.make_tree_r(world, decks)
+  end
+
+  def join
+    @cluster = @cluster.take
+  rescue
   end
   
   def to_a
@@ -45,11 +50,16 @@ class Cluster
     do_division([@cluster[index]], n)
   end
 
-  def make_tree(world, decks)
+  def prepare_dist_matrix(world, decks)
+    all_deck = decks.map {|x| world.deck[x]}
+    world.for_ractor(32).permutation(all_deck)
+  end
+
+  def self._make_tree(r, all_deck, deck_name)
     index = -1
-    cluster = decks.map {|x| index += 1; Leaf.new(x, world.deck[x], index)}
-    dist_matrix = SingleLinkage.new(decks) do |a, b|
-      1 - world.cos(a, b).clamp(0,1.0)
+    cluster = deck_name.map {|x| index += 1; Leaf.new(x, index)}
+    dist_matrix = SingleLinkage.new(deck_name) do |ia, ib|
+      1 - r._cos(all_deck[ia], all_deck[ib]).clamp(0,1.0)
     end
     dist_matrix.main do |a, b, dist, size|
       left = cluster[a]
@@ -60,9 +70,14 @@ class Cluster
     cluster
   end
 
-  def self.make_tree(world, decks, diff)
-    c = self.new(world, decks)
-    c.threshold(diff).map {|x, i| x}
+  def self.make_tree_r(world, decks)
+    all_deck = decks.map {|x| world.deck[x]}
+    r = Ractor.new { msg = * Ractor.recv; Cluster._make_tree(*msg)}
+    r.send([world.ractor, all_deck, decks])
+  end
+
+  def self.make_tree(world, decks)
+    make_tree_r(world, decks).take
   end
 
   class Node
@@ -120,13 +135,12 @@ class Cluster
   end
 
   class Leaf
-    def initialize(name, deck, index)
+    def initialize(name, index)
       @name = name
-      @deck = deck
       @parent = nil
       @index = index
     end
-    attr_reader :name, :deck, :index
+    attr_reader :name, :index
     attr_accessor :parent
 
     def to_h

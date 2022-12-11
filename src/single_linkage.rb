@@ -24,7 +24,7 @@ class SingleLinkage
 
     (1..(@size-1)).each do |y|
       y.times do |x|
-        cell = Cell.new(x, y, yield(@name[x], @name[y]))
+        cell = Cell.new(x, y, yield(x, y))
         self[x, y] = cell
         # self[y, x] = cell
         @min << cell
@@ -99,8 +99,9 @@ class SingleLinkage
 end
 
 if __FILE__ == $0
-  d = SingleLinkage.new([2, 11, 5, 1, 7]) do |a, b|
-    (a - b).abs
+  ary = [2, 11, 5, 1, 7]
+  d = SingleLinkage.new(ary) do |ia, ib|
+    (ary[ia] - ary[ib]).abs
   end
   d.main do |*it|
     p it

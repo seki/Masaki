@@ -51,23 +51,6 @@ task :deck_and_date => ['city-deck-date.json'] do |t|
   $deck_and_date = JSON.parse(File.read('city-deck-date.json'))
 end
 
-task :analyze, [:lower, :upper, :threshold] => [:world, :deck_and_date] do |t, args|
-  range = Range.new(args[:lower], args[:upper])
-  threshold = (args[:threshold] || 0.1).to_f
-  pp range, threshold
-
-  report = Masaki::Analyze.analyze($world, $deck_and_date, range, threshold)
-
-  pp report
-end
-
-file 'bar.html' => ['report_rough.json', 'bar.rhtml'] do |t|
-  target = t.name
-  puts "generating #{target}"
-
-  system("erb bar.rhtml > bar.html")
-end
-
 task :clean do
   File.unlink('city-event.json') rescue nil
   File.unlink('report_rough.json') rescue nil
@@ -79,23 +62,6 @@ file 'weekly.dump' => [:world] do |t|
 
   it = Masaki::Analyze.weekly_analyze($world, $deck_and_date)
   File.open(target, "w") {|fp| Marshal.dump(it, fp)}
-end
-
-file "report_rough.json" => ['weekly.dump'] do
-  origin = Date.parse('2022-10-07') # 金曜日始まり
-  rough = []
-  detail = []
-
-  latest = Date.parse($deck_and_date.max_by {|x| x[1]}[1])
-  puts "generating report_rough.json"
-  while origin <= latest
-    range = Range.new(origin.to_s, (origin + 6).to_s)
-    origin += 7
-
-    rough << Masaki::Analyze.analyze($world, $deck_and_date, range, 0.3)
-  end
-
-  File.write("report_rough.json", rough.to_json)
 end
 
 task :default => ['weekly.dump'] do

@@ -4,6 +4,10 @@ require 'open-uri'
 require_relative 'src/masaki'
 require 'net/http'
 
+env_path = __dir__ + "/env.rb"
+puts env_path
+load(env_path) if File.exist?(env_path)
+
 port = Integer(ENV['PORT']) rescue 8000
 server = WEBrick::HTTPServer.new({
   :Port => port,
