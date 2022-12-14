@@ -46,6 +46,7 @@ module DeckName
     ["yM2yyX-IlINvd-yMyyyS", "メタモンLO"],
     ["G88Yx8-Mu2OHC-c48Dxx", "メタモンLO"],
     ["x8cx8x-7lAAIA-88KG84", "ルギアVSTAR"],
+    ["fkkfk5-GkvwDU-vVkkV1", "ハピナスV"],
     ["yy2M2p-L5KX6A-ySSpMX", "ルギア そらをとぶピカチュウ"],
     ["GDDa8c-05dv00-8x8Gxc", "ルギア そらをとぶピカチュウ"],
     ["c8xxYc-ldylN3-c88888", "ルナトーン ソルロック"],
@@ -66,6 +67,7 @@ module DeckName
     ["fVfFkk-KWWo4B-VkvVkF", "ロストバレット"], #レシラム
     ["gNNgLn-iz2ItL-QngnnL", "ロストバレット"],
     ["nnggnQ-BQoY6p-LgLg66", "ロストバレット"], 
+    ["pSMMSy-eeiHQK-pyypyS", "ロストバレット"],
     ["FkwVwk-CpUB9b-VFkVfk", "ロトムVSTAR"]
   ]
 

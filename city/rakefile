@@ -7,7 +7,8 @@ file 'city-event.json' do |t|
   puts "generating #{target}"
 
   city = Masaki::Players::fetch_event_list.find_all {|x|
-    x['event_title'].start_with?("シティリーグ2023 シーズン")
+    x['event_title'].start_with?("シティリーグ2023 シーズン") ||
+    x['event_title'].start_with?("チャンピオンズリーグ2023")
   }
   File.write(target, city.to_json)
 end

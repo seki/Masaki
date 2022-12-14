@@ -131,7 +131,7 @@ class Masaki
     date = Time.parse(city['event_date']) rescue nil
     return nil unless date
     {
-      'date' => date.strftime("%m月%d日") + "のシティリーグで　活躍した。"
+      'date' => date.strftime("%m月%d日") + "の大会で　活躍した。"
     }
   end
 

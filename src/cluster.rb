@@ -5,7 +5,6 @@ require_relative 'single_linkage'
 
 class Cluster
   def initialize(world, decks)
-    @decks = decks
     @cluster = self.class.make_tree_r(world, decks)
   end
 
@@ -70,10 +69,6 @@ class Cluster
     Ractor.new(world.ractor, all_deck, decks) {|world, all_deck, decks|
       Cluster._make_tree(world, all_deck, decks)
     }
-  end
-
-  def self.make_tree(world, decks)
-    make_tree_r(world, decks).take
   end
 
   class Node
