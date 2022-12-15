@@ -10,7 +10,8 @@ module DeckName
     ["MyypyX-yR2Rbd-2UMSMM", "キュレム パルキア"],
     ["kFVkFF-YMbSeC-kkFFkV", "キュレム パルキア"],
     ["kkk1F5-gGq15i-kk1VFb", "キュレム アローラロコン"],
-    ["kkFkk1-zfhk8c-VbkVVk", "コケコ そらをとぶピカチュウ アルセウス"],
+    ["kkFkk1-zfhk8c-VbkVVk", "コケコ そらをとぶピカチュウ"],
+    ["2pyyMy-Ln3Pa8-yyMMyS", "コケコ そらをとぶピカチュウ"],
     ["MMRMM2-UrIGQG-p3XMyy", "そらをとぶピカチュウ アルセウス"],
     ["2MSyMy-HbjAnB-MXyyXp", "そらをとぶピカチュウ アルセウス"],
     ["Lg6Hnn-cc7Kg9-nnLnnL", "そらをとぶピカチュウ アルセウス"],
@@ -24,6 +25,7 @@ module DeckName
     ["bkVkkk-L1Gt6e-fFkFfb", "ジュラルドン アルセウス"],
     ["LnnnLL-xxFlSc-n6LinH", "ジュラルドン アルセウス"],
     ["dVVkkV-IBRjwg-VVkVbk", "ジュラルドン アルセウス"],
+    ["VkkVk5-vbutvx-kVFwkf", "ジュラルドン アルセウス"],
     ["48YJ8c-3EKPdw-DxcKD8", "ジュラルドン アルセウス"], # かがやくムゲンダイナ
     ["yyMyMM-Z5JEyZ-M2ypUX", "ゾロアーク"],
     ["yyyM2M-Zgfdkb-SME22M", "ゾロアーク"], #ヒスイ ゾロアーク
