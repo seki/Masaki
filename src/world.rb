@@ -267,7 +267,8 @@ class MasakiWorld
     v = add(name, add_deck)
 
     s = Time.now
-    top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
+    top = _search_by_deck_core(@deck, v, n)
+    # top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
     p [:search, Time.now - s]
 
     if top[0][1] != name
@@ -281,7 +282,8 @@ class MasakiWorld
     return [] if norm == 0
 
     s = Time.now
-    top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
+    top = _search_by_deck_core(@deck, v, n)
+    # top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
     p [:search, Time.now - s]
 
     top
