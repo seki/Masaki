@@ -90,6 +90,7 @@ class MasakiWorld
     @added_deck = {}
     make_index
     @ractor = for_ractor(8)
+    @mutex = Mutex.new
   end
   attr_reader :deck, :idf, :recent, :id_latest, :ractor
 
@@ -264,12 +265,22 @@ class MasakiWorld
     search_by_deck(name, n)
   end
 
+  def search_using_ractor(v, n)
+    @mutex.synchronize do
+      @ractor._search_by_deck(v, n)
+    end
+  end
+
+  USING_RACTOR = true
+  
   def search_by_(v, n)
     s = Time.now
-    top = _search_by_deck_core(@deck, v, n)
-    # top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
+    if USING_RACTOR
+      top = (_search_by_deck_core(@added_deck, v, n) + search_using_ractor(v, n)).max(n)
+    else
+      top = _search_by_deck_core(@deck, v, n)
+    end
     p [:search, Time.now - s]
-
     top
   end
 
