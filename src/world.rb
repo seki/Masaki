@@ -40,6 +40,7 @@ class MasakiWorld
 
     def _search_by_deck_core(all_deck, v, n)
       norm = deck_norm(v)
+      return [] if norm <= 0
       all_deck.map do |b, deck_b|
         c = dot(v, deck_b) / (norm * deck_norm(deck_b)) # cos
         c = 0 if c + Float::EPSILON >= 1 # ignore same deck
@@ -263,24 +264,7 @@ class MasakiWorld
     search_by_deck(name, n)
   end
 
-  def search_by_deck(name, n, add_deck=false)
-    v = add(name, add_deck)
-
-    s = Time.now
-    top = _search_by_deck_core(@deck, v, n)
-    # top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
-    p [:search, Time.now - s]
-
-    if top[0][1] != name
-      top.unshift([1.0, name])
-    end
-    top[0,n]
-  end 
-
   def search_by_(v, n)
-    norm = make_norm1(v)
-    return [] if norm == 0
-
     s = Time.now
     top = _search_by_deck_core(@deck, v, n)
     # top = (_search_by_deck_core(@added_deck, v, n) + @ractor._search_by_deck(v, n)).max(n)
@@ -289,13 +273,28 @@ class MasakiWorld
     top
   end
 
+  def search_by_deck(name, n, add_deck=false)
+    v = add(name, add_deck)
+
+    top = search_by_(v, n)
+
+    if top[0][1] != name
+      top.unshift([1.0, name])
+    end
+    top[0,n]
+  end 
+
   def search_by_name(card_name, n=5)
     req = name_to_vector([card_name])
+    make_norm1(req)
     search_by_(req, n)
   end
 
   def search_by_card(card_id, n=5)
-    req = [[@id_norm[card_id], 1]]
+    card = @id_norm[card_id]
+    return [] unless card
+    req = [[card, 1]]
+    make_norm1(req)
     search_by_(req, n)
   end
 
