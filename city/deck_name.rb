@@ -72,7 +72,18 @@ module DeckName
     ["gNNgLn-iz2ItL-QngnnL", "ロストバレット"],
     ["nnggnQ-BQoY6p-LgLg66", "ロストバレット"], 
     ["pSMMSy-eeiHQK-pyypyS", "ロストバレット"],
-    ["FkwVwk-CpUB9b-VFkVfk", "ロトムVSTAR"]
+    ["FkwVwk-CpUB9b-VFkVfk", "ロトムVSTAR"],
+
+    ["cY8c8c-qmqT4I-cD4DD8", "ロスト ギラティナVSTAR"],
+    ["22MSEp-umOtxd-ppyyXy", "ミライドンex レジエレキVMAX"],
+    ["Nngnnn-4q2tPJ-gNQQHn", "ミュウVMAX"],
+    ["F1FffF-bvgoR3-FkvVkk", "ルギア バンギラス"],
+    ["Y8YGD8-SY1b3l-cGxJc8", "オリジンパルキア はくば"],
+    ["4888cD-3jyliZ-884acx", "サーナイトex ザシアンV"],
+    ["Dc84D8-ikWxuZ-88cYcx", "ゾロアークVSTAR"],
+    ["N9NggH-fzceQT-nngQQn", "オリジンパルキア カイオーガ"],
+    ["FF1FkF-Wl3TRm-kFwkkf", "ギラティナ アルセウス"],
+    ["ypMyXM-QfXNv2-UpyMpX", "ジュラルドン アルセウス"]
   ]
 
 
