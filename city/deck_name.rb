@@ -84,7 +84,8 @@ module DeckName
     ["N9NggH-fzceQT-nngQQn", "オリジンパルキア カイオーガ"],
     ["FF1FkF-Wl3TRm-kFwkkf", "ギラティナ アルセウス"],
     ["ypMyXM-QfXNv2-UpyMpX", "ジュラルドン アルセウス"],
-    ["kkfV1F-OhPxSY-VkFFFd", "はくば アルセウス"]
+    ["kkfV1F-OhPxSY-VkFFFd", "はくば アルセウス"],
+    ["HgngHn-UxIZEy-ngNQng", "ダークライVSTAR"]
   ]
 
 
