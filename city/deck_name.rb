@@ -83,7 +83,8 @@ module DeckName
     ["Dc84D8-ikWxuZ-88cYcx", "ゾロアークVSTAR"],
     ["N9NggH-fzceQT-nngQQn", "オリジンパルキア カイオーガ"],
     ["FF1FkF-Wl3TRm-kFwkkf", "ギラティナ アルセウス"],
-    ["ypMyXM-QfXNv2-UpyMpX", "ジュラルドン アルセウス"]
+    ["ypMyXM-QfXNv2-UpyMpX", "ジュラルドン アルセウス"],
+    ["kkfV1F-OhPxSY-VkFFFd", "はくば アルセウス"]
   ]
 
 
