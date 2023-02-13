@@ -74,17 +74,18 @@ module DeckName
     ["pSMMSy-eeiHQK-pyypyS", "ロストバレット"],
     ["FkwVwk-CpUB9b-VFkVfk", "ロトムVSTAR"],
 
-    ["cY8c8c-qmqT4I-cD4DD8", "ロスト ギラティナVSTAR"],
+    ["cY8c8c-qmqT4I-cD4DD8", "ロスト"],
     ["22MSEp-umOtxd-ppyyXy", "ミライドンex レジエレキVMAX"],
     ["Nngnnn-4q2tPJ-gNQQHn", "ミュウVMAX"],
-    ["F1FffF-bvgoR3-FkvVkk", "ルギア バンギラス"],
+    ["F1FffF-bvgoR3-FkvVkk", "ルギア いちげき"],
     ["Y8YGD8-SY1b3l-cGxJc8", "オリジンパルキア はくば"],
-    ["4888cD-3jyliZ-884acx", "サーナイトex ザシアンV"],
+    ["4888cD-3jyliZ-884acx", "サーナイトex"],
+    ["dkdVkV-vCUk0x-VFF5f5", "サーナイトex"],
     ["Dc84D8-ikWxuZ-88cYcx", "ゾロアークVSTAR"],
     ["N9NggH-fzceQT-nngQQn", "オリジンパルキア カイオーガ"],
-    ["FF1FkF-Wl3TRm-kFwkkf", "ギラティナ アルセウス"],
-    ["ypMyXM-QfXNv2-UpyMpX", "ジュラルドン アルセウス"],
-    ["kkfV1F-OhPxSY-VkFFFd", "はくば アルセウス"],
+    ["FF1FkF-Wl3TRm-kFwkkf", "アルセウス ギラティナ"],
+    ["ypMyXM-QfXNv2-UpyMpX", "アルセウス ジュラルドン"],
+    ["kkfV1F-OhPxSY-VkFFFd", "アルセウス はくば"],
     ["HgngHn-UxIZEy-ngNQng", "ダークライVSTAR"]
   ]
 
