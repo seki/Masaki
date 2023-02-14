@@ -86,7 +86,8 @@ module DeckName
     ["FF1FkF-Wl3TRm-kFwkkf", "アルセウス ギラティナ"],
     ["ypMyXM-QfXNv2-UpyMpX", "アルセウス ジュラルドン"],
     ["kkfV1F-OhPxSY-VkFFFd", "アルセウス はくば"],
-    ["HgngHn-UxIZEy-ngNQng", "ダークライVSTAR"]
+    ["HgngHn-UxIZEy-ngNQng", "ダークライVSTAR"],
+    ["pyMSSp-pupzkp-ypySpX", "れんげきウーラオス"]
   ]
 
 
