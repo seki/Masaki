@@ -80,6 +80,7 @@ module DeckName
     ["F1FffF-bvgoR3-FkvVkk", "ルギア いちげき"],
     ["Y8YGD8-SY1b3l-cGxJc8", "オリジンパルキア はくば"],
     ["4888cD-3jyliZ-884acx", "サーナイトex"],
+    ["84GGcx-h5uSt7-cDGDx8", "サーナイトex"],
     ["dkdVkV-vCUk0x-VFF5f5", "サーナイトex"],
     ["Dc84D8-ikWxuZ-88cYcx", "ゾロアークVSTAR"],
     ["N9NggH-fzceQT-nngQQn", "オリジンパルキア カイオーガ"],
@@ -87,7 +88,10 @@ module DeckName
     ["ypMyXM-QfXNv2-UpyMpX", "アルセウス ジュラルドン"],
     ["kkfV1F-OhPxSY-VkFFFd", "アルセウス はくば"],
     ["HgngHn-UxIZEy-ngNQng", "ダークライVSTAR"],
-    ["pyMSSp-pupzkp-ypySpX", "れんげきウーラオス"]
+    ["pyMSSp-pupzkp-ypySpX", "れんげきウーラオス"],
+
+    ["nnQgnn-rafcqM-QQnN99", "ミライドンex ピカチュウ"],
+    ["LNnP69-KKtpJZ-nggN6n", "ルギア れんげき"]
   ]
 
 
