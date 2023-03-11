@@ -50,7 +50,9 @@ EOS
       return JSON.parse(str)
     rescue => e
       pp [:invalid_json, str, e]
-      return nil
+      sleep 5
+      retry
+      # return nil
     end
   end
 

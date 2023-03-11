@@ -75,7 +75,7 @@ module ParseRawCard
   # %w(スタジアム サポート グッズ トレーナー ポケモンのどうぐ 特殊エネルギー 基本エネルギー)
 
   def card_kind(ary)
-    pokemon = ["たね", "1 進化", "2 進化", "復元", "M進化", "BREAK進化", "レベルアップ", "VMAX", "伝説"]
+    pokemon = ["たね", "1 進化", "2 進化", "復元", "M進化", "BREAK進化", "レベルアップ", "VMAX", "伝説", "V進化"]
     start_with = %w(スタジアム サポート グッズ トレーナー ポケモンのどうぐ 特殊エネルギー 基本エネルギー)
     ary.find do |x|
       return x if start_with.include?(x)
