@@ -83,7 +83,7 @@ class Masaki
         return JSON.parse(x.read)
       end
     rescue OpenURI::HTTPError
-      pp [:retry_open_uri, key]
+      pp [:retry_open_uri, :fetch_event_list_1, key]
       sleep 5
       retry
     end
@@ -94,7 +94,8 @@ class Masaki
         return x.read
       end
     rescue OpenURI::HTTPError
-      pp [:retry_open_uri, key]
+      pp [:retry_open_uri, :fetch_result_page, key, $!]
+      return nil if $!.message == '404 Not Found'
       sleep 5
       retry
     end

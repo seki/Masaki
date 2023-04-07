@@ -30,6 +30,10 @@ file 'city-deck-date.json' => ['city-event.json'] do |t|
       page = cache
     else
       page = Masaki::Players::fetch_result_page(key)
+      unless page
+        pp [:skip, key]
+        next
+      end
       db.store(key, page)
     end
     JSON.parse(page)
@@ -38,6 +42,7 @@ file 'city-deck-date.json' => ['city-event.json'] do |t|
 
   decks = []
   events.each do |ev|
+    next unless ev
     decks += Masaki::Players::parse(ev)
   end
 
