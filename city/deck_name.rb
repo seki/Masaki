@@ -83,6 +83,7 @@ module DeckName
     ["4888cD-3jyliZ-884acx", "サーナイトex"],
     ["84GGcx-h5uSt7-cDGDx8", "サーナイトex"],
     ["dkdVkV-vCUk0x-VFF5f5", "サーナイトex"],
+    ["PN6NLH-fKoDoH-gnHHgn", "サーナイトex"],
     ["Dc84D8-ikWxuZ-88cYcx", "ゾロアークVSTAR"],
     ["N9NggH-fzceQT-nngQQn", "オリジンパルキア カイオーガ"],
     ["FF1FkF-Wl3TRm-kFwkkf", "アルセウス ギラティナ"],
@@ -96,6 +97,8 @@ module DeckName
     ["nnQgnn-rafcqM-QQnN99", "ミライドンex ピカチュウ"],
     ["LNnP69-KKtpJZ-nggN6n", "ルギア れんげき"],
     ["KDDxcx-cGFwc1-Dcc8aD", "オリジンディアルガ"],
+    ["pMSMSX-Z0GkdT-yyM2py", "パオジアンex"],
+    ["5dV511-NhPy8P-FFkbFf", "ディンルーex"]
   ]
 
 
