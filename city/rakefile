@@ -69,7 +69,9 @@ file 'weekly.dump' => [:world] do |t|
   target = t.name
   puts "generating #{target}"
 
+  s = Time.now
   it = Masaki::Analyze.weekly_analyze($world, $deck_and_date)
+  pp [:weekly_analyze, (Time.now - s).to_f]
   File.open(target, "w") {|fp| Marshal.dump(it, fp)}
 end
 
