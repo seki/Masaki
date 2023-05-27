@@ -98,6 +98,9 @@ module DeckName
     ["LNnP69-KKtpJZ-nggN6n", "ルギア れんげき"],
     ["KDDxcx-cGFwc1-Dcc8aD", "オリジンディアルガ"],
     ["pMSMSX-Z0GkdT-yyM2py", "パオジアンex"],
+    ["ngNH6N-OnPW8h-nLQgnQ", "アルセウス ヒスイヌメルゴン"],
+    ["Xy23Up-viOHUm-3MRXpS", "だんけつのつばさ"],
+    ["pSyXMp-kmmeE6-MUXS2y", "アルセウス そらをとぶピカチュウs"],
     ["5dV511-NhPy8P-FFkbFf", "ディンルーex"]
   ]
 
