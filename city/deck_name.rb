@@ -101,6 +101,7 @@ module DeckName
     ["ngNH6N-OnPW8h-nLQgnQ", "アルセウス ヒスイヌメルゴン"],
     ["Xy23Up-viOHUm-3MRXpS", "だんけつのつばさ"],
     ["pSyXMp-kmmeE6-MUXS2y", "アルセウス そらをとぶピカチュウs"],
+    ["c8JYcD-dLM4r0-DD48cc", "パオジアンex"],
     ["5dV511-NhPy8P-FFkbFf", "ディンルーex"]
   ]
 
