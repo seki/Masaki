@@ -27,6 +27,65 @@ class Masaki
       @db = nil
     end
 
+    def referer_all_create_view
+      sql =<<EOQ
+    create view referer_all as 
+      select coalesce(referer_google.deck, referer_city.deck, referer_tw.deck) as deck, *, coalesce(created_at, event_date, search_date) as date 
+      from referer_tw 
+        full outer join referer_google on referer_tw.deck = referer_google.deck
+          full outer join referer_city on referer_google.deck = referer_city.deck;
+EOQ
+      synchronize do
+        @db.execute(sql)
+      end
+    end
+
+    def referer_google_create_table
+      sql =<<EOQ
+    create table referer_google (
+    deck text
+    , search_date text
+    , primary key(deck));
+EOQ
+      synchronize do
+        @db.execute(sql)
+      end
+    end
+
+    def referer_google_store(deck, search_date)
+      sql =<<EOQ
+insert into referer_google (deck, search_date)
+  values (:deck, :search_date)
+  on conflict do update set
+    search_date = case when search_date > :search_date then :search_date else search_date end;
+EOQ
+      synchronize do
+        @db.execute(sql,
+          :deck => deck, :search_date => search_date
+        )
+      end
+    end
+
+    def referer_google_detail(deck)
+      sql =<<EOB
+select search_date from referer_google where deck=:deck;
+EOB
+      synchronize do
+        @db.execute(sql, :deck => deck).to_a.dig(0)
+      end
+    end
+
+    def referer_google_recent(n=10)
+      sql =<<EOB
+select deck, date from referer_all order by date desc, deck limit ?;
+EOB
+      synchronize do
+        @db.execute(sql, [n]).to_a.map {|x|
+          [x['deck'], to_time(x['date'])]
+        }
+      end
+    end
+      
     def referer_city_create_table
       sql =<<EOQ
     create table referer_city (
@@ -158,14 +217,7 @@ EOB
 end
 
 if __FILE__ == $0
-  Masaki::Meta.referer_tw_create_table rescue nil
-
-  require_relative 'masaki-pg'
-  pg = MasakiPG::instance
-  list = pg.conn.exec("select deck, tweet from referer_tw;")
-  list.each do |row|
-    pp row['tweet']['created_at']
-    Masaki::Meta.referer_tw_store(row['tweet'], row['deck'])
-  end
+  Masaki::Meta.referer_google_create_table rescue nil
+  Masaki::Meta.referer_all_create_view rescue nil
 end
 

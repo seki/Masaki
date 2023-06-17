@@ -2,7 +2,7 @@ require_relative 'store-meta'
 require_relative 'deck-detail'
 require_relative 'erbm'
 require_relative 'world'
-require_relative 'deck-from-twitter'
+require_relative 'deck-from-google'
 require_relative 'cluster'
 require_relative '../city/deck_name'
 require 'json'
@@ -17,6 +17,7 @@ class Masaki
     do_reload_recent
     @recent_updated_at = Time.now
     setup_city
+    deck_from_google_thread
   end
   attr_reader :world
 
@@ -140,7 +141,26 @@ class Masaki
 
   def refer_city(key)
     city = Masaki::Meta.referer_city_detail(key)
+    return nil unless city
     prepare_city(city)
+  end
+
+  def prepare_google(g)
+    date = Time.parse(g['search_date']) rescue nil
+    return nil unless date
+    {
+      'date' => date.strftime("%Y年%m月%d日") + "に　Googleで　出会った。"
+    }
+  end
+
+  def refer_google(key)
+    it = Masaki::Meta.referer_google_detail(key)
+    return nil unless it
+    prepare_google(it)
+  end
+
+  def refer_gen(key)
+    refer_city(key) || refer_google(key)
   end
 
   def search(deck, n, add_deck)
@@ -150,7 +170,7 @@ class Masaki
       {
         'link' => link,
         'tweet' => refer_tw(k),
-        'city' => refer_city(k),
+        'city' => refer_gen(k),
         'image' => image,
         'score' => s,
         'name' => k,
@@ -172,7 +192,7 @@ class Masaki
       {
         'link' => link,
         'tweet' => refer_tw(k),
-        'city' => refer_city(k),
+        'city' => refer_gen(k),
         'image' => image,
         'score' => s,
         'name' => k,
@@ -192,7 +212,7 @@ class Masaki
       {
         'link' => link,
         'tweet' => refer_tw(k),
-        'city' => refer_city(k),
+        'city' => refer_gen(k),
         'image' => image,
         'score' => s,
         'name' => k,
@@ -213,7 +233,7 @@ class Masaki
       {
         'link' => link,
         'tweet' => prepare_tw(tw),
-        'city' => refer_city(k),
+        'city' => refer_gen(k),
         'image' => image,
         'score' => 1,
         'name' => k,
@@ -253,7 +273,7 @@ class Masaki
       {
         'link' => link,
         'tweet' => refer_tw(k),
-        'city' => refer_city(k),
+        'city' => refer_gen(k),
         'image' => image,
         'score' => s,
         'name' => k,
@@ -304,23 +324,23 @@ class Masaki
     @world.deck_desc(code, 5)
   end
 
-  def deck_from_twitter
-    p :deck_from_twitter
-    MyTwitter.new.search_decks {|name|
+  def deck_from_google
+    p :deck_from_google
+    DeckFromGCS.new.search {|name|
       @world.add(name, true)
     }
   rescue
   end
 
-  def deck_from_twitter_thread
+  def deck_from_google_thread
     Thread.new do
       while true
         sleep(60)
-        deck_from_twitter
+        deck_from_google
         do_reload_recent
         @recent_updated_at = Time.now
         p :reload_recent
-        sleep(3600)
+        sleep(3600 * 6)
       end
     end
   end

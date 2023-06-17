@@ -110,7 +110,7 @@ class MasakiWorld
   end
 
   def reload_recent(n=10)
-    @recent = Masaki::Meta.referer_tw_recent(n)
+    @recent = Masaki::Meta.referer_google_recent(n)
   end
 
   def re_normalize(v)
