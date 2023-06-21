@@ -114,6 +114,7 @@ class Masaki
     def import_deck(decks)
       decks.each {|name, date|
         Masaki::Meta.referer_city_store(name, date)
+        Masaki::Meta.referer_all_store(name, date)
         next if Masaki::Deck.include?(name)
         src = DeckDetail.fetch_deck_page(name)
         v = DeckDetail.parse(src)

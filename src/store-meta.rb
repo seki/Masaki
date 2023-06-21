@@ -21,6 +21,12 @@ class Masaki
       @db.results_as_hash = true
     end
 
+    def db
+      synchronize do
+        yield(@db)
+      end
+    end
+
     def close
       @db.close if @db
     ensure
@@ -37,6 +43,32 @@ class Masaki
 EOQ
       synchronize do
         @db.execute(sql)
+      end
+    end
+
+    def referer_all_create_table
+      sql =<<EOQ
+    create table referer_all (
+    deck text
+    , date text
+    , primary key(deck));
+EOQ
+      synchronize do
+        @db.execute(sql)
+      end
+    end
+
+    def referer_all_store(deck, date)
+      sql =<<EOQ
+insert into referer_all (deck, date)
+  values (:deck, :date)
+  on conflict(deck) do update set
+    date = case when date > :date then :date else date end;
+EOQ
+      synchronize do
+        @db.execute(sql,
+          :deck => deck, :date => date
+        )
       end
     end
 
@@ -214,10 +246,25 @@ EOB
   Meta = MetaStore.new(__dir__ + '/../data/meta.db')
   Meta.referer_tw_create_table rescue nil
   Meta.referer_city_create_table rescue nil
+  Meta.referer_google_create_table rescue nil
+  Meta.referer_all_create_table rescue nil
 end
 
 if __FILE__ == $0
-  Masaki::Meta.referer_google_create_table rescue nil
-  Masaki::Meta.referer_all_create_view rescue nil
+=begin
+  g = Masaki::Meta.db {|d| d.execute("select * from referer_google")}
+  g.each do |r|
+    Masaki::Meta.referer_all_store(r['deck'], r['search_date'])
+  end
+
+  t = Masaki::Meta.db {|d| d.execute("select * from referer_tw")}
+  t.each do |r|
+    Masaki::Meta.referer_all_store(r['deck'], r['created_at'])
+  end
+=end
+  c = Masaki::Meta.db {|d| d.execute("select * from referer_city")}
+  c.each do |r|
+    Masaki::Meta.referer_all_store(r['deck'], r['event_date'])
+  end
 end
 
