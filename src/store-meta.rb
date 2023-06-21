@@ -251,7 +251,6 @@ EOB
 end
 
 if __FILE__ == $0
-=begin
   g = Masaki::Meta.db {|d| d.execute("select * from referer_google")}
   g.each do |r|
     Masaki::Meta.referer_all_store(r['deck'], r['search_date'])
@@ -261,7 +260,7 @@ if __FILE__ == $0
   t.each do |r|
     Masaki::Meta.referer_all_store(r['deck'], r['created_at'])
   end
-=end
+  
   c = Masaki::Meta.db {|d| d.execute("select * from referer_city")}
   c.each do |r|
     Masaki::Meta.referer_all_store(r['deck'], r['event_date'])
