@@ -10,7 +10,8 @@ file 'city-event.json' do |t|
     title = x['event_title']
     (! title.include?('エクストラ')) && (
       title.start_with?("シティリーグ2023 シーズン") ||
-      title.start_with?("チャンピオンズリーグ2023")
+      title.start_with?("チャンピオンズリーグ2023") ||
+      title.include?('ポケモンジャパンチャンピオンシップス')
     )
   }
   File.write(target, city.to_json)
