@@ -33,7 +33,7 @@ class DeckFromGCS
       cx: @cx,
       q: "allinurl:https://www.pokemon-card.com/deck/ deckID",
       lr: 'lang_ja',
-      date_restrict: 'w1',
+      date_restrict: 'd2',
       search_type: 'image',
       start: start
     )
