@@ -326,7 +326,7 @@ class Masaki
 
   def deck_from_google
     p :deck_from_google
-    DeckFromGCS.new.search {|name|
+    DeckFromGCS.new.search.each {|name|
       @world.add(name, true)
     }
   rescue
