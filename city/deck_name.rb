@@ -104,7 +104,11 @@ module DeckName
     ["c8JYcD-dLM4r0-DD48cc", "パオジアンex"],
     ["5dV511-NhPy8P-FFkbFf", "ディンルーex"],
     ["6HgHQg-cucRYO-NNLngN", "ミライドンex"],
-    ["4cccGD-uJ16yR-c8Gx8K", "ロスト"]
+    ["4cccGD-uJ16yR-c8Gx8K", "ロスト"],
+    ["KDJ88c-83oUAa-cD88YK", "リザードンex"],
+    ["bwfF5k-UFGfLR-FfdbkF", "アルセウス ロコン"],
+    ["n6gQnQ-KP5uzZ-nQgNLn", "ミライドンex"],
+
   ]
 
 
