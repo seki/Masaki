@@ -9,8 +9,8 @@ file 'city-event.json' do |t|
   city = Masaki::Players::fetch_event_list.find_all {|x|
     title = x['event_title']
     (! title.include?('エクストラ')) && (
-      title.start_with?("シティリーグ2023 シーズン") ||
-      title.start_with?("チャンピオンズリーグ2023") ||
+      title.start_with?("シティリーグ") ||
+      title.start_with?("チャンピオンズリーグ") ||
       title.include?('ポケモンジャパンチャンピオンシップス')
     )
   }

@@ -102,7 +102,9 @@ module DeckName
     ["Xy23Up-viOHUm-3MRXpS", "だんけつのつばさ"],
     ["pSyXMp-kmmeE6-MUXS2y", "アルセウス そらをとぶピカチュウs"],
     ["c8JYcD-dLM4r0-DD48cc", "パオジアンex"],
-    ["5dV511-NhPy8P-FFkbFf", "ディンルーex"]
+    ["5dV511-NhPy8P-FFkbFf", "ディンルーex"],
+    ["6HgHQg-cucRYO-NNLngN", "ミライドンex"],
+    ["4cccGD-uJ16yR-c8Gx8K", "ロスト"]
   ]
 
 
