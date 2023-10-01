@@ -108,7 +108,7 @@ module DeckName
     ["KDJ88c-83oUAa-cD88YK", "リザードンex"],
     ["bwfF5k-UFGfLR-FfdbkF", "アルセウス ロコン"],
     ["n6gQnQ-KP5uzZ-nQgNLn", "ミライドンex"],
-
+    ["cD88aK-ibcJTL-cDDDKc", "パオジアンex"],
   ]
 
 
