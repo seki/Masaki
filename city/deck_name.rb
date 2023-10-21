@@ -109,7 +109,9 @@ module DeckName
     ["bwfF5k-UFGfLR-FfdbkF", "アルセウス ロコン"],
     ["n6gQnQ-KP5uzZ-nQgNLn", "ミライドンex"],
     ["cD88aK-ibcJTL-cDDDKc", "パオジアンex"],
-    ["pXMSXp-xOjxhY-RMyyyS", "サーフゴー"]
+    ["pXMSXp-xOjxhY-RMyyyS", "サーフゴー"],
+    ["pppypy-iA8DRz-XMyppX", "アルセウス ジュラルドン"],
+    ["vbwvfV-tmNgo0-VwFkVf", "ゾロアーク"]
   ]
 
 
