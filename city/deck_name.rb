@@ -111,7 +111,9 @@ module DeckName
     ["cD88aK-ibcJTL-cDDDKc", "パオジアンex"],
     ["pXMSXp-xOjxhY-RMyyyS", "サーフゴー"],
     ["pppypy-iA8DRz-XMyppX", "アルセウス ジュラルドン"],
-    ["vbwvfV-tmNgo0-VwFkVf", "ゾロアーク"]
+    ["vbwvfV-tmNgo0-VwFkVf", "ゾロアーク"],
+    ["MUyy3p-7eTadV-XMUpMy", "トドロクツキex"],
+    ["fkFwkV-RyHGgA-Fk1kf5", "テツノブジンex"],
   ]
 
 
