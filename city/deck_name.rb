@@ -114,6 +114,7 @@ module DeckName
     ["vbwvfV-tmNgo0-VwFkVf", "ゾロアーク"],
     ["MUyy3p-7eTadV-XMUpMy", "トドロクツキex"],
     ["fkFwkV-RyHGgA-Fk1kf5", "テツノブジンex"],
+    ["xccGK8-R0WDa2-8J8Dxx", "サーフゴー"]
   ]
 
 
