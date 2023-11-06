@@ -100,7 +100,7 @@ module DeckName
     ["pMSMSX-Z0GkdT-yyM2py", "パオジアンex"],
     ["ngNH6N-OnPW8h-nLQgnQ", "アルセウス ヒスイヌメルゴン"],
     ["Xy23Up-viOHUm-3MRXpS", "だんけつのつばさ"],
-    ["pSyXMp-kmmeE6-MUXS2y", "アルセウス そらをとぶピカチュウs"],
+    ["pSyXMp-kmmeE6-MUXS2y", "アルセウス そらをとぶピカチュウ"],
     ["c8JYcD-dLM4r0-DD48cc", "パオジアンex"],
     ["5dV511-NhPy8P-FFkbFf", "ディンルーex"],
     ["6HgHQg-cucRYO-NNLngN", "ミライドンex"],
@@ -114,7 +114,8 @@ module DeckName
     ["vbwvfV-tmNgo0-VwFkVf", "ゾロアーク"],
     ["MUyy3p-7eTadV-XMUpMy", "トドロクツキex"],
     ["fkFwkV-RyHGgA-Fk1kf5", "テツノブジンex"],
-    ["xccGK8-R0WDa2-8J8Dxx", "サーフゴー"]
+    ["xccGK8-R0WDa2-8J8Dxx", "サーフゴー"],
+    ["NLgLNN-SJ4ceT-QnL9L6", "リザードンex"],
   ]
 
 
