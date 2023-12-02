@@ -117,6 +117,7 @@ module DeckName
     ["xccGK8-R0WDa2-8J8Dxx", "サーフゴー"],
     ["NLgLNN-SJ4ceT-QnL9L6", "リザードンex"],
     ["fFVfVV-8zdzw1-5v1Vkk", "テツノブジンex"],
+    ["XXyypM-duW4Zf-XRyMMy", "ガケガニ"],
   ]
 
 
