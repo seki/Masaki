@@ -263,7 +263,7 @@ if __FILE__ == $0
       next
     end
     sleep 0.3 + rand
-    pp [name, deck]
+    pp [num, name]
     src = DeckDetail.fetch_deck_page(name)
     v = DeckDetail.parse(src)
     Masaki::Deck[name] = v
