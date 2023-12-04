@@ -251,19 +251,32 @@ EOB
 end
 
 if __FILE__ == $0
-  g = Masaki::Meta.db {|d| d.execute("select * from referer_google")}
-  g.each do |r|
-    Masaki::Meta.referer_all_store(r['deck'], r['search_date'])
-  end
+  require_relative 'world'
+  require_relative 'deck-detail'
+  require_relative 'store-deck'
+  require 'date'
 
-  t = Masaki::Meta.db {|d| d.execute("select * from referer_tw")}
-  t.each do |r|
-    Masaki::Meta.referer_all_store(r['deck'], r['created_at'])
-  end
-  
-  c = Masaki::Meta.db {|d| d.execute("select * from referer_city")}
-  c.each do |r|
-    Masaki::Meta.referer_all_store(r['deck'], r['event_date'])
+  range = Date.parse('2023-11-09')..Date.today
+  range.each do |date|
+    deck = Masaki::Meta.db {|d| d.execute(
+      "select * from referer_all where date like :date order by date",
+      :date => "%#{date.to_s}%")
+    }
+    deck.each do |row|
+      num = Masaki::Deck[row['deck']]&.inject(0) {|s, x| s + x[1]} || 0
+      if num == 60 || num == 40 || num == 30
+        pp [num, :skip, row]
+        next
+      end
+      sleep 0.3 + rand
+      pp [num, row]
+      name = row['deck']
+      src = DeckDetail.fetch_deck_page(name)
+      v = DeckDetail.parse(src)
+      Masaki::Deck[name] = v
+    end
+    puts date.to_s
+    sleep 0.5
   end
 end
 

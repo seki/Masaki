@@ -1,5 +1,6 @@
 require 'open-uri'
 require_relative 'store-meta'
+require 'nokogiri'
 
 module DeckDetail
   module_function
@@ -10,28 +11,18 @@ module DeckDetail
   def item_parse(item)
     item.split('-').collect {|x| x.split('_')[0,2].map {|x| Integer(x)}}
   end
-  
-  def do_parse(text)
-    return nil unless /\<form id=\"inputArea\" action=\"\.\/deckRegister\.php\"\>(.+?)\<\/form\>/m =~ text
-    deck = $1
-    if /id=\"deck_pke\" value=\"(.*?)\"/ =~ deck
-      pokemon = item_parse($1)
-    end
-    if /id=\"deck_gds\" value=\"(.*?)\"/ =~ deck
-      goods = item_parse($1)
-    end
-    if /id=\"deck_sup\" value=\"(.*?)\"/ =~ deck
-      support = item_parse($1)
-    end
-    if /id=\"deck_sta\" value=\"(.*?)\"/ =~ deck
-      stadium = item_parse($1)
-    end
-    if /id=\"deck_ene\" value=\"(.*?)\"/ =~ deck
-      energy = item_parse($1)
-    end
-    pokemon + goods + support + stadium + energy
-  end
 
+  def do_parse(html)
+    doc = Nokogiri::HTML(html)
+    doc.css('#inputArea input').inject([]) { |s, input|
+      if input['id'].start_with?('deck_')
+        s + item_parse(input['value'].to_s)
+      else
+        s
+      end
+    }
+  end
+  
   def fetch_deck_page(key)
     name = "https://www.pokemon-card.com/deck/confirm.html/deckID/#{key}/"
     URI.open(name) do |x|
