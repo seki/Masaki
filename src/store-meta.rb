@@ -256,27 +256,17 @@ if __FILE__ == $0
   require_relative 'store-deck'
   require 'date'
 
-  range = Date.parse('2023-11-09')..Date.today
-  range.each do |date|
-    deck = Masaki::Meta.db {|d| d.execute(
-      "select * from referer_all where date like :date order by date",
-      :date => "%#{date.to_s}%")
-    }
-    deck.each do |row|
-      num = Masaki::Deck[row['deck']]&.inject(0) {|s, x| s + x[1]} || 0
-      if num == 60 || num == 40 || num == 30
-        pp [num, :skip, row]
-        next
-      end
-      sleep 0.3 + rand
-      pp [num, row]
-      name = row['deck']
-      src = DeckDetail.fetch_deck_page(name)
-      v = DeckDetail.parse(src)
-      Masaki::Deck[name] = v
+  Masaki::Deck.each_new_arrive do |name, deck|
+    num = deck.inject(0) {|s, x| s + x[1]} || 0
+    if num == 60 || num == 40 || num == 30
+      pp [num, :skip, name]
+      next
     end
-    puts date.to_s
-    sleep 0.5
+    sleep 0.3 + rand
+    pp [name, deck]
+    src = DeckDetail.fetch_deck_page(name)
+    v = DeckDetail.parse(src)
+    Masaki::Deck[name] = v
   end
 end
 
