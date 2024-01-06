@@ -14,12 +14,13 @@ class Masaki
   EmbedView = ERBMethod.new(self, "to_embed(req, res, left, right, diff)", 'embed.html')
   def initialize
     @world = MasakiWorld.new
+    @datalist = @world.instance_variable_get(:@name_i).map(&:first).uniq
     do_reload_recent
     @recent_updated_at = Time.now
     setup_city
     deck_from_google_thread
   end
-  attr_reader :world
+  attr_reader :world, :datalist
 
   CITY_THRESHOLD = 0.25
   def setup_city

@@ -16,6 +16,11 @@ class CardDetail
     it
   end
 
+  def reload(key)
+    it = fetch_card_page(key)
+    @kvs[key] = it
+  end
+
   def fetch_card_page(key)
     name = "https://www.pokemon-card.com/card-search/details.php/card/#{key}"
     URI.open(name) do |x|

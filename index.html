@@ -100,8 +100,13 @@ footer {
   <div class="row justify-content-center m-2">
     <large>
       <div class="input-group">
-        <input type="deck" class="form-control" placeholder="デッキコード カード名 番号" onchange="call_api()"
-        aria-label="検索デッキコード" aria-describedby="basic-addon1" id="update">
+        <input type="text" class="form-control" placeholder="デッキコード カード名 番号" onchange="call_api()"
+        aria-label="検索デッキコード" aria-describedby="basic-addon1" id="update" list="card-name-list">
+        <datalist id="card-name-list">
+          <% datalist.each do |name| %>
+          <option value="<%=h name %>"></option>
+          <% end %>
+        </datalist>
         <div class="input-group-append">
           <button class="btn btn-secondary" type="button">検索</button>
         </div>
