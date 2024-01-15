@@ -2,6 +2,7 @@ require_relative 'deck-detail'
 require_relative 'store-deck'
 require_relative 'store-meta'
 require 'json'
+require 'set'
 
 class MasakiWorld
   module Dot
@@ -301,12 +302,25 @@ class MasakiWorld
     search_by_(req, n)
   end
 
-  def search_by_card(card_id, n=5)
-    card = @id_norm[card_id]
-    return [] unless card
-    req = [[card, 1]]
+  def search_by_card(card_id_list, n=5)
+    want = Set.new
+    omit = Set.new
+    card_id_list.each {|card_id|
+      card = @id_norm[card_id.abs]
+      return [] unless card
+      if card_id > 0
+        want << card
+      else
+        omit << card
+      end
+    }
+    return [] if want.intersect?(omit)
+    req = want.map {|x| [x, 1]} + omit.map {|x| [x, -15]}
     make_norm1(req)
-    search_by_(req, n)
+    search_by_(req, n).find_all {|s, n|
+      c = Set.new(@deck[n].map(&:first))
+      (! c.intersect?(omit)) && (want.subset?(c))
+    }
   end
 
   def search_by_screen_name(screen_name, n=30)

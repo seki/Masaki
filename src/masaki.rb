@@ -105,7 +105,7 @@ class Masaki
   end
 
   def do_search_api(req, res, post)
-    str = post["search"].encode('utf-8') rescue nil
+    str = post["search"].encode('utf-8').strip rescue nil
     add_deck = post["add"] ? true : false
     sign = post["sign"].encode('utf-8') rescue nil
     city_index = guess_city(str)
@@ -114,8 +114,8 @@ class Masaki
     return search(name, 5, add_deck) if name
     screen_name = guess_screen_name(str)
     return search_by_screen_name(screen_name) if screen_name
-    card_id = guess_card_id(str)
-    return search_by_card(card_id) if card_id
+    card_id_list = guess_card_id(str)
+    return search_by_card(card_id_list) if card_id_list
     search_by_name(str)
   end
 
@@ -207,8 +207,8 @@ class Masaki
     }
   end
 
-  def search_by_card(card_no, n=10)
-    ary = @world.search_by_card(card_no, n).map {|s, k|
+  def search_by_card(card_id_list, n=10)
+    ary = @world.search_by_card(card_id_list, n).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
@@ -221,8 +221,8 @@ class Masaki
       }
     }
     {
-      'query' => ['search_by_card', card_no],
-      'desc' => "カード番号#{card_no}を使ったデッキ",
+      'query' => ['search_by_card', card_id_list.join(" ")],
+      'desc' => "カード番号#{card_id_list.join(" ")}を使ったデッキ",
       'result' => ary
     }
   end
@@ -303,13 +303,16 @@ class Masaki
 
   def guess_card_id(str)
     if /\/card\-search\/details\.php\/card\/(\d+)/ =~ str
-      Integer($1, 10) rescue nil
+      [Integer($1, 10)] rescue nil
     elsif /card_images\/.*\/(\d+)\w+\.jpg/ =~ str
-      Integer($1, 10) rescue nil
+      [Integer($1, 10)] rescue nil
     elsif /\A\/(\d+)\Z/ =~ str
-      Integer($1, 10) rescue nil
+      [Integer($1, 10)] rescue nil
     else
-      Integer(str, 10) rescue nil
+      ary = str.split.map {|w| Integer(w, 10)} rescue nil
+      return nil unless ary
+      ary.empty? ? nil : ary
+      # [Integer(str, 10)] rescue nil
     end
   end
 
