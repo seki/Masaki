@@ -118,7 +118,15 @@ module DeckName
     ["NLgLNN-SJ4ceT-QnL9L6", "リザードンex"],
     ["fFVfVV-8zdzw1-5v1Vkk", "テツノブジンex"],
     ["XXyypM-duW4Zf-XRyMMy", "ガケガニ"],
-    ["8884xx-hunmYi-xc8cxD", "カビゴンLO"]
+    ["8884xx-hunmYi-xc8cxD", "カビゴンLO"],
+    ["xc8Ycc-5zoJTq-G848aJ", "リザードンex"],
+    ["NgnHHg-xMJ4Xb-n9ngL9", "パオジアンex"],
+    ["Sy22yX-EXerT1-EMppSM", "トドロクツキex"],
+    ["SyS2py-uCkGFJ-MyEypE", "サーフゴー"],
+    ["VF5wkd-jH7XAp-F5k5kv", "イダイナキバLO"],
+    ["yXEUp2-cFY4yc-MEyEpy", "ロスト"],
+    ["FFVFk5-WhTouh-d5vVkk", "アルセウス ギラティナ"],
+    ["MSyyyX-uV3xfU-R2ySpp", "カビゴンLO"]
   ]
 
 
