@@ -126,7 +126,9 @@ module DeckName
     ["VF5wkd-jH7XAp-F5k5kv", "イダイナキバLO"],
     ["yXEUp2-cFY4yc-MEyEpy", "ロスト"],
     ["FFVFk5-WhTouh-d5vVkk", "アルセウス ギラティナ"],
-    ["MSyyyX-uV3xfU-R2ySpp", "カビゴンLO"]
+    ["MSyyyX-uV3xfU-R2ySpp", "カビゴンLO"],
+    ["8xx4DY-QZq5UL-cc8x48", "モルフォン"],
+    ["Y8c84D-34JMKF-D8Kxcc", "チラチーノ"]
   ]
 
 
