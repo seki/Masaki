@@ -128,7 +128,8 @@ module DeckName
     ["FFVFk5-WhTouh-d5vVkk", "アルセウス ギラティナ"],
     ["MSyyyX-uV3xfU-R2ySpp", "カビゴンLO"],
     ["8xx4DY-QZq5UL-cc8x48", "モルフォン"],
-    ["Y8c84D-34JMKF-D8Kxcc", "チラチーノ"]
+    ["Y8c84D-34JMKF-D8Kxcc", "チラチーノ"],
+    ["5F1kvF-22Fauy-VVVkvF", "サーナイトex"]
   ]
 
 
