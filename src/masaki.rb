@@ -15,14 +15,15 @@ class Masaki
   def initialize
     @world = MasakiWorld.new
     @datalist = @world.instance_variable_get(:@name_i).map(&:first).uniq
+    # @more_pokemon = @world.more_pokemon
     do_reload_recent
     @recent_updated_at = Time.now
     setup_city
     deck_from_google_thread
   end
-  attr_reader :world, :datalist
+  attr_reader :world, :datalist#, :more_pokemon
 
-  CITY_THRESHOLD = 0.25
+  CITY_THRESHOLD = 0.2
   def setup_city
     @cluster = File.open('city/weekly.dump') {|fp| Marshal.load(fp)}
     @cluster = @cluster.find_all {|c| c['range'].begin >= "2023-02-03"}

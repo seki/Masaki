@@ -123,7 +123,7 @@ class Masaki
     end
 
     def weekly_analyze(world, deck_and_date)
-      origin = Date.parse('2023-09-01') # 金曜日始まり
+      origin = Date.parse('2024-01-26') # 金曜日始まり
       weekly = deck_and_date.sort_by {|x| x[1]}.chunk {|x|
         (Date.parse(x[1]) - origin).to_i / 7
       }
