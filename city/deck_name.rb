@@ -129,7 +129,9 @@ module DeckName
     ["MSyyyX-uV3xfU-R2ySpp", "カビゴンLO"],
     ["8xx4DY-QZq5UL-cc8x48", "モルフォン"],
     ["Y8c84D-34JMKF-D8Kxcc", "チラチーノ"],
-    ["5F1kvF-22Fauy-VVVkvF", "サーナイトex"]
+    ["5F1kvF-22Fauy-VVVkvF", "サーナイトex"],
+    ["ffV5k5-19S147-vkkV1F", "リザードンex"],
+    ["LQggLn-hXlwFo-9nggHn", "ミライドンex"]
   ]
 
 
