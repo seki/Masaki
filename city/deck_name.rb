@@ -131,7 +131,8 @@ module DeckName
     ["Y8c84D-34JMKF-D8Kxcc", "チラチーノ"],
     ["5F1kvF-22Fauy-VVVkvF", "サーナイトex"],
     ["ffV5k5-19S147-vkkV1F", "リザードンex"],
-    ["LQggLn-hXlwFo-9nggHn", "ミライドンex"]
+    ["LQggLn-hXlwFo-9nggHn", "ミライドンex"],
+    ["HNnQHg-Ei40nZ-nnHgPn", "テツノカイナex"]
   ]
 
 
