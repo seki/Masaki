@@ -104,7 +104,7 @@ GEM
     naught (1.1.0)
     net-http (0.4.1)
       uri
-    nokogiri (1.16.0)
+    nokogiri (1.16.2)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     os (1.1.4)
