@@ -132,7 +132,8 @@ module DeckName
     ["5F1kvF-22Fauy-VVVkvF", "サーナイトex"],
     ["ffV5k5-19S147-vkkV1F", "リザードンex"],
     ["LQggLn-hXlwFo-9nggHn", "ミライドンex"],
-    ["HNnQHg-Ei40nZ-nnHgPn", "テツノカイナex"]
+    ["HNnQHg-Ei40nZ-nnHgPn", "テツノカイナex"],
+    ["xD8cKc-k7heaT-4YccD8", "ゲッコウガex"]
   ]
 
 
