@@ -133,7 +133,8 @@ module DeckName
     ["ffV5k5-19S147-vkkV1F", "リザードンex"],
     ["LQggLn-hXlwFo-9nggHn", "ミライドンex"],
     ["HNnQHg-Ei40nZ-nnHgPn", "テツノカイナex"],
-    ["xD8cKc-k7heaT-4YccD8", "ゲッコウガex"]
+    ["xD8cKc-k7heaT-4YccD8", "ゲッコウガex"],
+    ["N6QHQQ-GQ3mVh-nLHLgL", "テツノイバラex"]
   ]
 
 
