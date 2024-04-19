@@ -134,7 +134,8 @@ module DeckName
     ["LQggLn-hXlwFo-9nggHn", "ミライドンex"],
     ["HNnQHg-Ei40nZ-nnHgPn", "テツノカイナex"],
     ["xD8cKc-k7heaT-4YccD8", "ゲッコウガex"],
-    ["N6QHQQ-GQ3mVh-nLHLgL", "テツノイバラex"]
+    ["N6QHQQ-GQ3mVh-nLHLgL", "テツノイバラex"],
+    ["Y4D8Kc-mGCdwQ-4x84cc", "タケルライコex"]
   ]
 
 
