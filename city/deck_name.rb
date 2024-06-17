@@ -126,7 +126,7 @@ module DeckName
     ["VF5wkd-jH7XAp-F5k5kv", "イダイナキバLO"],
     ["yXEUp2-cFY4yc-MEyEpy", "ロスト"],
     ["FFVFk5-WhTouh-d5vVkk", "アルセウス ギラティナ"],
-    ["MSyyyX-uV3xfU-R2ySpp", "カビゴンLO"],
+    ["MSyyyX-uV3xfU-R2ySpp", "カビゴン"],
     ["8xx4DY-QZq5UL-cc8x48", "モルフォン"],
     ["Y8c84D-34JMKF-D8Kxcc", "チラチーノ"],
     ["5F1kvF-22Fauy-VVVkvF", "サーナイトex"],
@@ -136,7 +136,13 @@ module DeckName
     ["xD8cKc-k7heaT-4YccD8", "ゲッコウガex"],
     ["N6QHQQ-GQ3mVh-nLHLgL", "テツノイバラex"],
     ["Y4D8Kc-mGCdwQ-4x84cc", "タケルライコex"],
-    ["88c44Y-xebFYh-84cYDK", "ドラパルトex"]
+    ["88c44Y-xebFYh-84cYDK", "ドラパルトex"],
+    ["Q9gnNL-vKRd1M-gHgnLN", "タケルライコex オーガポン"],
+    ["FdVk5k-BGnlAc-Fvb5k5", "ロスト"],
+    ["9nQHin-84ADW9-ngn9gg", "ミライドンex"],
+    ["9gHLgg-2wVkEH-9nHNiL", "カビゴン"],
+    ["gnnLgg-W6C7eI-nL9H6g", "サーナイトex"],
+    ["Syy2pM-XedU2X-yRpEXS", "オリジンディアルガ"]
   ]
 
 
