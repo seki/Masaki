@@ -23,8 +23,6 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/jpn.css@latest/dist/bootstrap/jpn.min.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%=h ENV['ADSENSE']%>"
-     crossorigin="anonymous"></script>
 <style>
 
 .jumbotron {
@@ -122,7 +120,7 @@ footer {
     </large>
   </div>
   <div class="row justify-content-center m-2">
-    <p>Twitterなどに投稿されたデッキを解析してリサーチ。第一弾は似ているデッキを探します。</p>
+    <p class="d-none d-lg-block">Twitterなどに投稿されたデッキを解析してリサーチ。第一弾は似ているデッキを探します。</p>
   </div>
   <div class="row justify-content-center m-2">
     <span class="lead" id="deckquery"></span>
@@ -143,9 +141,24 @@ footer {
     </div>
   </div>
 </div>
-<div class="container">
-  <div class="row justify-content-center mt-4">
-    <iframe sandbox="allow-popups allow-scripts allow-modals allow-forms allow-same-origin" style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=FFFFFF&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=ilikeruby-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B0C88GCDCC&linkId=bc9afee591357f3d90a004d735f15c3d"></iframe>
+<div class="container d-none">
+  <div class="row">
+  <%
+  _dict = more_pokemon
+  _dict.each do |name, v|
+    v.each do |group|
+      card_id, hp, color, *rest = group
+  %>
+    <div class="col-4 mb-1"><div class="card"><div class="card-body">
+      <h5 class="card-title"><%=h name %>
+        <% card_id.each do |cid| 
+          %><a href="<%= card_url(cid[0])%>"><span class="badge badge-secondary"><%=h cid[1] %></span></a> <%
+        end %></h5> <p class="card-text">HP <%= hp%> <%=h rest.join(" ") %></p>
+    </div></div></div>
+  <%
+    end
+  end
+  %>
   </div>
 </div>
 </main>

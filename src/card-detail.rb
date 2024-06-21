@@ -28,7 +28,7 @@ class CardDetail
       return x.read
     end
   rescue OpenURI::HTTPError
-    pp [:retry_open_uri, key]
+    p [:retry_open_uri, key]
     sleep 5
     retry
   end

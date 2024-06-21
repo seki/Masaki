@@ -55,18 +55,22 @@ class MasakiWorld
     NPROC = 8
     def initialize(idf, deck, nproc=NPROC)
       @idf = idf
-      @deck = deck.to_a
+      deck = deck.to_a
       @nproc = nproc
+      @deck = ((0..deck.size).step(deck.size / @nproc + 1) + [deck.size]).each_cons(2).map {|s, e|
+        deck[s...e].freeze
+      }
     end
 
     def each_in(range)
+      return @deck[range]
       return enum_for(__method__, range) unless block_given?
       range.each {|x| yield(@deck[x])}
     end
 
     def _search_by_deck(v, n)
-      ((0..@deck.size).step(@deck.size / @nproc + 1) + [@deck.size]).each_cons(2).map {|s, e|
-        Ractor.new(self, each_in(s...e), v, n) {|world, sub_decks, v, n|
+      @deck.map {|deck_1|
+        Ractor.new(self, deck_1, v, n) {|world, sub_decks, v, n|
           world._search_by_deck_core(sub_decks, v, n)
         }
       }.map {|r| r.take}.sum([]).max(n)
@@ -78,6 +82,7 @@ class MasakiWorld
     data_dir = __dir__ + "/../data/"
     trainer = JSON.parse(File.read(data_dir + "uniq_energy_trainer_all.txt"))
     pokemon = JSON.parse(File.read(data_dir + "uniq_pokemon_all.txt"))
+    @more_pokemon = JSON.parse(File.read(data_dir + "more_card.json")) rescue {}
     @name = Hash[trainer + pokemon]
     make_id_norm
 
@@ -93,7 +98,7 @@ class MasakiWorld
     @ractor = for_ractor(8)
     @mutex = Mutex.new
   end
-  attr_reader :deck, :idf, :recent, :id_latest, :ractor
+  attr_reader :deck, :idf, :recent, :id_latest, :ractor, :more_pokemon
 
   def for_ractor(nproc=8)
     Ractor.make_shareable(ForRactor.new(@idf, @deck, nproc))
