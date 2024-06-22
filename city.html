@@ -43,6 +43,10 @@ footer {
   font-feature-settings: "palt" 1, "dlig" 1;
 }
 
+.font-masaki {
+  background-image: repeating-linear-gradient(#fff, #fff 20px, #71b89680 22px, #71b89680 33px);
+}
+
 .bg-hamana-light {
   background-color: #95d1b4;
 }
@@ -60,7 +64,9 @@ footer {
 <body>
 <nav class="navbar navbar-expand-md navbar-light bg-white sticky-top">
   <div class="container">
-    <a class="navbar-brand" href="/"><i class="fas fa-glasses text-danger"></i></a>
+    <a class="navbar-brand font-masaki" href="/"><i class="fas fa-glasses text-danger"></i>
+      <span class="d-inline-flex small text-muted ">ハマナの解析，マサキのリサーチ．</span>
+    </a>
     <button class="navbar-toggler" type="button"
       data-toggle="collapse" data-target="#navbar-content"
       aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,10 +96,9 @@ footer {
   </div>
 </nav>
 <main>
-<div class="jumbotron jumbotron-fluid text-white pt-2  pb-1">
+<div class="d-none d-lg-block jumbotron jumbotron-fluid text-white pt-2  pb-1">
   <div class="container small">
-    <p><span class="display-4">Roseanne's Analysis</span>
-      <span class="lead d-inline-flex text-white-50">ハマナの解析，マサキのリサーチ．</span></p>
+    <p><span class="display-4">Roseanne's Analysis</span></p>
   </div>
 </div>
 
