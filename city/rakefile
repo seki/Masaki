@@ -1,5 +1,6 @@
 require_relative 'analyze_city'
 require_relative '../src/cluster'
+require_relative '../src/store-meta'
 require 'date'
 
 file 'city-event.json' do |t|
@@ -53,12 +54,12 @@ file 'city-deck-date.json' => ['city-event.json'] do |t|
   pp decks.size
 end
 
-task :world => [:deck_and_date] do |t|
+task :world => [:city_deck_and_date] do |t|
   $world = MasakiWorld.new
 end
 
-task :deck_and_date => ['city-deck-date.json'] do |t|
-  $deck_and_date = JSON.parse(File.read('city-deck-date.json'))
+task :city_deck_and_date => ['city-deck-date.json'] do |t|
+  $city_deck_and_date = JSON.parse(File.read('city-deck-date.json'))
 end
 
 task :clean do
@@ -66,15 +67,15 @@ task :clean do
   File.unlink('report_rough.json') rescue nil
 end
 
-file 'weekly.dump' => [:world] do |t|
+file 'city-weekly.dump' => [:world] do |t|
   target = t.name
   puts "generating #{target}"
 
   s = Time.now
-  it = Masaki::Analyze.weekly_analyze($world, $deck_and_date)
+  it = Masaki::Analyze.weekly_analyze($world, $city_deck_and_date)
   pp [:weekly_analyze, (Time.now - s).to_f]
   File.open(target, "w") {|fp| Marshal.dump(it, fp)}
 end
 
-task :default => ['weekly.dump'] do
+task :default => ['city-weekly.dump'] do
 end
