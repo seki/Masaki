@@ -261,10 +261,7 @@ function time_util(str) {
     //　return elapsed.getUTCMonth() + ' month';
     return null;
   } else if (elapsed.getUTCDate() - 1) {
-    // return elapsed.getUTCDate() - 1 + ' day';
-    return null;
-  } else if (elapsed.getUTCHours() > 3) {
-    return null
+    return elapsed.getUTCDate() - 1 + ' day';
   } else if (elapsed.getUTCHours()) {
     return elapsed.getUTCHours() + ' hour';
   } else if (elapsed.getUTCMinutes()) {
