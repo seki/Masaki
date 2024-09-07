@@ -142,7 +142,13 @@ module DeckName
     ["9nQHin-84ADW9-ngn9gg", "ミライドンex"],
     ["9gHLgg-2wVkEH-9nHNiL", "カビゴン"],
     ["gnnLgg-W6C7eI-nL9H6g", "サーナイトex"],
-    ["Syy2pM-XedU2X-yRpEXS", "オリジンディアルガ"]
+    ["Syy2pM-XedU2X-yRpEXS", "オリジンディアルガ"],
+    ["cYY4K8-X9bGkz-xYccGD", "リザードンex"],
+    ["wFf5fk-PCU2HW-FFdVwk", "ドラパルトex"],
+    ["55Ffvk-VTp9f8-vFkkwb", "トドロクツキex"],
+    ["LH9gH9-IWyEYv-gn6nnN", "チラチーノ"],
+    ["cGG488-az1ikn-c8K4cx", "レジドラゴVSTAR"],
+    ["Ng6PHn-b7VWK7-gngH6P", "カビゴン"]
   ]
 
 
