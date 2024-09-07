@@ -30,7 +30,7 @@ class Masaki
     end
   
     def store(key, value)
-      @db.execute("INSERT OR REPLACE INTO #{table} (id, value) values (?, ?)", key, value)
+      @db.execute("INSERT OR REPLACE INTO #{table} (id, value) values (:key, :value)", :key => key, :value => value)
     end
   
     def each(&blk)
