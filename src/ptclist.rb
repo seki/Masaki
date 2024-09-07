@@ -24,21 +24,12 @@ class PTCList
 
   def make_curl(page)
     <<EOS
-curl 'https://www.pokemon-card.com/card-search/resultAPI.php' -s -o - \
--XPOST \
--H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
--H 'Accept: application/json, text/javascript, */*; q=0.01' \
--H 'Host: www.pokemon-card.com' \
--H 'Accept-Language: ja' \
--H 'Origin: https://www.pokemon-card.com' \
--H 'Referer: https://www.pokemon-card.com/card-search/index.php?mode=statuslist&pg=#{page}' \
--H 'Connection: keep-alive' \
--H 'X-Requested-With: XMLHttpRequest' \
---data 'keyword=&se_ta=#{@kind}&regulation_sidebar_form=#{@regulation}&pg=&illust=&sm_and_keyword=true&page=#{page}'
+curl -s -o - 'https://www.pokemon-card.com/card-search/resultAPI.php?keyword=&se_ta=#{@kind}&regulation_sidebar_form=#{@regulation}&pg=&illust=&sm_and_keyword=true&page=#{page}'
 EOS
   end
 
   def get_page(pg)
+    puts make_curl(pg)
     begin
       str = IO.popen(make_curl(pg), "r") {|io| io.read}
     rescue => e
