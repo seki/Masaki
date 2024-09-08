@@ -148,7 +148,8 @@ module DeckName
     ["55Ffvk-VTp9f8-vFkkwb", "トドロクツキex"],
     ["LH9gH9-IWyEYv-gn6nnN", "チラチーノ"],
     ["cGG488-az1ikn-c8K4cx", "レジドラゴVSTAR"],
-    ["Ng6PHn-b7VWK7-gngH6P", "カビゴン"]
+    ["Ng6PHn-b7VWK7-gngH6P", "カビゴン"],
+    ["iHggLn-le4Xcw-nn6ggN", "ソウブレイズex"]
   ]
 
 
