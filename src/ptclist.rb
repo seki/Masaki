@@ -29,7 +29,6 @@ EOS
   end
 
   def get_page(pg)
-    puts make_curl(pg)
     begin
       str = IO.popen(make_curl(pg), "r") {|io| io.read}
     rescue => e
