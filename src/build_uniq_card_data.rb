@@ -55,6 +55,18 @@ def build_pokemon_errata_region_form(name)
   name
 end
 
+def errata_ex_text(ary)
+  ary.map {|x|
+    x.sub('【ex】', 'ex')
+  }
+end
+
+def errata_bench_text(ary)
+  ary.map {|x|
+    x.sub('[ベンチは弱点・抵抗力を計算しない。]', 'ベンチは弱点・抵抗力を計算しない。')
+  }
+end
+
 def build_pokemon(regulation)
   detail = CardDetail.new
   list = PTCList.new('pokemon', regulation).map do |hash|
@@ -66,10 +78,17 @@ def build_pokemon(regulation)
     ary = ParseRawCard.drop_head_pokemon(ary)
     # errata 「GXワザ」があったりなかったりするので、先に削除して正規化する。
     ary = ary.reject {|x| x == "GXワザ"}
+    ary = errata_bench_text(ary)
+    ary = errata_ex_text(ary)
     
     # errata ヤミラミV SR
     if pair[1] == 37879 
       ary.insert(9, '10＋')
+    end
+
+    if pair[1] == 44460 && ary[13] == "このポケモンは、ベンチにいるかぎり、ワザのダメージを受けない。"
+      ary[5,0] = "このポケモンは、ベンチにいるかぎり、ワザのダメージを受けない。"
+      ary[14,1] = []
     end
 
     ary = ary.map {|x| NKF.nkf('-m0Z1 -W -w', x)}
