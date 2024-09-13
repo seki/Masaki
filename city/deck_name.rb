@@ -149,7 +149,12 @@ module DeckName
     ["LH9gH9-IWyEYv-gn6nnN", "チラチーノ"],
     ["cGG488-az1ikn-c8K4cx", "レジドラゴVSTAR"],
     ["Ng6PHn-b7VWK7-gngH6P", "カビゴン"],
-    ["iHggLn-le4Xcw-nn6ggN", "ソウブレイズex"]
+    ["iHggLn-le4Xcw-nn6ggN", "ソウブレイズex"],
+    ["VF55kk-A9K81c-fVkVVw", "ブリジュラスex"],
+    ["f5kkfv-rgjtQo-VVdFwF", "トドロクツキ"],
+    ["X3pXM2-MSM69A-yMp2pR", "ドラパルトex"],
+    ["kk55kv-HlnVCV-wFVf5k", "ソウブレイズex"],
+    ["N6LnHi-Omybup-nLgg69", "チラチーノ"],
   ]
 
 

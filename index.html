@@ -122,9 +122,9 @@ footer {
     <p class="d-none d-lg-block">Twitterなどに投稿されたデッキを解析してリサーチ。第一弾は似ているデッキを探します。</p>
   </div>
   <div class="row justify-content-center m-2">
-    <span class="lead" id="deckquery"></span>
+    <h4 class="lead" id="deckquery"></h4>
   </div>
-  <div id="deckresult" class="accordion" role="tablist" aria-multiselectable="true">
+  <div id="deckresult" class="not-accordion" role="tablist" aria-multiselectable="true">
   </div>
 </div>
 
@@ -182,7 +182,7 @@ footer {
 <template id="deckrow">
   <div class="card" role="tab">
     <div class="card-header" role="tab">
-      <a class="text-body d-block p-3 m-n3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseOne">
+      <a class="text-body d-block p-3 m-n3" onclick="move_to(this);" href="#">
         <span></span>
       </a>
     </div>
@@ -308,11 +308,10 @@ function insert_item(state, n) {
   card.setAttribute('aria-labelledby', 'head-' + item['name']);
   a.setAttribute('aria-controls', 'collapse-' + item['name']);
   a.href = '#collapse-' + item['name'];
+  a.dataset['name'] = item['name'];
 
-  if (n == 0) {
-    card.classList.add('show');
-  }
-  
+  card.classList.add('show');
+
   img.src = item['image'];
   a2.href = item['link'];
   if (item['tweet']) {
