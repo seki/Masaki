@@ -26,7 +26,7 @@ class Masaki
   CITY_THRESHOLD = 0.2
   def setup_city
     @cluster = File.open('city/city-weekly.dump') {|fp| Marshal.load(fp)}
-    @cluster = @cluster.find_all {|c| c['range'].begin >= "2023-02-03"}
+    @cluster = @cluster.find_all {|c| c['range'].begin >= "2024-09-07"}
     @cluster_sign = File.mtime('city/city-weekly.dump').to_i.to_s(36)
     report_for_bar = @cluster.map do |c|
       p c['range']
