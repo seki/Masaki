@@ -155,6 +155,11 @@ module DeckName
     ["X3pXM2-MSM69A-yMp2pR", "ドラパルトex"],
     ["kk55kv-HlnVCV-wFVf5k", "ソウブレイズex"],
     ["N6LnHi-Omybup-nLgg69", "チラチーノ"],
+    ["c4YxK4-gTQvt4-48Ycx8", "トドロクツキ イダイナキバ"],
+    ["xKDc8G-3kWCvO-Ycxc84", "オリジンパルキア テラパゴス"],
+    ["nLLL6g-SZhH1j-QnnHgQ", "オリジンパルキア ヨノワール"],
+    ["848xKD-MXOCya-8aKacD", "パオジアンex"],
+    ["yMpp2X-S8nEXV-3Xy3SR", "ミライドンex"],
   ]
 
 
