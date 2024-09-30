@@ -160,6 +160,7 @@ module DeckName
     ["nLLL6g-SZhH1j-QnnHgQ", "オリジンパルキア ヨノワール"],
     ["848xKD-MXOCya-8aKacD", "パオジアンex"],
     ["yMpp2X-S8nEXV-3Xy3SR", "ミライドンex"],
+    ["UppS2S-HRfdWK-33yy3S", "テツノイバラex"]
   ]
 
 
