@@ -109,12 +109,12 @@ module DeckName
     ["bwfF5k-UFGfLR-FfdbkF", "アルセウス ロコン"],
     ["n6gQnQ-KP5uzZ-nQgNLn", "ミライドンex"],
     ["cD88aK-ibcJTL-cDDDKc", "パオジアンex"],
-    ["pXMSXp-xOjxhY-RMyyyS", "サーフゴー"],
+    ["pXMSXp-xOjxhY-RMyyyS", "サーフゴーex"],
     ["pppypy-iA8DRz-XMyppX", "アルセウス ジュラルドン"],
     ["vbwvfV-tmNgo0-VwFkVf", "ゾロアーク"],
     ["MUyy3p-7eTadV-XMUpMy", "トドロクツキex"],
     ["fkFwkV-RyHGgA-Fk1kf5", "テツノブジンex"],
-    ["xccGK8-R0WDa2-8J8Dxx", "サーフゴー"],
+    ["xccGK8-R0WDa2-8J8Dxx", "サーフゴーex"],
     ["NLgLNN-SJ4ceT-QnL9L6", "リザードンex"],
     ["fFVfVV-8zdzw1-5v1Vkk", "テツノブジンex"],
     ["XXyypM-duW4Zf-XRyMMy", "ガケガニ"],
@@ -122,7 +122,7 @@ module DeckName
     ["xc8Ycc-5zoJTq-G848aJ", "リザードンex"],
     ["NgnHHg-xMJ4Xb-n9ngL9", "パオジアンex"],
     ["Sy22yX-EXerT1-EMppSM", "トドロクツキex"],
-    ["SyS2py-uCkGFJ-MyEypE", "サーフゴー"],
+    ["SyS2py-uCkGFJ-MyEypE", "サーフゴーex"],
     ["VF5wkd-jH7XAp-F5k5kv", "イダイナキバLO"],
     ["yXEUp2-cFY4yc-MEyEpy", "ロスト"],
     ["FFVFk5-WhTouh-d5vVkk", "アルセウス ギラティナ"],
@@ -162,7 +162,12 @@ module DeckName
     ["yMpp2X-S8nEXV-3Xy3SR", "ミライドンex"],
     ["UppS2S-HRfdWK-33yy3S", "テツノイバラex"],
     ["2UMMMp-nhkcKk-M23yyy", "テラパゴスex"],
-    ["Myy2pU-ne0yeZ-RppMMM", "タケルライコex"]
+    ["Myy2pU-ne0yeZ-RppMMM", "タケルライコex"],
+    ["LL6nnn-6waOwk-HgnngH", "リザードンex"],
+    ["c84Kcc-BhDo9H-a8xK8a", "サーナイトex"],
+    ["5vkkdF-wYXAJJ-5Vvbkw", "ドラパルトex"],
+    ["fkbfFF-6o8jJ7-Vk5vf5", "サーフゴーex"],
+    ["ggngQL-tGik8T-HnnnQL", "サーフゴーex"],
   ]
 
 

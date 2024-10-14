@@ -23,15 +23,15 @@ class Masaki
   end
   attr_reader :world, :datalist, :more_pokemon
 
-  CITY_THRESHOLD = 0.2
+  CITY_THRESHOLD = 0.125
   def setup_city
     @cluster = File.open('city/city-weekly.dump') {|fp| Marshal.load(fp)}
     @cluster = @cluster.find_all {|c| c['range'].begin >= "2024-09-07"}
     @cluster_sign = File.mtime('city/city-weekly.dump').to_i.to_s(36)
     report_for_bar = @cluster.map do |c|
       p c['range']
-      ary = c['cluster'].threshold(CITY_THRESHOLD).max_by(8) {|x| x.size}.map do |x|
-        [x.size, x.sample, DeckName.guess(@world, x.sample), x.index]
+      ary = c['cluster'].threshold(CITY_THRESHOLD).max_by(15) {|x| x.size}.map do |x|
+        [x.size, x.sample, DeckName.guess(@world, x.sample), x.index, "%.1f" % (100.0 * x.size.quo(c['deck_count']))]
       end
       {
         'range' => c['range'],
@@ -40,6 +40,7 @@ class Masaki
       }
     end
     @for_bar = ForBar.new(report_for_bar)
+    pp @for_bar.deck
   end
 
   def do_embed(req, res)
@@ -251,6 +252,7 @@ class Masaki
 
   def guess_city(str)
     ary = str.split(':')
+    pp ary
     return nil unless ary[0] == 'city'
     return nil unless ary.size == 3
     [ary[1].to_i, ary[2].to_i]
@@ -361,6 +363,10 @@ class Masaki
     end
     attr_reader :deck
   
+    def weeks
+      @ary
+    end
+
     def to_chart_data
       {
         "labels" => @labels,
