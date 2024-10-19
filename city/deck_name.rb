@@ -155,9 +155,9 @@ module DeckName
     ["X3pXM2-MSM69A-yMp2pR", "ドラパルトex"],
     ["kk55kv-HlnVCV-wFVf5k", "ソウブレイズex"],
     ["N6LnHi-Omybup-nLgg69", "チラチーノ"],
-    ["c4YxK4-gTQvt4-48Ycx8", "トドロクツキ イダイナキバ"],
+    ["c4YxK4-gTQvt4-48Ycx8", "トドロクツキ"],
     ["xKDc8G-3kWCvO-Ycxc84", "テラパゴスex"],
-    ["nLLL6g-SZhH1j-QnnHgQ", "オリジンパルキア ヨノワール"],
+    ["nLLL6g-SZhH1j-QnnHgQ", "オリジンパルキア"],
     ["848xKD-MXOCya-8aKacD", "パオジアンex"],
     ["yMpp2X-S8nEXV-3Xy3SR", "ミライドンex"],
     ["UppS2S-HRfdWK-33yy3S", "テツノイバラex"],
@@ -168,6 +168,9 @@ module DeckName
     ["5vkkdF-wYXAJJ-5Vvbkw", "ドラパルトex"],
     ["fkbfFF-6o8jJ7-Vk5vf5", "サーフゴーex"],
     ["ggngQL-tGik8T-HnnnQL", "サーフゴーex"],
+    ["pMRp3S-PvKV7m-32SyMy", "ガケガニ"],
+    ["f5kVFV-QmYoho-bfVk1k", "ミライドンex"],
+    ["f1Fkfk-EIN10A-5VV51F", "トドロクツキ"]
   ]
 
 
