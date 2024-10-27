@@ -76,6 +76,10 @@ def build_pokemon(regulation)
     body = detail[pair[1]]
     ary = ParseRawCard.section(body)
     ary = ParseRawCard.drop_head_pokemon(ary)
+
+    # 全角アスキーを半角に
+    ary = ary.map {|x| NKF.nkf('-m0Z1 -W -w', x)}
+
     # errata 「GXワザ」があったりなかったりするので、先に削除して正規化する。
     ary = ary.reject {|x| x == "GXワザ"}
     ary = errata_bench_text(ary)
@@ -91,7 +95,6 @@ def build_pokemon(regulation)
       ary[14,1] = []
     end
 
-    ary = ary.map {|x| NKF.nkf('-m0Z1 -W -w', x)}
 
     [pair.first, ary, pair.last]
   end
