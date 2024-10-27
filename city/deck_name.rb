@@ -170,7 +170,8 @@ module DeckName
     ["ggngQL-tGik8T-HnnnQL", "サーフゴーex"],
     ["pMRp3S-PvKV7m-32SyMy", "ガケガニ"],
     ["f5kVFV-QmYoho-bfVk1k", "ミライドンex"],
-    ["f1Fkfk-EIN10A-5VV51F", "トドロクツキ"]
+    ["f1Fkfk-EIN10A-5VV51F", "トドロクツキ"],
+    ["Jxc8cY-7aRYDv-JYG4x8", "ドラパルトex"]
   ]
 
 
