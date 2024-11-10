@@ -173,7 +173,8 @@ module DeckName
     ["f1Fkfk-EIN10A-5VV51F", "トドロクツキ"],
     ["Jxc8cY-7aRYDv-JYG4x8", "ドラパルトex"],
     ["FkfkkF-4ZJkhH-wVk5Vv", "イルカマンex"],
-    ["nHLnng-yRckmS-igQLgL", "ウガツホムラex"]
+    ["nHLnng-yRckmS-igQLgL", "ウガツホムラex"],
+    ["kVfkfv-eJeC7e-dVFf5k", "オリジンパルキア"]
   ]
 
 

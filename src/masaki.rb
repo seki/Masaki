@@ -40,7 +40,6 @@ class Masaki
       }
     end
     @for_bar = ForBar.new(report_for_bar)
-    pp @for_bar.deck
   end
 
   def do_embed(req, res)
