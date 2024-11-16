@@ -174,7 +174,10 @@ module DeckName
     ["Jxc8cY-7aRYDv-JYG4x8", "ドラパルトex"],
     ["FkfkkF-4ZJkhH-wVk5Vv", "イルカマンex"],
     ["nHLnng-yRckmS-igQLgL", "ウガツホムラex"],
-    ["kVfkfv-eJeC7e-dVFf5k", "オリジンパルキア"]
+    ["kVfkfv-eJeC7e-dVFf5k", "オリジンパルキア"],
+    ["5VVb55-5Do68Q-vV5kVk", "サザンドラex"],
+    ["V5Vkvk-Sgbweu-FvbfVk", "ピカチュウex"],
+    ["4xDJxa-IwFNEe-Yx8cYx", "イダイナキバ"]
   ]
 
 
