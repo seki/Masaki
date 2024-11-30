@@ -154,7 +154,7 @@ module DeckName
     ["f5kkfv-rgjtQo-VVdFwF", "トドロクツキ"],
     ["X3pXM2-MSM69A-yMp2pR", "ドラパルトex"],
     ["kk55kv-HlnVCV-wFVf5k", "ソウブレイズex"],
-    ["N6LnHi-Omybup-nLgg69", "チラチーノ"],
+    ["N6LnHi-Omybup-nLgg69", "ルギアVSTAR"],
     ["c4YxK4-gTQvt4-48Ycx8", "トドロクツキ"],
     ["xKDc8G-3kWCvO-Ycxc84", "テラパゴスex"],
     ["nLLL6g-SZhH1j-QnnHgQ", "オリジンパルキア"],
@@ -177,7 +177,10 @@ module DeckName
     ["kVfkfv-eJeC7e-dVFf5k", "オリジンパルキア"],
     ["5VVb55-5Do68Q-vV5kVk", "サザンドラex"],
     ["V5Vkvk-Sgbweu-FvbfVk", "ピカチュウex"],
-    ["4xDJxa-IwFNEe-Yx8cYx", "イダイナキバ"]
+    ["4xDJxa-IwFNEe-Yx8cYx", "イダイナキバ"],
+    ["HnLgnL-FjBfOR-nH6QgL", "リザードンex 大空洞"],
+    ["HLniQg-Y2EIkk-gLLHnQ", "ピカチュウex レジギガス"],
+    ["xx8xKc-TjqZ3C-x848G4", "ルギアVSTAR"]
   ]
 
 
