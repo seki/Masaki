@@ -180,7 +180,11 @@ module DeckName
     ["4xDJxa-IwFNEe-Yx8cYx", "イダイナキバ"],
     ["HnLgnL-FjBfOR-nH6QgL", "リザードンex 大空洞"],
     ["HLniQg-Y2EIkk-gLLHnQ", "ピカチュウex レジギガス"],
-    ["xx8xKc-TjqZ3C-x848G4", "ルギアVSTAR"]
+    ["xx8xKc-TjqZ3C-x848G4", "ルギアVSTAR"],
+    ["kbfb5f-6wAXtp-FFFVvV", "ブリジュラスex"],
+    ["k5kVvk-OadOrF-fkVwkV", "カビゴン"],
+    ["2ySMyM-YXAuSC-2EyMSp", "サーフゴーex"],
+    ["8448x8-vRQE3B-c4J8xc", "ルギアVSTAR"]
   ]
 
 
