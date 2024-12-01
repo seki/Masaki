@@ -96,7 +96,7 @@ GEM
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.5)
+    mini_portile2 (2.8.6)
     minitest (5.21.2)
     multi_json (1.15.0)
     multipart-post (2.3.0)
@@ -104,7 +104,7 @@ GEM
     naught (1.1.0)
     net-http (0.4.1)
       uri
-    nokogiri (1.16.0)
+    nokogiri (1.16.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     os (1.1.4)
