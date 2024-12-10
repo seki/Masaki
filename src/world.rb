@@ -42,7 +42,7 @@ class MasakiWorld
     def _search_by_deck_core(all_deck, v, n)
       norm = deck_norm(v)
       return [] if norm <= 0
-      all_deck.map do |b, deck_b|
+      all_deck.chunk_while{|pre, post| pre[1] == post[1]}.map(&:first).map do |b, deck_b|
         c = dot(v, deck_b) / (norm * deck_norm(deck_b)) # cos
         c = 0 if c + Float::EPSILON >= 1 # ignore same deck
         [c, b]
@@ -143,8 +143,13 @@ class MasakiWorld
     end
   end
 
+  def sort_deck
+    @deck = @deck.sort_by {|k,v| v}.to_h
+  end
+
   def make_index
     make_idf
+    sort_deck
     make_norm
     make_name_i
   end
