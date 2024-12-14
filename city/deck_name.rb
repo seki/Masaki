@@ -184,7 +184,16 @@ module DeckName
     ["kbfb5f-6wAXtp-FFFVvV", "ブリジュラスex"],
     ["k5kVvk-OadOrF-fkVwkV", "カビゴン"],
     ["2ySMyM-YXAuSC-2EyMSp", "サーフゴーex"],
-    ["8448x8-vRQE3B-c4J8xc", "ルギアVSTAR"]
+    ["8448x8-vRQE3B-c4J8xc", "ルギアVSTAR"],
+    ["ccDx8x-o4Jqmd-8xc884", "アルセウスVSTAR レジドラゴVSTAR"],
+    ["XpMMpM-UNRlPU-XU2yyy", "ドラパルトex"],
+    ["k5kkVf-gwd7zB-FVk5F5", "ソウブレイズex"],
+    ["kVwVVV-IzqLKY-fkkk55", "サーナイトex"],
+    ["MyyMRM-Re1f6k-pyUU2X", "ブリジュラスex"],
+    ["XyMyyM-JRW959-yRXM22", "サーフゴーex"],
+    ["nnnPNL-r33fKO-HHgLHL", "ハピナスex"],
+    ["HnnL6n-chDuuP-LQLnLn", "オリジンパルキア"]
+
   ]
 
 
