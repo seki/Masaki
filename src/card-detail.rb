@@ -3,8 +3,9 @@ require_relative 'masaki-pg'
 require 'open-uri'
 
 class CardDetail
-  def initialize
+  def initialize(wait_time=0.5..2.5)
     @kvs = MasakiPG::KVS.new('card_page')
+    @wait_time = wait_time
   end
 
   def [](key)
@@ -22,6 +23,7 @@ class CardDetail
   end
 
   def fetch_card_page(key)
+    sleep(rand(@wait_time))
     name = "https://www.pokemon-card.com/card-search/details.php/card/#{key}"
     URI.open(name) do |x|
       raise("not found") unless x.base_uri.to_s == name

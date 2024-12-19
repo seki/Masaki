@@ -112,7 +112,7 @@ class Masaki
     city_index = guess_city(str)
     return search_city_cluster(city_index, sign) if city_index
     name = DeckDetail::guess_deck_name(str)
-    return search(name, 5, add_deck) if name
+    return search(name, 15, add_deck) if name
     screen_name = guess_screen_name(str)
     return search_by_screen_name(screen_name) if screen_name
     card_id_list = guess_card_id(str)
