@@ -192,7 +192,8 @@ module DeckName
     ["MyyMRM-Re1f6k-pyUU2X", "ブリジュラスex"],
     ["XyMyyM-JRW959-yRXM22", "サーフゴーex"],
     ["nnnPNL-r33fKO-HHgLHL", "ハピナスex"],
-    ["HnnL6n-chDuuP-LQLnLn", "オリジンパルキア"]
+    ["HnnL6n-chDuuP-LQLnLn", "オリジンパルキア"],
+    ["Vk5kkF-cKdFX6-k5kV5V", "イイネイヌ"]
 
   ]
 
