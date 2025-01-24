@@ -193,8 +193,16 @@ module DeckName
     ["XyMyyM-JRW959-yRXM22", "サーフゴーex"],
     ["nnnPNL-r33fKO-HHgLHL", "ハピナスex"],
     ["HnnL6n-chDuuP-LQLnLn", "オリジンパルキア"],
-    ["Vk5kkF-cKdFX6-k5kV5V", "イイネイヌ"]
-
+    ["Vk5kkF-cKdFX6-k5kV5V", "イイネイヌ"],
+    ["kkbkFF-bGmu2m-5V5vff", "タケルライコex"],
+    ["Yx8acx-2wOb0P-K8cDxc", "ミロカロスex"],
+    ["NnQnnQ-V9bPwu-NNQgLn", "リザードンex"],
+    ["ySpMyy-g7Be4x-pyMyy2", "テツノイバラex"],
+    ["2SyySU-RWXa3O-MMpyUp", "いしずえのめん"],
+    ["5vFwVF-NIWAnG-kkvvvV", "マンムーex"],
+    ["QQLnng-KfIokl-9NngL6", "ギルガルド"],
+    ["gNnLnH-dncJN7-gQNgnN", "クエスパトラex"],
+    ["cDDcYc-6D5TYo-xY488x", "ローブシン"]
   ]
 
 
