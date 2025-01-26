@@ -202,7 +202,13 @@ module DeckName
     ["5vFwVF-NIWAnG-kkvvvV", "マンムーex"],
     ["QQLnng-KfIokl-9NngL6", "ギルガルド"],
     ["gNnLnH-dncJN7-gQNgnN", "クエスパトラex"],
-    ["cDDcYc-6D5TYo-xY488x", "ローブシン"]
+    ["cDDcYc-6D5TYo-xY488x", "ローブシン"],
+    ["LQQL6n-5jom6f-nnngHL", "ホップのザシアンex"],
+    ["xax8Y4-QEDJDi-xY8c88", "Nのゾロアークex"],
+    ["gniHL9-nbkWC4-HQHngP", "ナンジャモのタケルライコex"],
+    ["cGcG84-a3J8Bl-xcaa8Y", "サーナイトex"],
+    ["SpyyMS-12OVAO-Spp22y", "ミロカロスex"],
+    ["nLQPQg-p9EDwD-LngngL", "サーフゴーex"],
   ]
 
 
