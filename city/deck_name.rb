@@ -209,6 +209,7 @@ module DeckName
     ["cGcG84-a3J8Bl-xcaa8Y", "サーナイトex"],
     ["SpyyMS-12OVAO-Spp22y", "ミロカロスex"],
     ["nLQPQg-p9EDwD-LngngL", "サーフゴーex"],
+    ["LnnN9g-1eX9Pw-QggnHn", "ミロカロスex"],
   ]
 
 
