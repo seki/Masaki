@@ -205,7 +205,7 @@ module DeckName
     ["cDDcYc-6D5TYo-xY488x", "ローブシン"],
     ["LQQL6n-5jom6f-nnngHL", "ホップのザシアンex"],
     ["xax8Y4-QEDJDi-xY8c88", "Nのゾロアークex"],
-    ["gniHL9-nbkWC4-HQHngP", "ナンジャモのタケルライコex"],
+    ["gniHL9-nbkWC4-HQHngP", "ナンジャモのハラバリーex"],
     ["cGcG84-a3J8Bl-xcaa8Y", "サーナイトex"],
     ["SpyyMS-12OVAO-Spp22y", "ミロカロスex"],
     ["nLQPQg-p9EDwD-LngngL", "サーフゴーex"],
