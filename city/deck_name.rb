@@ -210,6 +210,7 @@ module DeckName
     ["SpyyMS-12OVAO-Spp22y", "ミロカロスex"],
     ["nLQPQg-p9EDwD-LngngL", "サーフゴーex"],
     ["LnnN9g-1eX9Pw-QggnHn", "ミロカロスex"],
+    ["8cxY8x-nlB2qR-Yccx8G", "ゲッコウガex"]
   ]
 
 
