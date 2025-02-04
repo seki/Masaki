@@ -210,7 +210,11 @@ module DeckName
     ["SpyyMS-12OVAO-Spp22y", "ミロカロスex"],
     ["nLQPQg-p9EDwD-LngngL", "サーフゴーex"],
     ["LnnN9g-1eX9Pw-QggnHn", "ミロカロスex"],
-    ["8cxY8x-nlB2qR-Yccx8G", "ゲッコウガex"]
+    ["8cxY8x-nlB2qR-Yccx8G", "ゲッコウガex"],
+    ["Y8DG88-bNPTvm-xxc8xx", "オーダイル"],
+    ["3pypMy-nuAuDL-pS2pM2", "ソウブレイズex"],
+    ["HnLggQ-nbqpzP-nggnn6", "ヤドキング"],
+    ["FFvkVF-bSPTGq-vFVkkv", "リザードンex"]
   ]
 
 
