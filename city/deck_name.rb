@@ -220,14 +220,13 @@ module DeckName
     ["pyRppy-DWA2rK-ySySyE", "ブースターex"]
   ]
 
-
   module_function
   def guess(world, deck)
-    cos, name = Known.map {|known|
-      [world.cos(known.first, deck).clamp(0,1.0), known.last]
+    cos, pair = Known.map {|known|
+      [world.cos(known.first, deck).clamp(0,1.0), known]
     }.max
-    pp [cos, deck, name] if cos < 0.9
-    name
+    pp [cos, deck, pair.last] if cos < 0.9
+    pair
   end
 end
 

@@ -290,7 +290,7 @@ class Masaki
     end
     {
       'query' => ['search_by_city'] + city_index,
-      'desc' => "#{c['range'].first}の週の「#{DeckName.guess(@world, clip.sample)}」クラスタのようす",
+      'desc' => "#{c['range'].first}の週の「#{DeckName.guess(@world, clip.sample).last}」クラスタのようす",
       'result' => ary
     }
   end
@@ -382,8 +382,14 @@ class Masaki
         labels << report['range'].first
         total = report['deck_count']
         report['cluster'].each do |c|
-          dict[c[2]][i] = c[0]
-          deck[c[2]][i] = [c[1], c[3]]
+          deck_name = c[2].last
+          if dict[deck_name][i] > 0
+            dict[deck_name][i] += c[0]
+            pp [:dup, deck_name, c[1], deck[deck_name][i][0]]
+          else
+            dict[deck_name][i] = c[0]
+            deck[deck_name][i] = [c[1], c[3]]
+          end
           total -= c[0]
         end
         other << total
