@@ -384,8 +384,14 @@ class Masaki
         report['cluster'].each do |c|
           deck_name = c[2].last
           if dict[deck_name][i] > 0
-            dict[deck_name][i] += c[0]
-            pp [:dup, deck_name, c[1], deck[deck_name][i][0]]
+            if c[2].size > 2
+              deck_name = ([c[2].last] + c[2][1..-2]).join(" ")
+              dict[deck_name][i] = c[0]
+              deck[deck_name][i] = [c[1], c[3]]
+            else
+              dict[deck_name][i] += c[0]
+              pp [:dup, c[2], c[1], deck[deck_name][i][0]]
+            end
           else
             dict[deck_name][i] = c[0]
             deck[deck_name][i] = [c[1], c[3]]
