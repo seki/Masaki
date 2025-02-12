@@ -214,7 +214,7 @@ module DeckName
     ["Y8DG88-bNPTvm-xxc8xx", "オーダイル"],
     ["3pypMy-nuAuDL-pS2pM2", "ソウブレイズex"],
     ["HnLggQ-nbqpzP-nggnn6", "ヤドキング"],
-    ["FFvkVF-bSPTGq-vFVkkv", "リーリエのピッピex", "リザードンex"],
+    ["FFvkVF-bSPTGq-vFVkkv", "ヨルノズクなし", "リザードンex"],
     ["nLHigL-BPjcHo-ggnQgi", "オーガポンex"],
     ["KcYccc-a503Xa-48JY8a", "ブリジュラスex"],
     ["pyRppy-DWA2rK-ySySyE", "ブースターex"]
