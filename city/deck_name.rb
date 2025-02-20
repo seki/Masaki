@@ -217,7 +217,8 @@ module DeckName
     ["FFvkVF-bSPTGq-vFVkkv", "ヨルノズクなし", "リザードンex"],
     ["nLHigL-BPjcHo-ggnQgi", "オーガポンex"],
     ["KcYccc-a503Xa-48JY8a", "ブリジュラスex"],
-    ["pyRppy-DWA2rK-ySySyE", "ブースターex"]
+    ["pyRppy-DWA2rK-ySySyE", "ブースターex"],
+    ["Y4488D-ztD3SQ-G4Dcxx", "クエスパトラex"]
   ]
 
   module_function
