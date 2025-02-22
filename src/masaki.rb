@@ -30,7 +30,7 @@ class Masaki
     @cluster_sign = File.mtime('city/city-weekly.dump').to_i.to_s(36)
     report_for_bar = @cluster.map do |c|
       p c['range']
-      ary = c['cluster'].threshold(CITY_THRESHOLD).max_by(15) {|x| x.size}.map do |x|
+      ary = c['cluster'].threshold(CITY_THRESHOLD).max_by(12) {|x| x.size}.map do |x|
         [x.size, x.sample, DeckName.guess(@world, x.sample), x.index, "%.1f" % (100.0 * x.size.quo(c['deck_count']))]
       end
       {
