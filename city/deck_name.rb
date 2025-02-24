@@ -137,7 +137,7 @@ module DeckName
     ["N6QHQQ-GQ3mVh-nLHLgL", "テツノイバラex"],
     ["Y4D8Kc-mGCdwQ-4x84cc", "タケルライコex"],
     ["88c44Y-xebFYh-84cYDK", "ドラパルトex"],
-    ["Q9gnNL-vKRd1M-gHgnLN", "ヨルノズクなし", "タケルライコex"],
+    ["Q9gnNL-vKRd1M-gHgnLN", "オーガポン みどりのめんex", "タケルライコex"],
     ["FdVk5k-BGnlAc-Fvb5k5", "ロスト"],
     ["9nQHin-84ADW9-ngn9gg", "ミライドンex"],
     ["9gHLgg-2wVkEH-9nHNiL", "カビゴン"],
@@ -167,7 +167,7 @@ module DeckName
     ["c84Kcc-BhDo9H-a8xK8a", "サーナイトex"],
     ["5vkkdF-wYXAJJ-5Vvbkw", "ドラパルトex"],
     ["fkbfFF-6o8jJ7-Vk5vf5", "サーフゴーex"],
-    ["ggngQL-tGik8T-HnnnQL", "ドラパルトなし", "サーフゴーex"],
+    ["ggngQL-tGik8T-HnnnQL", "ハッサム", "サーフゴーex"],
     ["pMRp3S-PvKV7m-32SyMy", "ガケガニ"],
     ["f5kVFV-QmYoho-bfVk1k", "ミライドンex"],
     ["f1Fkfk-EIN10A-5VV51F", "トドロクツキ"],
@@ -214,11 +214,18 @@ module DeckName
     ["Y8DG88-bNPTvm-xxc8xx", "オーダイル"],
     ["3pypMy-nuAuDL-pS2pM2", "ソウブレイズex"],
     ["HnLggQ-nbqpzP-nggnn6", "ヤドキング"],
-    ["FFvkVF-bSPTGq-vFVkkv", "ヨルノズクなし", "リザードンex"],
+    ["FFvkVF-bSPTGq-vFVkkv", "ピジョットex", "リザードンex"],
     ["nLHigL-BPjcHo-ggnQgi", "オーガポンex"],
     ["KcYccc-a503Xa-48JY8a", "ブリジュラスex"],
     ["pyRppy-DWA2rK-ySySyE", "ブースターex"],
-    ["Y4488D-ztD3SQ-G4Dcxx", "クエスパトラex"]
+    ["Y4488D-ztD3SQ-G4Dcxx", "クエスパトラex"],
+    ["HLnHLn-hSUEZB-QgggiQ", "ドラパルトex", "サーフゴーex"],
+    ["yRMySp-iTyrgX-yy3Myp", "ホップのザシアンex"],
+    ["kkkV5v-xc5TfQ-VVFkFF", "ブリジュラスex"],
+    ["Dcx8D8-NubFF3-xYc8c8", "ノココッチex", "ブリジュラスex"],
+    ["JKx888-texbg3-cx8YcY", "ハッサム", "サーフゴーex"],
+    ["RyyUSM-Xh5qaE-pXyXpS", "ハッサム", "ブリジュラスex"]
+
   ]
 
   module_function
