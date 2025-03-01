@@ -224,7 +224,8 @@ module DeckName
     ["kkkV5v-xc5TfQ-VVFkFF", "ブリジュラスex"],
     ["Dcx8D8-NubFF3-xYc8c8", "ノココッチex", "ブリジュラスex"],
     ["JKx888-texbg3-cx8YcY", "ハッサム", "サーフゴーex"],
-    ["RyyUSM-Xh5qaE-pXyXpS", "ハッサム", "ブリジュラスex"]
+    ["RyyUSM-Xh5qaE-pXyXpS", "ハッサム", "ブリジュラスex"],
+    ["5kkFfk-aBQG60-vb55kF", "リキキリンex", "ゲッコウガex"]
 
   ]
 
