@@ -226,7 +226,8 @@ module DeckName
     ["JKx888-texbg3-cx8YcY", "ハッサム", "サーフゴーex"],
     ["RyyUSM-Xh5qaE-pXyXpS", "ハッサム", "ブリジュラスex"],
     ["5kkFfk-aBQG60-vb55kF", "リキキリンex", "ゲッコウガex"],
-    ["pMS3yy-iQRAWp-yX2RUU", "ニンフィアex", "ブースターex"]
+    ["pMS3yy-iQRAWp-yX2RUU", "ニンフィアex", "ブースターex"],
+    ["kwF5k5-IotFmv-VvwFFV", "ヨルノズクなし", "タケルライコex"]
   ]
 
   module_function
