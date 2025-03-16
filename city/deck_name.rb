@@ -228,7 +228,13 @@ module DeckName
     ["5kkFfk-aBQG60-vb55kF", "リキキリンex", "ゲッコウガex"],
     ["pMS3yy-iQRAWp-yX2RUU", "ニンフィアex", "ブースターex"],
     ["kwF5k5-IotFmv-VvwFFV", "ヨルノズクなし", "タケルライコex"],
-    ["Yc8KcD-XASuPf-8axGx8", "ダイゴのメタグロスex"]
+    ["Yc8KcD-XASuPf-8axGx8", "ダイゴのメタグロスex"],
+    ["fkFVkv-vrMIzo-FvFVVk", "アラブルタケ", "ブリジュラスex"],
+    ["ERpEyM-JQp2IU-p22SXS", "シロナのガブリアスex"],
+    ["kV5F1F-aQBAil-Vvkbfv", "ヒビキのバクフーン", "サーフゴーex"],
+    ["Sp2pyM-FBd2uA-XMMXyR", "イワパレス"],
+    ["yXXSUX-9MUoaD-SyMp2S", "ヒビキのバクフーン"],
+    ["pSUypy-D0Otjj-XMp3yS", "ホップのザシアンex", "ブリジュラスex"]
   ]
 
   module_function
