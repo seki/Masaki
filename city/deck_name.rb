@@ -234,7 +234,11 @@ module DeckName
     ["kV5F1F-aQBAil-Vvkbfv", "ヒビキのバクフーン", "サーフゴーex"],
     ["Sp2pyM-FBd2uA-XMMXyR", "イワパレス"],
     ["yXXSUX-9MUoaD-SyMp2S", "ヒビキのバクフーン"],
-    ["pSUypy-D0Otjj-XMp3yS", "ホップのザシアンex", "ブリジュラスex"]
+    ["pSUypy-D0Otjj-XMp3yS", "ホップのザシアンex", "ブリジュラスex"],
+    ["FVkfVv-abi1rc-1vfb5k", "ドラパルトex", "ヒビキのバクフーン"],
+    ["nnngnN-iLbIqI-QgNQn6", "モモワロウ"],
+    ["vFkFfF-ZUaPH1-FfkVkF", "ユキメノコ", "シロナのガブリアスex"],
+    ["dkvFfk-wdKlXW-Fkk1F1", "ドラパルトex", "サーフゴーex"], 
   ]
 
   module_function
