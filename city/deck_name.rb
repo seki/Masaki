@@ -196,7 +196,7 @@ module DeckName
     ["Vk5kkF-cKdFX6-k5kV5V", "イイネイヌ"],
     ["kkbkFF-bGmu2m-5V5vff", "タケルライコex"],
     ["Yx8acx-2wOb0P-K8cDxc", "ミロカロスex"],
-    ["NnQnnQ-V9bPwu-NNQgLn", "リザードンex"],
+    ["NnQnnQ-V9bPwu-NNQgLn", "ヨルノズク", "リザードンex"],
     ["ySpMyy-g7Be4x-pyMyy2", "テツノイバラex"],
     ["2SyySU-RWXa3O-MMpyUp", "いしずえのめん"],
     ["5vFwVF-NIWAnG-kkvvvV", "マンムーex"],
@@ -230,7 +230,7 @@ module DeckName
     ["kwF5k5-IotFmv-VvwFFV", "ヨルノズクなし", "タケルライコex"],
     ["Yc8KcD-XASuPf-8axGx8", "ダイゴのメタグロスex"],
     ["fkFVkv-vrMIzo-FvFVVk", "アラブルタケ", "ブリジュラスex"],
-    ["ERpEyM-JQp2IU-p22SXS", "シロナのガブリアスex"],
+    ["ERpEyM-JQp2IU-p22SXS", "シロナのロズレイド", "シロナのガブリアスex"],
     ["kV5F1F-aQBAil-Vvkbfv", "ヒビキのバクフーン", "サーフゴーex"],
     ["Sp2pyM-FBd2uA-XMMXyR", "イワパレス"],
     ["yXXSUX-9MUoaD-SyMp2S", "ヒビキのバクフーン"],
@@ -238,7 +238,9 @@ module DeckName
     ["FVkfVv-abi1rc-1vfb5k", "ドラパルトex", "ヒビキのバクフーン"],
     ["nnngnN-iLbIqI-QgNQn6", "モモワロウ"],
     ["vFkFfF-ZUaPH1-FfkVkF", "ユキメノコ", "シロナのガブリアスex"],
-    ["dkvFfk-wdKlXW-Fkk1F1", "ドラパルトex", "サーフゴーex"], 
+    ["JDx8c4-c9ClXK-D88JcY", "ユキメノコ", "シロナのガブリアスex"],
+    ["dkvFfk-wdKlXW-Fkk1F1", "ドラパルトex", "サーフゴーex"],
+    ["L9nngg-dNfVbG-NPQniQ", "ヨルノズク", "リザードンex"]
   ]
 
   module_function
