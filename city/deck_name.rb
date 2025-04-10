@@ -240,7 +240,12 @@ module DeckName
     ["vFkFfF-ZUaPH1-FfkVkF", "ユキメノコ", "シロナのガブリアスex"],
     ["JDx8c4-c9ClXK-D88JcY", "ユキメノコ", "シロナのガブリアスex"],
     ["dkvFfk-wdKlXW-Fkk1F1", "ドラパルトex", "サーフゴーex"],
-    ["L9nngg-dNfVbG-NPQniQ", "ヨルノズク", "リザードンex"]
+    ["L9nngg-dNfVbG-NPQniQ", "ヨルノズク", "リザードンex"],
+    ["XpyEXM-C0tbXc-Sp2p2R", "ヨノワール", "ドラパルトex"],
+    ["MpXpS2-bi4Hkw-EpE2yX", "ネイティオ", "ドラパルトex"],
+    ["Dx8Jcc-VTce8w-c44Y4c", "リーフィァex", "ブースターex"],
+    ["84YcGY-72eKDE-8DcKJc", "ミライドンex"],
+    ["4a8D8D-zDPZ1t-4Yc8Yc", "マリィのオーロンゲex"]
   ]
 
   module_function
