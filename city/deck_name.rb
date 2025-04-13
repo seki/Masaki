@@ -203,7 +203,7 @@ module DeckName
     ["QQLnng-KfIokl-9NngL6", "ギルガルド"],
     ["gNnLnH-dncJN7-gQNgnN", "クエスパトラex"],
     ["cDDcYc-6D5TYo-xY488x", "ローブシン"],
-    ["LQQL6n-5jom6f-nnngHL", "ホップのザシアンex"],
+    ["LQQL6n-5jom6f-nnngHL", "ブリジュラスex", "ホップのザシアンex"],
     ["xax8Y4-QEDJDi-xY8c88", "Nのゾロアークex"],
     ["gniHL9-nbkWC4-HQHngP", "ナンジャモのハラバリーex"],
     ["cGcG84-a3J8Bl-xcaa8Y", "サーナイトex"],
@@ -245,7 +245,8 @@ module DeckName
     ["MpXpS2-bi4Hkw-EpE2yX", "ネイティオ", "ドラパルトex"],
     ["Dx8Jcc-VTce8w-c44Y4c", "リーフィァex", "ブースターex"],
     ["84YcGY-72eKDE-8DcKJc", "ミライドンex"],
-    ["4a8D8D-zDPZ1t-4Yc8Yc", "マリィのオーロンゲex"]
+    ["4a8D8D-zDPZ1t-4Yc8Yc", "マリィのオーロンゲex"],
+    ["HnNHQn-guuiu4-ngQgnQ", "ホップのザシアンex"]
   ]
 
   module_function
