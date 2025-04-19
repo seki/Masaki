@@ -246,7 +246,9 @@ module DeckName
     ["Dx8Jcc-VTce8w-c44Y4c", "リーフィァex", "ブースターex"],
     ["84YcGY-72eKDE-8DcKJc", "ミライドンex"],
     ["4a8D8D-zDPZ1t-4Yc8Yc", "マリィのオーロンゲex"],
-    ["HnNHQn-guuiu4-ngQgnQ", "ホップのザシアンex"]
+    ["HnNHQn-guuiu4-ngQgnQ", "ホップのザシアンex"],
+    ["HnQnLi-AoWf0i-gnLLLL", "ロケット団のびっくりボム", "ブリジュラスex"],
+    ["fF5k5V-c12uQZ-vwVvFk", "ロケット団のミュウツーex"]
   ]
 
   module_function
