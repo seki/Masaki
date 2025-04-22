@@ -248,7 +248,8 @@ module DeckName
     ["4a8D8D-zDPZ1t-4Yc8Yc", "マリィのオーロンゲex"],
     ["HnNHQn-guuiu4-ngQgnQ", "ホップのザシアンex"],
     ["HnQnLi-AoWf0i-gnLLLL", "ロケット団のびっくりボム", "ブリジュラスex"],
-    ["fF5k5V-c12uQZ-vwVvFk", "ロケット団のミュウツーex"]
+    ["fF5k5V-c12uQZ-vwVvFk", "ロケット団のミュウツーex"],
+    ["yypXXS-9cgRSI-EppypM", "ピジョットex", "リザードンex"]
   ]
 
   module_function
