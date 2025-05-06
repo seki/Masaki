@@ -122,8 +122,13 @@ class Masaki
       }
     end
 
+    def last_month_friday # 金曜日始まり
+      d = Date.today - 35
+      d - d.wday + 5
+    end
+
     def weekly_analyze(world, deck_and_date)
-      origin = Date.parse('2025-02-14') # 金曜日始まり
+      origin = last_month_friday
       weekly = deck_and_date.sort_by {|x| x[1]}.chunk {|x|
         (Date.parse(x[1]) - origin).to_i / 7
       }

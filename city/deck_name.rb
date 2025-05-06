@@ -250,7 +250,9 @@ module DeckName
     ["HnQnLi-AoWf0i-gnLLLL", "ロケット団のびっくりボム", "ブリジュラスex"],
     ["fF5k5V-c12uQZ-vwVvFk", "ロケット団のミュウツーex"],
     ["yypXXS-9cgRSI-EppypM", "ピジョットex", "リザードンex"],
-    ["SMS2Rp-QIx12L-pXyyXy", "モモワロウ", "バシャーモex"]
+    ["SMS2Rp-QIx12L-pXyyXy", "モモワロウ", "バシャーモex"],
+    ["FvVvFF-UAqTvB-kFvwfv", "リザードンex", "ドラパルトex"],
+    ["2ppypS-8GJgfO-SRSpUy", "ピジョットex", "リザードンex"]
   ]
 
   module_function
