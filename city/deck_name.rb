@@ -253,7 +253,8 @@ module DeckName
     ["SMS2Rp-QIx12L-pXyyXy", "モモワロウ", "バシャーモex"],
     ["FvVvFF-UAqTvB-kFvwfv", "リザードンex", "ドラパルトex"],
     ["2ppypS-8GJgfO-SRSpUy", "ピジョットex", "リザードンex"],
-    ["SpyX2S-GymDaY-yXpSp2", "テツノイバラex"]
+    ["SpyX2S-GymDaY-yXpSp2", "テツノイバラex"],
+    ["DxcYcD-k2AHzg-888YYx", "ミロカロスex", "リキキリンex"],
   ]
 
   module_function
