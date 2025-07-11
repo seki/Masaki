@@ -255,6 +255,8 @@ module DeckName
     ["2ppypS-8GJgfO-SRSpUy", "ピジョットex", "リザードンex"],
     ["SpyX2S-GymDaY-yXpSp2", "テツノイバラex"],
     ["DxcYcD-k2AHzg-888YYx", "ミロカロスex", "リキキリンex"],
+    ["b5kkfF-7Z0JZn-kvVvVb", "ブルンゲルex", "サーナイトex"],
+    ["pSypRR-XAEFDz-MXpyRy", "マシマシラ", "サーナイトex"]
   ]
 
   module_function
