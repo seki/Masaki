@@ -1,5 +1,4 @@
 require_relative 'ptclist'
-# require_relative 'masaki-pg'
 require_relative 'store-card_page'
 require 'open-uri'
 
