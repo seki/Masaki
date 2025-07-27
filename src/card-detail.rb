@@ -1,10 +1,11 @@
 require_relative 'ptclist'
-require_relative 'masaki-pg'
+# require_relative 'masaki-pg'
+require_relative 'store-card_page'
 require 'open-uri'
 
 class CardDetail
-  def initialize(wait_time=0.5..2.5)
-    @kvs = MasakiPG::KVS.new('card_page')
+  def initialize(wait_time=0.1..1.0)
+    @kvs = Masaki::CardPage
     @wait_time = wait_time
   end
 
