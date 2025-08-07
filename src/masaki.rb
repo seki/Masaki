@@ -108,16 +108,18 @@ class Masaki
   def do_search_api(req, res, post)
     str = post["search"].encode('utf-8').strip rescue nil
     add_deck = post["add"] ? true : false
+    filter_standard = post["filter"] ? true : false
+    pp [:filter, filter_standard]
     sign = post["sign"].encode('utf-8') rescue nil
     city_index = guess_city(str)
     return search_city_cluster(city_index, sign) if city_index
     name = DeckDetail::guess_deck_name(str)
-    return search(name, 15, add_deck) if name
+    return search(name, 15, add_deck, filter_standard) if name
     screen_name = guess_screen_name(str)
     return search_by_screen_name(screen_name) if screen_name
     card_id_list = guess_card_id(str)
-    return search_by_card(card_id_list) if card_id_list
-    search_by_name(str)
+    return search_by_card(card_id_list, 15, filter_standard) if card_id_list
+    search_by_name(str, 15, filter_standard)
   end
 
   def prepare_tw(tw)
@@ -165,8 +167,8 @@ class Masaki
     refer_city(key) || refer_google(key)
   end
 
-  def search(deck, n, add_deck)
-    ary = @world.search_by_deck(deck, n, add_deck).map {|s, k|
+  def search(deck, n, add_deck, filter_standard)
+    ary = @world.search_by_deck(deck, n, add_deck, filter_standard).map {|s, k|
       diff = @world.diff(deck, k).map {|name, card_no, left_right| [name, card_url(card_no)] + left_right}
       link, image = DeckDetail::make_url(k)
       {
@@ -188,8 +190,8 @@ class Masaki
     }
   end
 
-  def search_by_name(name, n=10)
-    ary = @world.search_by_name(name, n).map {|s, k|
+  def search_by_name(name, n, filter_standard)
+    ary = @world.search_by_name(name, n, filter_standard).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,
@@ -208,8 +210,8 @@ class Masaki
     }
   end
 
-  def search_by_card(card_id_list, n=10)
-    ary = @world.search_by_card(card_id_list, n).map {|s, k|
+  def search_by_card(card_id_list, n, filter_standard)
+    ary = @world.search_by_card(card_id_list, n, filter_standard).map {|s, k|
       link, image =  DeckDetail::make_url(k)
       {
         'link' => link,

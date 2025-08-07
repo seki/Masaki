@@ -10,6 +10,10 @@ class MasakiWorld
       deck.instance_variable_get(:@norm)
     end
 
+    def deck_standard?(deck)
+      deck.instance_variable_get(:@standard)
+    end
+
     def dot(a, b)
       s = 0
       ia = 0
@@ -35,14 +39,15 @@ class MasakiWorld
       dot(deck_a, deck_b) / (deck_norm(deck_a) * deck_norm(deck_b))
     end
 
-    def _search_by_deck(v, n)
-      _search_by_deck_core(@deck, v, n)
+    def _search_by_deck(v, n, filter)
+      _search_by_deck_core(@deck, v, n, filter)
     end
 
-    def _search_by_deck_core(all_deck, v, n)
+    def _search_by_deck_core(all_deck, v, n, filter)
       norm = deck_norm(v)
       return [] if norm <= 0
       all_deck.chunk_while{|pre, post| pre[1] == post[1]}.map(&:first).map do |b, deck_b|
+        next([-1, b]) if filter && (!deck_standard?(deck_b))
         c = dot(v, deck_b) / (norm * deck_norm(deck_b)) # cos
         c = 0 if c + Float::EPSILON >= 1 # ignore same deck
         [c, b]
@@ -68,10 +73,10 @@ class MasakiWorld
       range.each {|x| yield(@deck[x])}
     end
 
-    def _search_by_deck(v, n)
+    def _search_by_deck(v, n, filter)
       @deck.map {|deck_1|
-        Ractor.new(self, deck_1, v, n) {|world, sub_decks, v, n|
-          world._search_by_deck_core(sub_decks, v, n)
+        Ractor.new(self, deck_1, v, n, filter) {|world, sub_decks, v, n, filter|
+          world._search_by_deck_core(sub_decks, v, n, filter)
         }
       }.map {|r| r.take}.sum([]).max(n)
     end
@@ -82,6 +87,13 @@ class MasakiWorld
     data_dir = __dir__ + "/../data/"
     trainer = JSON.parse(File.read(data_dir + "uniq_energy_trainer_all.txt"))
     pokemon = JSON.parse(File.read(data_dir + "uniq_pokemon_all.txt"))
+    xy_trainer = JSON.parse(File.read(data_dir + "uniq_energy_trainer_xy.txt"))
+    xy_pokemon = JSON.parse(File.read(data_dir + "uniq_pokemon_xy.txt"))
+
+    all_key = (trainer + pokemon).map(&:first)
+    xy_key = (xy_trainer + xy_pokemon).map(&:first)
+    @non_xy = Set.new(all_key.difference(xy_key))
+
     @more_pokemon = JSON.parse(File.read(data_dir + "more_card.json")) rescue {}
     @name = Hash[trainer + pokemon]
     make_id_norm
@@ -97,6 +109,9 @@ class MasakiWorld
     make_index
     @ractor = for_ractor(8)
     @mutex = Mutex.new
+
+    pp @deck.find_all {|k,v| deck_standard?(v)}.size
+
   end
   attr_reader :deck, :idf, :recent, :id_latest, :ractor, :more_pokemon
 
@@ -214,9 +229,14 @@ class MasakiWorld
     Math::sqrt(norm2)
   end
 
+  def standard?(value)
+    value.find {|pair| @non_xy.include?(pair[0]) } ? false : true
+  end
+
   def make_norm1(value)
     norm = vec_to_norm(value)
     value.instance_variable_set(:@norm, norm)
+    value.instance_variable_set(:@standard, standard?(value))
     value.freeze
     norm
   end
@@ -272,33 +292,33 @@ class MasakiWorld
     }.inject([]) {|a, b| a + b}
   end
 
-  def search(name, n=5)
-    search_by_deck(name, n)
+  def search(name, n, filter)
+    search_by_deck(name, n, filter)
   end
 
-  def search_using_ractor(v, n)
+  def search_using_ractor(v, n, filter)
     @mutex.synchronize do
-      @ractor._search_by_deck(v, n)
+      @ractor._search_by_deck(v, n, filter)
     end
   end
 
   USING_RACTOR = true
   
-  def search_by_(v, n)
+  def search_by_(v, n, filter=false)
     s = Time.now
     if USING_RACTOR
-      top = (_search_by_deck_core(@added_deck, v, n) + search_using_ractor(v, n)).max(n)
+      top = (_search_by_deck_core(@added_deck, v, n, filter) + search_using_ractor(v, n, filter)).max(n)
     else
-      top = _search_by_deck_core(@deck, v, n)
+      top = _search_by_deck_core(@deck, v, n, filter)
     end
     p [:search, Time.now - s]
     top
   end
 
-  def search_by_deck(name, n, add_deck=false)
+  def search_by_deck(name, n, add_deck=false, standard_filter=false)
     v = add(name, add_deck)
 
-    top = search_by_(v, n)
+    top = search_by_(v, n, standard_filter)
 
     if top[0][1] != name
       top.unshift([1.0, name])
@@ -306,13 +326,13 @@ class MasakiWorld
     top[0,n]
   end 
 
-  def search_by_name(card_name, n=5)
+  def search_by_name(card_name, n, filter_standard)
     req = name_to_vector([card_name])
     make_norm1(req)
-    search_by_(req, n)
+    search_by_(req, n, filter_standard)
   end
 
-  def search_by_card(card_id_list, n=5)
+  def search_by_card(card_id_list, n, filter_standard)
     want = Set.new
     omit = Set.new
     card_id_list.each {|card_id|
@@ -327,7 +347,7 @@ class MasakiWorld
     return [] if want.intersect?(omit)
     req = want.map {|x| [x, 1]} + omit.map {|x| [x, -15]}
     make_norm1(req)
-    search_by_(req, n).find_all {|s, n|
+    search_by_(req, n, filter_standard).find_all {|s, n|
       c = Set.new(@deck[n].map(&:first))
       (! c.intersect?(omit)) && (want.subset?(c))
     }

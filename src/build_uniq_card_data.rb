@@ -131,4 +131,3 @@ File.open("uniq_energy_trainer_xy.txt", "w") {|fp| fp.write(xy_trainer.pretty_in
 p :step_4
 xy_pokemon = build_pokemon("XY")
 File.open("uniq_pokemon_xy.txt", "w") {|fp| fp.write(xy_pokemon.pretty_inspect)}
-
