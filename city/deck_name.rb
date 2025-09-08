@@ -256,7 +256,13 @@ module DeckName
     ["SpyX2S-GymDaY-yXpSp2", "テツノイバラex"],
     ["DxcYcD-k2AHzg-888YYx", "ミロカロスex", "リキキリンex"],
     ["b5kkfF-7Z0JZn-kvVvVb", "ブルンゲルex", "サーナイトex"],
-    ["pSypRR-XAEFDz-MXpyRy", "マシマシラ", "サーナイトex"]
+    ["pSypRR-XAEFDz-MXpyRy", "マシマシラ", "サーナイトex"],
+    ["yM2pSE-CbGWQJ-SMp3ER", "ヨノワール", "ドラパルトex"],
+    ["py3p2M-w2YuPt-3SMSSX", "メガディアンシーex", "サーナイトex"],
+    ["SRSppy-a2ESHj-pSyM3p", "バチュル", "サーフゴーex"],
+    ["YcxK48-rRMjlK-c4Y8DJ", "リザードンex", "ドラパルトex"],
+    ["1FFk5F-VxK2e9-VVvwb5", "メガルカリオex"],
+    
   ]
 
   module_function

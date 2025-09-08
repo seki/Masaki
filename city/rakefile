@@ -12,6 +12,7 @@ file 'city-event.json' do |t|
     (! title.include?('エクストラ')) && (
       title.start_with?("シティリーグ") ||
       title.start_with?("チャンピオンズリーグ") ||
+      title.start_with?("ビクティニBWR") ||
       title.include?('ポケモンジャパンチャンピオンシップス')
     )
   }
