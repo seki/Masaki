@@ -262,7 +262,8 @@ module DeckName
     ["SRSppy-a2ESHj-pSyM3p", "バチュル", "サーフゴーex"],
     ["YcxK48-rRMjlK-c4Y8DJ", "リザードンex", "ドラパルトex"],
     ["1FFk5F-VxK2e9-VVvwb5", "メガルカリオex"],
-    
+    ["gQggnL-C49IYI-LP6HLn", "メガディアンシーex", "サーナイトex"],
+    ["VwkvVk-GXgl56-VwvF1V", "ルナトーン", "サーフゴーex"]
   ]
 
   module_function
