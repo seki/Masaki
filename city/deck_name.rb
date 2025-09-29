@@ -263,7 +263,8 @@ module DeckName
     ["YcxK48-rRMjlK-c4Y8DJ", "リザードンex", "ドラパルトex"],
     ["1FFk5F-VxK2e9-VVvwb5", "メガルカリオex"],
     ["gQggnL-C49IYI-LP6HLn", "メガディアンシーex", "サーナイトex"],
-    ["VwkvVk-GXgl56-VwvF1V", "ルナトーン", "サーフゴーex"]
+    ["VwkvVk-GXgl56-VwvF1V", "ルナトーン", "サーフゴーex"],
+    ["8a8xG8-MwPMjv-KDY88c", "リザードンex"],
   ]
 
   module_function
