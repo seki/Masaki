@@ -265,6 +265,7 @@ module DeckName
     ["gQggnL-C49IYI-LP6HLn", "メガディアンシーex", "サーナイトex"],
     ["VwkvVk-GXgl56-VwvF1V", "ルナトーン", "サーフゴーex"],
     ["8a8xG8-MwPMjv-KDY88c", "リザードンex"],
+    ["dvFk5k-ZTvEBq-FvfkfV", "デカヌチャンex"]
   ]
 
   module_function
