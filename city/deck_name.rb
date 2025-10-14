@@ -266,7 +266,8 @@ module DeckName
     ["VwkvVk-GXgl56-VwvF1V", "ルナトーン", "サーフゴーex"],
     ["8a8xG8-MwPMjv-KDY88c", "リザードンex"],
     ["dvFk5k-ZTvEBq-FvfkfV", "デカヌチャンex"],
-    ["Y8D8x8-jqTiIS-c8Kc8D", "メガリザードンXex", "リザードンex"]
+    ["Y8D8x8-jqTiIS-c8Kc8D", "メガリザードンXex", "リザードンex"],
+    ["c88Ycx-IfZw9l-Yxx8xY", "フーディン"]
   ]
 
   module_function
