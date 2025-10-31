@@ -269,6 +269,8 @@ module DeckName
     ["Y8D8x8-jqTiIS-c8Kc8D", "メガリザードンXex", "リザードンex"],
     ["c88Ycx-IfZw9l-Yxx8xY", "フーディン"],
     ["FfVFFf-xFGmMV-5VvFvk", "メガガルーラex"],
+    ["fvkdFf-GbI36l-FfvvVk", "メガミミロップex"],
+    ["QNgLgn-iiFVfu-ngQiL9", "メガニウム", "メガフシギバナex"]
   ]
 
   module_function
