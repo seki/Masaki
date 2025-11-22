@@ -270,7 +270,10 @@ module DeckName
     ["c88Ycx-IfZw9l-Yxx8xY", "フーディン"],
     ["FfVFFf-xFGmMV-5VvFvk", "メガガルーラex"],
     ["fvkdFf-GbI36l-FfvvVk", "メガミミロップex"],
-    ["QNgLgn-iiFVfu-ngQiL9", "メガニウム", "メガフシギバナex"]
+    ["QNgLgn-iiFVfu-ngQiL9", "メガニウム", "メガフシギバナex"],
+    ["Y8cYxJ-qQuCxh-xJx88J", "グソクムシャex"],
+    ["JDcx8x-9LCDJW-DDaxY8", "メガリザードンXex", "リザードンex"],
+    ["MRSypS-CnEJDu-MyMyMy", "ミライドンex", "テツノカシラex"]
   ]
 
   module_function
