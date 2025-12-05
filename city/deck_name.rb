@@ -276,7 +276,9 @@ module DeckName
     ["MRSypS-CnEJDu-MyMyMy", "ミライドンex", "テツノカシラex"],
     ["kkkvVF-9a0Ij1-kbVbkk", "ゲッコウガex"],
     ["pyMyEM-cXmMhW-3yMXXS", "マリィのオーロンゲex"],
-    ["4KxxJ8-REzflZ-c8YD8Y", "フォレトスex", "メガガルーラex"]
+    ["4KxxJ8-REzflZ-c8YD8Y", "フォレトスex", "メガガルーラex"],
+    ["MMpyyy-8zHJKN-Sp3Sp3", "おまつりおんど", "カミッチュ"],
+    ["vvvFVk-R8QkgI-k5kFVk", "シビビール", "メガライボルトex"],
   ]
 
   module_function
