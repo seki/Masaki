@@ -9,8 +9,7 @@ class Cluster
   end
 
   def join
-    @cluster = @cluster.take
-  rescue
+    @cluster = @cluster.value
   end
   
   def to_a

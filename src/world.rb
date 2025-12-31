@@ -78,7 +78,7 @@ class MasakiWorld
         Ractor.new(self, deck_1, v, n, filter) {|world, sub_decks, v, n, filter|
           world._search_by_deck_core(sub_decks, v, n, filter)
         }
-      }.map {|r| r.take}.sum([]).max(n)
+      }.map {|r| r.value}.sum([]).max(n)
     end
   end
   
@@ -387,7 +387,7 @@ end
 if __FILE__ == $0
   require 'benchmark'
 
-  p Ractor.new {1}.take
+  p Ractor.new {1}.value
 
   mw = MasakiWorld.new
 
