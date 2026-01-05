@@ -279,6 +279,7 @@ module DeckName
     ["4KxxJ8-REzflZ-c8YD8Y", "フォレトスex", "メガガルーラex"],
     ["MMpyyy-8zHJKN-Sp3Sp3", "おまつりおんど", "カミッチュ"],
     ["vvvFVk-R8QkgI-k5kFVk", "シビビール", "メガライボルトex"],
+    ["FVb5dk-O9h4l7-5F5FFf", "イワパレス", "メガガルーラex"]
   ]
 
   module_function
