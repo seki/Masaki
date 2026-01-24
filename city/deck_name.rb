@@ -279,7 +279,15 @@ module DeckName
     ["4KxxJ8-REzflZ-c8YD8Y", "フォレトスex", "メガガルーラex"],
     ["MMpyyy-8zHJKN-Sp3Sp3", "おまつりおんど", "カミッチュ"],
     ["vvvFVk-R8QkgI-k5kFVk", "シビビール", "メガライボルトex"],
-    ["FVb5dk-O9h4l7-5F5FFf", "イワパレス", "メガガルーラex"]
+    ["FVb5dk-O9h4l7-5F5FFf", "イワパレス", "メガガルーラex"],
+    ["wVFb5k-Lbj3eP-kkbF15", "メガスターミーex"],
+    ["a4GJxD-Fbm92M-x8xG8c", "おまつりおんど"],
+    ["gnngnQ-gDpp0J-LH9nL9", "ドラパルトex"],
+    ["ggnn9H-XXH3ZU-LnnPgP", "メガスターミーex"],
+    ["MRMyUM-V0YIub-pXpypS", "メガルカリオex"],
+    ["ngngLN-eiM9cj-nNgg9g", "ロケット団のドンカラス"],
+    ["Fb5dVF-oXCNZ5-fkdkFF", "ドラパルトex"],
+    ["2RpUXy-PGjBA6-SMMypS", "フーディン"]
   ]
 
   module_function
