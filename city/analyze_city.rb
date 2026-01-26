@@ -125,7 +125,7 @@ class Masaki
     def last_month_friday # 金曜日始まり
       d = Date.today - 35
       d - d.wday + 5
-      Date.parse('2025-09-05')
+      Date.parse('2026-01-23')
     end
 
     def weekly_analyze(world, deck_and_date)
