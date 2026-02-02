@@ -288,7 +288,8 @@ module DeckName
     ["ngngLN-eiM9cj-nNgg9g", "ロケット団のドンカラス"],
     ["Fb5dVF-oXCNZ5-fkdkFF", "ドラパルトex"],
     ["2RpUXy-PGjBA6-SMMypS", "フーディン"],
-    ["8D8xYG-uMgzxC-Dx8cK8", "メガユキメノコex", "メガスターミーex"]
+    ["8D8xYG-uMgzxC-Dx8cK8", "メガユキメノコex", "メガスターミーex"],
+    ["ngPgLn-3c6Sq0-ngg96Q", "メガディアンシーex"]
   ]
 
   module_function
