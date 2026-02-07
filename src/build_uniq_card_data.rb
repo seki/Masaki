@@ -3,7 +3,7 @@ require_relative 'card-detail'
 require 'nkf'
 
 def uniq_card_list(kind, regulation, errata={})
-  ary = PTCList.new(kind, regulation).map do |hash|
+  ary = PTCList.enum(kind, regulation).map do |hash|
     name = hash['cardNameAltText'].gsub(/\&amp\;/, '&')
     name = errata[name] || name
     [name, hash['cardID'].to_i]
@@ -69,7 +69,7 @@ end
 
 def build_pokemon(regulation)
   detail = CardDetail.new
-  list = PTCList.new('pokemon', regulation).map do |hash|
+  list = PTCList.enum('pokemon', regulation).map do |hash|
     name = hash['cardNameAltText'].gsub(/\&amp\;/, '&')
     name = build_pokemon_errata_region_form(name)
     pair =  [name, hash['cardID'].to_i]
