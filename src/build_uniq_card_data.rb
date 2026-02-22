@@ -67,15 +67,38 @@ def errata_bench_text(ary)
   }
 end
 
+def card_detail_with_errata(detail, cid)
+  err = {
+    48634 => 47069,
+    38911 => 37129,
+    38073 => 38665,
+    37410 => 30917,
+    50033 => 47041
+  }
+
+  if err[cid]
+    pp [cid, err[cid]]
+    cid = err[cid]
+  end
+
+  detail[cid]
+end
+
 def build_pokemon(regulation)
   detail = CardDetail.new
   list = PTCList.enum('pokemon', regulation).map do |hash|
     name = hash['cardNameAltText'].gsub(/\&amp\;/, '&')
     name = build_pokemon_errata_region_form(name)
     pair =  [name, hash['cardID'].to_i]
-    body = detail[pair[1]]
+    # body = detail[pair[1]]
+    body = card_detail_with_errata(detail, pair[1])
     ary = ParseRawCard.section(body)
-    ary = ParseRawCard.drop_head_pokemon(ary)
+    begin
+      ary = ParseRawCard.drop_head_pokemon(ary)
+    rescue
+      pp hash
+      # next
+    end
 
     # 全角アスキーを半角に
     ary = ary.map {|x| NKF.nkf('-m0Z1 -W -w', x)}

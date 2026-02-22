@@ -77,7 +77,7 @@ module ParseRawCard
     ary.each_with_index do |o, i|
       return ary[i .. -1] if start_with.include?(o)
     end
-    raise "invalid card"
+    raise "invalid card #{ary.inspect}"
   end
   # %w(スタジアム サポート グッズ トレーナー ポケモンのどうぐ 特殊エネルギー 基本エネルギー)
 
