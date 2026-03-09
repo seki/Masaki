@@ -292,7 +292,9 @@ module DeckName
     ["ngPgLn-3c6Sq0-ngg96Q", "メガディアンシーex"],
     ["MSXpUM-pghqE1-yMMUpR", "オーガポンex", "メガフシギバナex"],
     ["xKD8cG-ZgajW6-c8GDxc", "イイネイヌ"],
-    ['RyXE3p-6O3zSI-yMMSpy', "タケルライコex"]
+    ['RyXE3p-6O3zSI-yMMSpy', "タケルライコex"],
+    ['DcxGcc-NeGa4M-acG8Ya', "オーガポンex", "メガガルーラex"],
+    ['FFkVkv-clLM5g-kkFfdb', "メガニウム", "オリーヴァex"]
   ]
 
   module_function
