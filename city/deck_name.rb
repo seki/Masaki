@@ -301,7 +301,8 @@ module DeckName
     ['NiLi6N-BrDpYJ-LgnL9g', "メガガルーラex", "ドラパルトex"],
     ['XypyMp-5XhBj3-XMpyR3', "ソルロック", "ソウブレイズex"],
     ['inLNHn-M2rgIp-gg9gn6', "メガユキメノコex", "ゲッコウガex"],
-    ['FVvk5k-uxgJdY-kF5Fbf', "ヤドキング"]
+    ['FVvk5k-uxgJdY-kF5Fbf', "ヤドキング"],
+    ['MX223R-Zn9gu2-pEM3py', "タケルライコex"]
   ]
 
   module_function
