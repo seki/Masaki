@@ -302,7 +302,11 @@ module DeckName
     ['XypyMp-5XhBj3-XMpyR3', "ソルロック", "ソウブレイズex"],
     ['inLNHn-M2rgIp-gg9gn6', "メガユキメノコex", "ゲッコウガex"],
     ['FVvk5k-uxgJdY-kF5Fbf', "ヤドキング"],
-    ['MX223R-Zn9gu2-pEM3py', "タケルライコex"]
+    ['MX223R-Zn9gu2-pEM3py', "タケルライコex"],
+    ['yppSXX-nE8wd9-Xy2pRM', "メガアブソルex", "ストリンダー"],
+    ['ggnHn9-A9IjRE-LngnQg', "イワパレス", "メガガルーラex"],
+    ['pp3XRp-PSRJ6q-pMXySS', "バシャーモex", "ドラパルトex"],
+    ['LQQgnn-ynWVxM-9LNggg', "メガガルーラex", "ヤドキング"]
   ]
 
   module_function
