@@ -170,7 +170,8 @@ class MasakiWorld
   end
 
   def name(k)
-    it = @name[k] 
+    it = @name[k]
+    pp [:name, k, it, @name.class] unless it
     String === it ? it : @name[it]
   end
 
@@ -180,8 +181,8 @@ class MasakiWorld
     dot(left, right) / (deck_norm(left) * deck_norm(right))
   end
 
-  def name_to_vector(names)
-    names.map {|n| name_i(n)}.flatten.sort.map {|x| [x, 1]}
+  def name_to_vector(names, vec=1)
+    names.map {|n| name_i(n)}.flatten.sort.map {|x| [x, vec]}
   end
 
   def name_i(name)
@@ -324,12 +325,34 @@ class MasakiWorld
       top.unshift([1.0, name])
     end
     top[0,n]
-  end 
+  end
+
+  def split_card_name(card_name_str)
+    ary = card_name_str.strip.split(/\s*,\s*([+-]?)\s*/)
+    want = []
+    omit = []
+    want << ary.shift
+    while op = ary.shift
+      case op
+      when "-"
+        omit << ary.shift
+      else
+        want << ary.shift
+      end
+    end
+    return want, omit
+  end
 
   def search_by_name(card_name, n, filter_standard)
-    req = name_to_vector([card_name])
-    make_norm1(req)
-    search_by_(req, n, filter_standard)
+    want, omit = split_card_name(card_name)
+    rec = name_to_vector(want, 1) + name_to_vector(omit, -15)
+    make_norm1(rec)
+    want_set = Set.new(want)
+    omit_set = Set.new(omit)
+    search_by_(rec, n, filter_standard).find_all {|s, n|
+      c = Set.new(@deck[n].map {|n| name(n.first)})
+      (! c.intersect?(omit_set)) && (want_set.subset?(c))
+    }
   end
 
   def search_by_card(card_id_list, n, filter_standard)
