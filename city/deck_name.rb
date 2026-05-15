@@ -306,7 +306,8 @@ module DeckName
     ['yppSXX-nE8wd9-Xy2pRM', "メガアブソルex", "ストリンダー"],
     ['ggnHn9-A9IjRE-LngnQg', "イワパレス", "メガガルーラex"],
     ['pp3XRp-PSRJ6q-pMXySS', "バシャーモex", "ドラパルトex"],
-    ['LQQgnn-ynWVxM-9LNggg', "メガガルーラex", "ヤドキング"]
+    ['LQQgnn-ynWVxM-9LNggg', "メガガルーラex", "ヤドキング"],
+    ['kFFVFf-3OUMNW-vFdvbb', "メガユキメノコex", "メガミミロップex"]
   ]
 
   module_function
