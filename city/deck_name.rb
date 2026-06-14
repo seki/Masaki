@@ -307,7 +307,10 @@ module DeckName
     ['ggnHn9-A9IjRE-LngnQg', "イワパレス", "メガガルーラex"],
     ['pp3XRp-PSRJ6q-pMXySS', "バシャーモex", "ドラパルトex"],
     ['LQQgnn-ynWVxM-9LNggg', "メガガルーラex", "ヤドキング"],
-    ['kFFVFf-3OUMNW-vFdvbb', "メガユキメノコex", "メガミミロップex"]
+    ['kFFVFf-3OUMNW-vFdvbb', "メガユキメノコex", "メガミミロップex"],
+    ['ERypyp-aJyrXV-S2RppR', "ノコッチ", "ダダリン"],
+    ['nngnQn-kjto4X-9ggg9Q', "オーガポン みどりのめんex", "オーガポン いどのめんex"],
+    ['SEppyR-cG9VzG-XMSXyR', "メガニウム", "カミツオロチex"],
   ]
 
   module_function
