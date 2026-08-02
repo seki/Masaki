@@ -83,7 +83,7 @@ class Masaki
         return JSON.parse(x.read)
       end
     rescue OpenURI::HTTPError
-      pp [:retry_open_uri, :fetch_event_list_1, key]
+      pp [:retry_open_uri, :fetch_event_list_1, offset]
       sleep 5
       retry
     end
