@@ -392,6 +392,7 @@ class MasakiWorld
 
     src = DeckDetail.fetch_deck_page(name)
     v = DeckDetail.parse(src)
+    return v if v.empty?
     v = v.map {|card_id, n| [@id_norm[card_id], n]}.sort
     v = v.chunk {|e| e[0]}.map {|card_id, g|  [card_id, g.map{|h| h[1]}.sum]}
     if save

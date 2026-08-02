@@ -76,10 +76,12 @@ EOS
 
     private
     def fetch(key)
+      return nil if key.to_s.size == 0
       @db.execute("select value from #{@table} where id=?", key).dig(0,0)
     end
 
     def store(key, value)
+      return nil if key.to_s.size == 0
       @db.execute("INSERT OR REPLACE INTO #{@table} (id, value) values (:key, :value)", :key => key, :value => value)
     end
   end

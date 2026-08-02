@@ -3,6 +3,7 @@ require_relative 'deck-detail'
 require_relative 'erbm'
 require_relative 'world'
 require_relative 'deck-from-google'
+require_relative 'deck-from-yahoo'
 require_relative 'cluster'
 require_relative '../city/deck_name'
 require 'json'
@@ -340,10 +341,18 @@ class Masaki
   rescue
   end
 
+  def deck_from_yahoo
+    p :deck_from_yahoo
+    DeckFromYahoo.new.search.each {|name|
+      @world.add(name, true)
+    }
+  end
+
   def deck_from_google_thread
     Thread.new do
       while true
         sleep(60)
+        deck_from_yahoo
         deck_from_google
         do_reload_recent
         @recent_updated_at = Time.now

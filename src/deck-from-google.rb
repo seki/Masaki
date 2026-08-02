@@ -19,7 +19,7 @@ class DeckFromGCS
       decks += links
       break if links.size < 10
     end
-    decks = decks.map {|x| /\w{6}-\w{6}-\w{6}/.match(x).to_s}.uniq
+    decks = decks.map {|x| /\w{6}-\w{6}-\w{6}/.match(x)}.uniq.compact
     date = Time.now.utc.strftime("%Y-%m-%d %H:%M:%S")
     decks.each do |x|
       Masaki::Meta.referer_google_store(x, date)
