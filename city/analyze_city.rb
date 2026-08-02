@@ -79,7 +79,11 @@ class Masaki
   
     def fetch_event_list_1(offset)
       url = "https://players.pokemon-card.com/event_search?offset=#{offset}&order=4&result_resist=1&event_type[]=3:1&event_type[]=3:2&event_type[]=3:7"
-      URI.open(url) do |x|
+      URI.open(url, 
+            "User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Accept" => "application/json, text/plain, */*",
+            "Referer" => "https://players.pokemon-card.com/event/result/"
+      ) do |x|
         return JSON.parse(x.read)
       end
     rescue OpenURI::HTTPError
@@ -90,7 +94,11 @@ class Masaki
 
     def fetch_result_page(key)
       name = "https://players.pokemon-card.com/event_result_detail_search?event_holding_id=#{key}&offset=0"
-      URI.open(name) do |x|
+      URI.open(name, 
+            "User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Accept" => "application/json, text/plain, */*",
+            "Referer" => "https://players.pokemon-card.com/event/result/"
+      ) do |x|
         return x.read
       end
     rescue OpenURI::HTTPError
