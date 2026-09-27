@@ -311,6 +311,13 @@ module DeckName
     ['ERypyp-aJyrXV-S2RppR', "ノコッチ", "ダダリン"],
     ['nngnQn-kjto4X-9ggg9Q', "オーガポン みどりのめんex", "オーガポン いどのめんex"],
     ['SEppyR-cG9VzG-XMSXyR', "メガニウム", "カミツオロチex"],
+    ['KcG8c8-Mdxm3o-4cc8KD', "Nのゾロアーク"],
+    ['3My2yS-KDhCVm-ppRRyp', "メガドリュウズex"],
+    ['c8888x-C4i4Cj-xKDGKa', "メガレックウザex"],
+    ['6LnHNn-YBOpl9-6Lg9gn', "ドラパルトex"],
+    ['cKGxa8-URj0KM-DxK88c', "メガルカリオex"],
+    ['cDxDYx-aJMx8d-8KcG8K', "メガルカリオex"],
+    
   ]
 
   module_function
