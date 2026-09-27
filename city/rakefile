@@ -49,7 +49,7 @@ file 'city-deck-date.json' => ['city-event.json'] do |t|
     decks += Masaki::Players::parse(ev)
   end
 
-  Masaki::Analyze.import_deck(decks)
+  # Masaki::Analyze.import_deck(decks)
 
   File.write(target, decks.to_json)
   pp decks.size
@@ -61,6 +61,7 @@ end
 
 task :city_deck_and_date => ['city-deck-date.json'] do |t|
   $city_deck_and_date = JSON.parse(File.read('city-deck-date.json'))
+  Masaki::Analyze.import_deck($city_deck_and_date)
 end
 
 task :clean do
