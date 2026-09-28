@@ -317,7 +317,7 @@ module DeckName
     ['6LnHNn-YBOpl9-6Lg9gn', "ドラパルトex"],
     ['cKGxa8-URj0KM-DxK88c', "メガルカリオex"],
     ['cDxDYx-aJMx8d-8KcG8K', "メガルカリオex"],
-    
+    ['6gN9Ln-Ba6nv0-gn6gNi', "メガガルーラex"]
   ]
 
   module_function
