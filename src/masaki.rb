@@ -2,7 +2,6 @@ require_relative 'store-meta'
 require_relative 'deck-detail'
 require_relative 'erbm'
 require_relative 'world'
-require_relative 'deck-from-google'
 require_relative 'deck-from-yahoo'
 require_relative 'cluster'
 require_relative '../city/deck_name'
@@ -20,7 +19,7 @@ class Masaki
     do_reload_recent
     @recent_updated_at = Time.now
     setup_city
-    deck_from_google_thread
+    deck_from_yahoo_thread
   end
   attr_reader :world, :datalist, :more_pokemon
 
@@ -333,14 +332,6 @@ class Masaki
     @world.deck_desc(code, 5)
   end
 
-  def deck_from_google
-    p :deck_from_google
-    DeckFromGCS.new.search.each {|name|
-      @world.add(name, true)
-    }
-  rescue
-  end
-
   def deck_from_yahoo
     p :deck_from_yahoo
     DeckFromYahoo.new.search.each {|name|
@@ -348,12 +339,11 @@ class Masaki
     }
   end
 
-  def deck_from_google_thread
+  def deck_from_yahoo_thread
     Thread.new do
       while true
         sleep(60)
         deck_from_yahoo
-        deck_from_google
         do_reload_recent
         @recent_updated_at = Time.now
         p :reload_recent
