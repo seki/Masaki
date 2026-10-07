@@ -320,6 +320,9 @@ module DeckName
     ['6gN9Ln-Ba6nv0-gn6gNi', "メガガルーラex"],
     ['y3XUyU-SW2Tvm-ppRMyS', "メガガルーラex", "タケルライコex"],
     ['Vkv1kk-OFbNA2-f5wFbF', "アズマオウ"],
+    ['ggn9gn-JmIxPo-ngLiQL', "ブリジュラスex"],
+    ['9LLQQg-FptpXw-ggNLnL', "ヤドキング", "ドラパルトex"],
+    ['3y3p2R-rzS40S-3X3yyM', "ドータクン", "メガミミロップex"]
 
   ]
 
