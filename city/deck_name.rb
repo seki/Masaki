@@ -286,7 +286,7 @@ module DeckName
     ["ggnn9H-XXH3ZU-LnnPgP", "メガスターミーex"],
     ["MRMyUM-V0YIub-pXpypS", "メガルカリオex"],
     ["ngngLN-eiM9cj-nNgg9g", "ロケット団のドンカラス"],
-    ["Fb5dVF-oXCNZ5-fkdkFF", "ドラパルトex"],
+    ["Fb5dVF-oXCNZ5-fkdkFF", "ヨノワール", "ドラパルトex"],
     ["2RpUXy-PGjBA6-SMMypS", "フーディン"],
     ["8D8xYG-uMgzxC-Dx8cK8", "メガユキメノコex", "メガスターミーex"],
     ["ngPgLn-3c6Sq0-ngg96Q", "メガディアンシーex"],
@@ -315,14 +315,19 @@ module DeckName
     ['3My2yS-KDhCVm-ppRRyp', "メガドリュウズex"],
     ['c8888x-C4i4Cj-xKDGKa', "メガレックウザex"],
     ['6LnHNn-YBOpl9-6Lg9gn', "ドラパルトex"],
-    ['cKGxa8-URj0KM-DxK88c', "メガルカリオex"],
+    ['cKGxa8-URj0KM-DxK88c', "ノココッチ", "メガルカリオex"],
     ['cDxDYx-aJMx8d-8KcG8K', "メガルカリオex"],
     ['6gN9Ln-Ba6nv0-gn6gNi', "メガガルーラex"],
     ['y3XUyU-SW2Tvm-ppRMyS', "メガガルーラex", "タケルライコex"],
     ['Vkv1kk-OFbNA2-f5wFbF', "アズマオウ"],
     ['ggn9gn-JmIxPo-ngLiQL', "ブリジュラスex"],
     ['9LLQQg-FptpXw-ggNLnL', "ヤドキング", "ドラパルトex"],
-    ['3y3p2R-rzS40S-3X3yyM', "ドータクン", "メガミミロップex"]
+    ['3y3p2R-rzS40S-3X3yyM', "ドータクン", "メガミミロップex"],
+    ['XyMpXy-ibUSxP-yRXypp', "ヨノワール", "ドラパルトex"],
+    ['XpyXMp-09Ldcl-MpXMpR', "バシャーモex", "ドラパルトex"],
+    ['DJ8xc8-akIt0z-YG8xcG', "ハリテヤマ", "メガルカリオex"],
+    ['YJG8cc-01hEIh-x8xxx4', "ノココッチ", "メガルカリオex"]
+
 
   ]
 
