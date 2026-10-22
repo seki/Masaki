@@ -326,9 +326,10 @@ module DeckName
     ['XyMpXy-ibUSxP-yRXypp', "ヨノワール", "ドラパルトex"],
     ['XpyXMp-09Ldcl-MpXMpR', "バシャーモex", "ドラパルトex"],
     ['DJ8xc8-akIt0z-YG8xcG', "ハリテヤマ", "メガルカリオex"],
-    ['YJG8cc-01hEIh-x8xxx4', "ノココッチ", "メガルカリオex"]
-
-
+    ['YJG8cc-01hEIh-x8xxx4', "ノココッチ", "メガルカリオex"],
+    ['5vkkFk-lirpui-VFb1FF', "メガユキメノコex", "メガスターミーex"],
+    ['kbFbFF-nf4xlU-kwkFFV', "マリィのオーロンゲex"],
+    ['9nngng-DwiwKP-HLngLQ', "フーディン"],
   ]
 
   module_function
