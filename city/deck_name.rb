@@ -332,7 +332,8 @@ module DeckName
     ['9nngng-DwiwKP-HLngLQ', "フーディン"],
     ['RE23Sp-4eiv90-y3MSyp', "メガリザードンXex", "メガリザードンYex"],
     ['Ry2REp-FDmHJ9-MMXpMy', 'メガスターミーex', 'イルカマンex'],
-    ['g9PPgn-fR4cYm-QPnL6L', 'メガサメハダーex']
+    ['g9PPgn-fR4cYm-QPnL6L', 'メガサメハダーex'],
+    ['8x88xD-JieM1c-GxY8c8', 'メガメガニウムex']
   ]
 
   module_function
