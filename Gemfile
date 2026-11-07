@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-ruby "3.4.1"
+ruby "4.0.0"
 gem "webrick"
 gem "json"
 gem "pg"
