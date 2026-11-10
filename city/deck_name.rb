@@ -334,6 +334,7 @@ module DeckName
     ['Ry2REp-FDmHJ9-MMXpMy', 'メガスターミーex', 'イルカマンex'],
     ['g9PPgn-fR4cYm-QPnL6L', 'メガサメハダーex'],
     ['8x88xD-JieM1c-GxY8c8', 'メガメガニウムex'],
+    ['XUyRp3-Lu3iF2-pSpMMM', 'メガダークライex']
   ]
 
   module_function
